@@ -167,14 +167,14 @@
 
 | Week | Date   | Topic        | Description                                                         | Readings | HW |
 |------|--------|--------------|---------------------------------------------------------------------|----------|----|
-| 1    | 1/26   | Introduction | Syllabus, developing in C/C++, hands on with colab programming C/C++|          | Sign up for collab pro, GCP, install WSL on windows or create your VM |
+| 1    | 1/26   | Introduction | Syllabus, developing in C/C++, hands on with colab programming C/C++|          | Sign up for collab pro, GCP, install WSL on windows or create your VM. You may just use vlab if you don't have resources at home. If you have any kind of computer, better to use colab and a google VM. |
 | 2    | 2/2    | Linux/Unix   | Unix commands, hands-on lab, C++ programming                        |          |    |
-| 3    | 2/9    | | | |
+| 3    | 2/9    | Networking. Sockets programming. | | |
 | 4    | 2/16   | | |
 | 5    | 2/23   | | |
 | 6    | 3/2    | | |
 | 7    | 3/9    | | | 
-| 8    | 3/16   | | |
+| 8    | 3/16   | Midterm on Paper. You will have to prove you learned the programming you submit. Code with an AI or without, but you have to know it. No Excuses! | |
 | 9    | 3/23   | | |
 | 10   | 3/30   | | |
 | 11   | 4/6    | | |
