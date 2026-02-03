@@ -1,6 +1,6 @@
 # Session 2
 
-Create a Google Colab shared in groups of 3 (100 points).
+Create a Google Colab shared in groups of up to 4 (100 points).
 
 Each student is responsible for at least one C++ program and a third of the shell commands.
 
@@ -41,7 +41,7 @@ Rubric:
 2. Calculate ${n\choose r} = \frac{n!}{r!(n - r)!}$
 	- This will overflow. Demonstrate overflow for `uint64_t` for ${52\choose 6}$.
 	- Then write one that will not overflow because you cancel the numbers:
-	  $\frac{52\times51\times50\times49\times48\times47}{6\times5\times4\times3\times2\times1}$
+	  $\frac{52\times{}51\times{}50\times{}49\times{}48\times{}47}{6\times{}5\times{}4\times{}3\times{}2\times{}1}$
 	- Even this one will blow up for bigger numbers like ${200\choose 20}$, so do another version in double precision
 	  that can give an approximate answer.
 
@@ -54,6 +54,14 @@ Rubric:
 4. Write a program to:
 	1. Write to a file.
 	2. Write to standard out and standard error and demonstrate redirecting those to files.
+    ```cpp
+    #include <iostream>
+    #include <fstream>
+       cout << "test"; // std out
+       cerr << "test2"; // std error
+       ofstream f("myfile.txt");
+       f << "test";
+    ```
 	3. Modify my low-performance level 2 I/O to write to a file and make it more efficient.
 	4. Look up how to find out what the block size of your drive is (optimal performance should use a buffer that is an
 	   integer multiple of block size, and probably a power of 2).
@@ -64,14 +72,36 @@ Rubric:
 		2. 32-bit integers
 		3. 64-bit integers
 		4. Double precision floating point
-	- How programs are constructed using a linker:
-		- Global and extern variables
-		- Function prototypes
-	- Show an error when a function is called in one file that:
-		- Does not exist
-		- Exists but has the wrong types or number of parameters
+	- How programs are laid out in linux:
+```cpp
+  g++ -c prog.cpp
+  g++ -S prog.cpp # generates prog.s
+  objdump -d prog.o  #display assembler
+  objdump -d prog.o > prog.s #save assembler to file
 
-6. Pointer math:
+```
+		- TBD: Global and extern variables TBD: we haven't done extern yet
+		- TBD: Function prototypes
+	- TBD: Show an error when a function is called in one file that:
+		- TBD: Does not exist
+		- TBD: Exists but has the wrong types or number of parameters
+
+Shell developer commands
+1. 	- Build commands:
+		- `g++ prog.cpp`
+		- `g++ prog.cpp -o myprog`
+		- `g++` (options for debugging, optimization)
+    - gcc prog.c
+    - objdump -d prog.o
+    - g++ -S prog.cpp  # generates assembly like objdump
+    - nm prog.o  # show symbols in code
+    - ldd prog  # show dependencies
+
+    
+Session 03
+
+HW3
+TBD 6. Pointer math:
 	- Demonstrate
 		- How arrays in C/C++ work
 		- How you can calculate the size of variables using `sizeof()` and how this works for arrays declared in your
@@ -109,14 +139,8 @@ Rubric:
 		- `./prog 2> myotherfile`
 		- `./prog > myfile2 2> myfile3`
 		- `./prog < myinputfile`
-	- Build commands:
-		- `g++ prog.cpp`
-		- `g++ prog.cpp -o myprog`
-		- `g++` (options for debugging, optimization)
 		- `make`
 		- `rclone` to copy to Google Drive
-
-## Next time
 
 - `g++` linking libraries
 - `ldd` to find out which shared libraries a program uses
