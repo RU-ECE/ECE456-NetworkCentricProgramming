@@ -54,14 +54,14 @@ Rubric:
 4. Write a program to:
 	1. Write to a file.
 	2. Write to standard out and standard error and demonstrate redirecting those to files.
-    ```cpp
-    #include <iostream>
-    #include <fstream>
-       cout << "test"; // std out
-       cerr << "test2"; // std error
-       ofstream f("myfile.txt");
-       f << "test";
-    ```
+	   ```c++
+	   #include <iostream>
+	   #include <fstream>
+	   cout << "test"; // std out
+	   cerr << "test2"; // std error
+	   ofstream f("myfile.txt");
+	   f << "test";
+	   ```
 	3. Modify my low-performance level 2 I/O to write to a file and make it more efficient.
 	4. Look up how to find out what the block size of your drive is (optimal performance should use a buffer that is an
 	   integer multiple of block size, and probably a power of 2).
@@ -72,14 +72,13 @@ Rubric:
 		2. 32-bit integers
 		3. 64-bit integers
 		4. Double precision floating point
-	- How programs are laid out in linux:
-```cpp
-  g++ -c prog.cpp
-  g++ -S prog.cpp # generates prog.s
-  objdump -d prog.o  #display assembler
-  objdump -d prog.o > prog.s #save assembler to file
-
-```
+	- How programs are laid out in Linux:
+	  ```shell
+	  g++ -c prog.cpp
+	  g++ -S prog.cpp # generates prog.s
+	  objdump -d prog.o  #display assembler
+	  objdump -d prog.o > prog.s #save assembler to file
+	  ```
 		- TBD: Global and extern variables TBD: we haven't done extern yet
 		- TBD: Function prototypes
 	- TBD: Show an error when a function is called in one file that:
@@ -87,21 +86,25 @@ Rubric:
 		- TBD: Exists but has the wrong types or number of parameters
 
 Shell developer commands
-1. 	- Build commands:
-		- `g++ prog.cpp`
-		- `g++ prog.cpp -o myprog`
-		- `g++` (options for debugging, optimization)
-    - gcc prog.c
-    - objdump -d prog.o
-    - g++ -S prog.cpp  # generates assembly like objdump
-    - nm prog.o  # show symbols in code
-    - ldd prog  # show dependencies
 
-    
-Session 03
+```shell
+# Build commands:
+g++ prog.cpp
+g++ prog.cpp -o myprog
+g++ # (options for debugging, optimization)
 
-HW3
-TBD 6. Pointer math:
+gcc prog.c
+objdump -d prog.o
+g++ -S prog.cpp # generates assembly like objdump
+nm prog.o       # show symbols in code
+ldd prog        # show dependencies
+```
+
+# Session 3
+
+## Tasks
+
+1. TBD: Pointer math:
 	- Demonstrate
 		- How arrays in C/C++ work
 		- How you can calculate the size of variables using `sizeof()` and how this works for arrays declared in your
@@ -122,12 +125,12 @@ TBD 6. Pointer math:
 			8. Accidentally writing just before a dynamically allocated array, so it thinks that there is a different
 			   amount of memory; when you free it (crash)
 
-7. Setup:
+2. Setup:
 	- Logins on Google Cloud server (Nikhil shared server)
 	- Create a GitHub account if you do not have one
 	- Put your GitHub account in a shared file (Nikhil)
 
-8. Tutorial on shell commands:
+3. Tutorial on shell commands:
 	- `cp`, `mv`, `ln`, `ln -s`
 	- `ps`, `top`
 	- `kill`, `pkill`
