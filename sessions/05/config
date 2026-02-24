@@ -1,0 +1,5 @@
+Host ece456
+     hostname 136.112.93.142 # of course it would be nice to have a domain
+     User dkruger
+     IdentityFile ~/.ssh/gcp_ed25519
+     IdentitiesOnly yes
