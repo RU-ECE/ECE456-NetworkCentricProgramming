@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "server_setup.h"
 
 #define GPE_NO_BUFFER_SPACE -2
 #define GPE_OUT_OF_MEMORY   -1

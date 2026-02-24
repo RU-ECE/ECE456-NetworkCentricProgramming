@@ -35,7 +35,7 @@ extern const struct Curl_handler Curl_handler_ftp;
 extern const struct Curl_handler Curl_handler_ftps;
 #endif
 
-CURLcode Curl_GetFTPResponse(struct Curl_easy *data, ssize_t *nread,
+CURLcode Curl_GetFTPResponse(Curl_easy *data, ssize_t *nread,
                              int *ftpcode);
 #endif /* CURL_DISABLE_FTP */
 
@@ -86,7 +86,7 @@ typedef unsigned char ftpstate; /* use the enum values */
 struct ftp_parselist_data; /* defined later in ftplistparser.c */
 
 struct ftp_wc {
-  struct ftp_parselist_data *parser;
+	ftp_parselist_data *parser;
 
   struct {
     curl_write_callback write_function;
@@ -119,7 +119,7 @@ struct FTP {
 /* ftp_conn is used for struct connection-oriented data in the connectdata
    struct */
 struct ftp_conn {
-  struct pingpong pp;
+	pingpong pp;
   char *account;
   char *alternative_to_user;
   char *entrypath; /* the PWD reply when we logged on */

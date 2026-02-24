@@ -23,34 +23,33 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 #include "tool_cb_hdr.h"
 #include "tool_cb_prg.h"
 #include "tool_sdecls.h"
 
 struct per_transfer {
   /* double linked */
-  struct per_transfer *next;
-  struct per_transfer *prev;
-  struct OperationConfig *config; /* for this transfer */
+	per_transfer *next;
+	per_transfer *prev;
+	OperationConfig *config; /* for this transfer */
   struct curl_certinfo *certinfo;
   CURL *curl;
   long retry_numretries;
   long retry_sleep_default;
   long retry_sleep;
-  struct timeval start; /* start of this transfer */
-  struct timeval retrystart;
+	timeval start; /* start of this transfer */
+	timeval retrystart;
   char *this_url;
   unsigned int urlnum; /* the index of the given URL */
   char *outfile;
   bool infdopen; /* TRUE if infd needs closing */
   int infd;
   bool noprogress;
-  struct ProgressData progressbar;
-  struct OutStruct outs;
-  struct OutStruct heads;
-  struct OutStruct etag_save;
-  struct HdrCbData hdrcbdata;
+	ProgressData progressbar;
+	OutStruct outs;
+	OutStruct heads;
+	OutStruct etag_save;
+	HdrCbData hdrcbdata;
   long num_headers;
   bool was_last_header_empty;
 
@@ -78,9 +77,9 @@ struct per_transfer {
                         transfer */
 };
 
-CURLcode operate(struct GlobalConfig *config, int argc, argv_item_t argv[]);
-void single_transfer_cleanup(struct OperationConfig *config);
+CURLcode operate(GlobalConfig *config, int argc, argv_item_t argv[]);
+void single_transfer_cleanup(OperationConfig *config);
 
-extern struct per_transfer *transfers; /* first node */
+extern per_transfer *transfers; /* first node */
 
 #endif /* HEADER_CURL_TOOL_OPERATE_H */

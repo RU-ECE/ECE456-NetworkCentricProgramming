@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 #ifndef HAVE_STRDUP
 extern char *strdup(const char *str);

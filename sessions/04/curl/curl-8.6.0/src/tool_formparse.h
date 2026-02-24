@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 /* Private structure for mime/parts. */
 
@@ -40,8 +39,8 @@ typedef enum {
 struct tool_mime {
   /* Structural fields. */
   toolmimekind kind;            /* Part kind. */
-  struct tool_mime *parent;     /* Parent item. */
-  struct tool_mime *prev;       /* Previous sibling (reverse order link). */
+  tool_mime *parent;     /* Parent item. */
+  tool_mime *prev;       /* Previous sibling (reverse order link). */
   /* Common fields. */
   char *data;                   /* Actual data or data filename. */
   char *name;                   /* Part name. */
@@ -50,7 +49,7 @@ struct tool_mime {
   char *encoder;                /* Part's requested encoding. */
   struct curl_slist *headers;   /* User-defined headers. */
   /* TOOLMIME_PARTS fields. */
-  struct tool_mime *subparts;   /* Part's subparts. */
+  tool_mime *subparts;   /* Part's subparts. */
   /* TOOLMIME_STDIN/TOOLMIME_STDINDATA fields. */
   curl_off_t origin;            /* Stdin read origin offset. */
   curl_off_t size;              /* Stdin data size. */
@@ -63,11 +62,9 @@ size_t tool_mime_stdin_read(char *buffer,
 int tool_mime_stdin_seek(void *instream, curl_off_t offset, int whence);
 
 int formparse(struct OperationConfig *config,
-              const char *input,
-              struct tool_mime **mimeroot,
-              struct tool_mime **mimecurrent,
+              const char *input, tool_mime **mimeroot, tool_mime **mimecurrent,
               bool literal_value);
-CURLcode tool2curlmime(CURL *curl, struct tool_mime *m, curl_mime **mime);
-void tool_mime_free(struct tool_mime *mime);
+CURLcode tool2curlmime(CURL *curl, tool_mime *m, curl_mime **mime);
+void tool_mime_free(tool_mime *mime);
 
 #endif /* HEADER_CURL_TOOL_FORMPARSE_H */

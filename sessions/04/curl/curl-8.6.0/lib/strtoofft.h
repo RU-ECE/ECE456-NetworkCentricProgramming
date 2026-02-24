@@ -24,8 +24,6 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 /*
  * Determine which string to integral data type conversion function we use
  * to implement string conversion to our curl_off_t integral data type.

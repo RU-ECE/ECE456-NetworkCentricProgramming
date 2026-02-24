@@ -33,11 +33,11 @@ size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
 
 struct ftp_parselist_data; /* defined inside ftplibparser.c */
 
-CURLcode Curl_ftp_parselist_geterror(struct ftp_parselist_data *pl_data);
+CURLcode Curl_ftp_parselist_geterror(ftp_parselist_data *pl_data);
 
-struct ftp_parselist_data *Curl_ftp_parselist_data_alloc(void);
+ftp_parselist_data *Curl_ftp_parselist_data_alloc(void);
 
-void Curl_ftp_parselist_data_free(struct ftp_parselist_data **pl_data);
+void Curl_ftp_parselist_data_free(ftp_parselist_data **pl_data);
 
 /* list of wildcard process states */
 typedef enum {
@@ -65,8 +65,8 @@ struct WildcardData {
   unsigned char state; /* wildcard_states */
 };
 
-CURLcode Curl_wildcard_init(struct WildcardData *wc);
-void Curl_wildcard_dtor(struct WildcardData **wcp);
+CURLcode Curl_wildcard_init(WildcardData *wc);
+void Curl_wildcard_dtor(WildcardData **wcp);
 
 struct Curl_easy;
 

@@ -76,16 +76,16 @@ typedef struct gss_buffer_desc_struct {
 } gss_buffer_desc, *gss_buffer_t;
 
 struct gss_cred_id_t_desc_struct;
-typedef struct gss_cred_id_t_desc_struct *gss_cred_id_t;
-typedef const struct gss_cred_id_t_desc_struct *gss_const_cred_id_t;
+typedef gss_cred_id_t_desc_struct *gss_cred_id_t;
+typedef const gss_cred_id_t_desc_struct *gss_const_cred_id_t;
 
 struct gss_ctx_id_t_desc_struct;
-typedef struct gss_ctx_id_t_desc_struct *gss_ctx_id_t;
-typedef const struct gss_ctx_id_t_desc_struct *gss_const_ctx_id_t;
+typedef gss_ctx_id_t_desc_struct *gss_ctx_id_t;
+typedef const gss_ctx_id_t_desc_struct *gss_const_ctx_id_t;
 
 struct gss_name_t_desc_struct;
-typedef struct gss_name_t_desc_struct *gss_name_t;
-typedef const struct gss_name_t_desc_struct *gss_const_name_t;
+typedef gss_name_t_desc_struct *gss_name_t;
+typedef const gss_name_t_desc_struct *gss_const_name_t;
 
 typedef struct gss_OID_desc_struct {
   OM_uint32 length;

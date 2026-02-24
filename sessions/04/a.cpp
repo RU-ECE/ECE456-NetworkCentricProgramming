@@ -1,12 +1,14 @@
 #include <iostream>
+
 using namespace std;
-int a = 3;
+
+auto a = 3;
 
 extern "C" {
-  void f();
+void f();
 }
 
 int main() {
-  f();
-  cout << a << endl; // 3
+	f();
+	cout << a << endl; // 3
 }

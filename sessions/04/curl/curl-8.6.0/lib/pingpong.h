@@ -59,7 +59,7 @@ struct pingpong {
   timediff_t response_time; /* When no timeout is given, this is the amount of
                                milliseconds we await for a server response. */
   struct dynbuf sendbuf;
-  struct dynbuf recvbuf;
+  dynbuf recvbuf;
   size_t overflow; /* number of bytes left after a final response line */
   size_t nfinal;   /* number of bytes in the final response line, which
                       after a match is first in the receice buffer */
@@ -67,8 +67,8 @@ struct pingpong {
   /* Function pointers the protocols MUST implement and provide for the
      pingpong layer to function */
 
-  CURLcode (*statemachine)(struct Curl_easy *data, struct connectdata *conn);
-  bool (*endofresp)(struct Curl_easy *data, struct connectdata *conn,
+  CURLcode (*statemachine)(struct Curl_easy *data, connectdata *conn);
+  bool (*endofresp)(Curl_easy *data, connectdata *conn,
                     char *ptr, size_t len, int *code);
 };
 
@@ -85,16 +85,15 @@ struct pingpong {
  * called repeatedly until done. Set 'wait' to make it wait a while on the
  * socket if there's no traffic.
  */
-CURLcode Curl_pp_statemach(struct Curl_easy *data, struct pingpong *pp,
+CURLcode Curl_pp_statemach(Curl_easy *data, pingpong *pp,
                            bool block, bool disconnecting);
 
 /* initialize stuff to prepare for reading a fresh new response */
-void Curl_pp_init(struct pingpong *pp);
+void Curl_pp_init(pingpong *pp);
 
 /* Returns timeout in ms. 0 or negative number means the timeout has already
    triggered */
-timediff_t Curl_pp_state_timeout(struct Curl_easy *data,
-                                 struct pingpong *pp, bool disconnecting);
+timediff_t Curl_pp_state_timeout(Curl_easy *data, pingpong *pp, bool disconnecting);
 
 
 /***********************************************************************
@@ -107,8 +106,7 @@ timediff_t Curl_pp_state_timeout(struct Curl_easy *data,
  *
  * made to never block
  */
-CURLcode Curl_pp_sendf(struct Curl_easy *data,
-                       struct pingpong *pp,
+CURLcode Curl_pp_sendf(Curl_easy *data, pingpong *pp,
                        const char *fmt, ...) CURL_PRINTF(3, 4);
 
 /***********************************************************************
@@ -121,8 +119,7 @@ CURLcode Curl_pp_sendf(struct Curl_easy *data,
  *
  * made to never block
  */
-CURLcode Curl_pp_vsendf(struct Curl_easy *data,
-                        struct pingpong *pp,
+CURLcode Curl_pp_vsendf(Curl_easy *data, pingpong *pp,
                         const char *fmt,
                         va_list args) CURL_PRINTF(3, 0);
 
@@ -131,20 +128,18 @@ CURLcode Curl_pp_vsendf(struct Curl_easy *data,
  *
  * Reads a piece of a server response.
  */
-CURLcode Curl_pp_readresp(struct Curl_easy *data,
-                          curl_socket_t sockfd,
-                          struct pingpong *pp,
+CURLcode Curl_pp_readresp(Curl_easy *data,
+                          curl_socket_t sockfd, pingpong *pp,
                           int *code, /* return the server code if done */
                           size_t *size); /* size of the response */
 
 
-CURLcode Curl_pp_flushsend(struct Curl_easy *data,
-                           struct pingpong *pp);
+CURLcode Curl_pp_flushsend(Curl_easy *data, pingpong *pp);
 
 /* call this when a pingpong connection is disconnected */
-CURLcode Curl_pp_disconnect(struct pingpong *pp);
+CURLcode Curl_pp_disconnect(pingpong *pp);
 
-int Curl_pp_getsock(struct Curl_easy *data, struct pingpong *pp,
+int Curl_pp_getsock(Curl_easy *data, pingpong *pp,
                     curl_socket_t *socks);
 
 
@@ -155,6 +150,6 @@ int Curl_pp_getsock(struct Curl_easy *data, struct pingpong *pp,
  * Returns whether there are still more data in the cache and so a call
  * to Curl_pp_readresp() will not block.
  */
-bool Curl_pp_moredata(struct pingpong *pp);
+bool Curl_pp_moredata(pingpong *pp);
 
 #endif /* HEADER_CURL_PINGPONG_H */

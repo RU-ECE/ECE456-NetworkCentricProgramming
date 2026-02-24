@@ -24,34 +24,28 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 #if !defined(CURL_DISABLE_PROXY) && !defined(CURL_DISABLE_HTTP)
 
 #include "urldata.h"
 
-CURLcode Curl_http_proxy_get_destination(struct Curl_cfilter *cf,
+CURLcode Curl_http_proxy_get_destination(Curl_cfilter *cf,
                                          const char **phostname,
                                          int *pport, bool *pipv6_ip);
 
-CURLcode Curl_http_proxy_create_CONNECT(struct httpreq **preq,
-                                        struct Curl_cfilter *cf,
-                                        struct Curl_easy *data,
+CURLcode Curl_http_proxy_create_CONNECT(httpreq **preq, Curl_cfilter *cf, Curl_easy *data,
                                         int http_version_major);
 
 /* Default proxy timeout in milliseconds */
 #define PROXY_TIMEOUT (3600*1000)
 
-void Curl_cf_http_proxy_get_host(struct Curl_cfilter *cf,
-                                 struct Curl_easy *data,
+void Curl_cf_http_proxy_get_host(Curl_cfilter *cf, Curl_easy *data,
                                  const char **phost,
                                  const char **pdisplay_host,
                                  int *pport);
 
-CURLcode Curl_cf_http_proxy_insert_after(struct Curl_cfilter *cf_at,
-                                         struct Curl_easy *data);
+CURLcode Curl_cf_http_proxy_insert_after(Curl_cfilter *cf_at, Curl_easy *data);
 
-extern struct Curl_cftype Curl_cft_http_proxy;
+extern Curl_cftype Curl_cft_http_proxy;
 
 #endif /* !CURL_DISABLE_PROXY  && !CURL_DISABLE_HTTP */
 

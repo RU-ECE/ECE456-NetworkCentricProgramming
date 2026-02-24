@@ -44,30 +44,28 @@ typedef enum {
 } timerid;
 
 int Curl_pgrsDone(struct Curl_easy *data);
-void Curl_pgrsStartNow(struct Curl_easy *data);
-void Curl_pgrsSetDownloadSize(struct Curl_easy *data, curl_off_t size);
-void Curl_pgrsSetUploadSize(struct Curl_easy *data, curl_off_t size);
+void Curl_pgrsStartNow(Curl_easy *data);
+void Curl_pgrsSetDownloadSize(Curl_easy *data, curl_off_t size);
+void Curl_pgrsSetUploadSize(Curl_easy *data, curl_off_t size);
 
 /* It is fine to not check the return code if 'size' is set to 0 */
-CURLcode Curl_pgrsSetDownloadCounter(struct Curl_easy *data, curl_off_t size);
+CURLcode Curl_pgrsSetDownloadCounter(Curl_easy *data, curl_off_t size);
 
-void Curl_pgrsSetUploadCounter(struct Curl_easy *data, curl_off_t size);
-void Curl_ratelimit(struct Curl_easy *data, struct curltime now);
-int Curl_pgrsUpdate(struct Curl_easy *data);
-void Curl_pgrsResetTransferSizes(struct Curl_easy *data);
-struct curltime Curl_pgrsTime(struct Curl_easy *data, timerid timer);
+void Curl_pgrsSetUploadCounter(Curl_easy *data, curl_off_t size);
+void Curl_ratelimit(Curl_easy *data, curltime now);
+int Curl_pgrsUpdate(Curl_easy *data);
+void Curl_pgrsResetTransferSizes(Curl_easy *data);
+curltime Curl_pgrsTime(Curl_easy *data, timerid timer);
 timediff_t Curl_pgrsLimitWaitTime(curl_off_t cursize,
                                   curl_off_t startsize,
-                                  curl_off_t limit,
-                                  struct curltime start,
-                                  struct curltime now);
+                                  curl_off_t limit, curltime start,
+								  curltime now);
 /**
  * Update progress timer with the elapsed time from its start to `timestamp`.
  * This allows updating timers later and is used by happy eyeballing, where
  * we only want to record the winner's times.
  */
-void Curl_pgrsTimeWas(struct Curl_easy *data, timerid timer,
-                      struct curltime timestamp);
+void Curl_pgrsTimeWas(Curl_easy *data, timerid timer, curltime timestamp);
 
 #define PGRS_HIDE    (1<<4)
 #define PGRS_UL_SIZE_KNOWN (1<<5)

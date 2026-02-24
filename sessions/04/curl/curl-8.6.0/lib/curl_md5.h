@@ -46,21 +46,21 @@ struct MD5_params {
 };
 
 struct MD5_context {
-  const struct MD5_params *md5_hash;    /* Hash function definition */
+  const MD5_params *md5_hash;    /* Hash function definition */
   void                  *md5_hashctx;   /* Hash function context */
 };
 
-extern const struct MD5_params Curl_DIGEST_MD5[1];
-extern const struct HMAC_params Curl_HMAC_MD5[1];
+extern const MD5_params Curl_DIGEST_MD5[1];
+extern const HMAC_params Curl_HMAC_MD5[1];
 
 CURLcode Curl_md5it(unsigned char *output, const unsigned char *input,
                     const size_t len);
 
-struct MD5_context *Curl_MD5_init(const struct MD5_params *md5params);
-CURLcode Curl_MD5_update(struct MD5_context *context,
+MD5_context *Curl_MD5_init(const MD5_params *md5params);
+CURLcode Curl_MD5_update(MD5_context *context,
                          const unsigned char *data,
                          unsigned int len);
-CURLcode Curl_MD5_final(struct MD5_context *context, unsigned char *result);
+CURLcode Curl_MD5_final(MD5_context *context, unsigned char *result);
 
 #endif
 

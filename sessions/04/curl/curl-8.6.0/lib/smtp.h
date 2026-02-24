@@ -68,8 +68,8 @@ struct SMTP {
 /* smtp_conn is used for struct connection-oriented data in the connectdata
    struct */
 struct smtp_conn {
-  struct pingpong pp;
-  struct SASL sasl;        /* SASL-related storage */
+	pingpong pp;
+	SASL sasl;        /* SASL-related storage */
   smtpstate state;         /* Always use smtp.c:state() to change state! */
   char *domain;            /* Client address/name to send in the EHLO */
   BIT(ssldone);            /* Is connect() over SSL done? */
@@ -82,7 +82,7 @@ struct smtp_conn {
 };
 
 extern const struct Curl_handler Curl_handler_smtp;
-extern const struct Curl_handler Curl_handler_smtps;
+extern const Curl_handler Curl_handler_smtps;
 
 /* this is the 5-bytes End-Of-Body marker for SMTP */
 #define SMTP_EOB "\x0d\x0a\x2e\x0d\x0a"
@@ -93,7 +93,7 @@ extern const struct Curl_handler Curl_handler_smtps;
 #define SMTP_EOB_REPL "\x0d\x0a\x2e\x2e"
 #define SMTP_EOB_REPL_LEN 4
 
-CURLcode Curl_smtp_escape_eob(struct Curl_easy *data,
+CURLcode Curl_smtp_escape_eob(Curl_easy *data,
                               const ssize_t nread,
                               const ssize_t offset);
 

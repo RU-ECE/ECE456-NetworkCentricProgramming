@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "curl_setup.h"
 
 #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_HEADERS_API)
 
@@ -45,7 +44,7 @@ CURLcode Curl_headers_push(struct Curl_easy *data, const char *header,
 /*
  * Curl_headers_cleanup(). Free all stored headers and associated memory.
  */
-CURLcode Curl_headers_cleanup(struct Curl_easy *data);
+CURLcode Curl_headers_cleanup(Curl_easy *data);
 
 #else
 #define Curl_headers_push(x,y,z) CURLE_OK

@@ -29,7 +29,7 @@ struct libtest_trace_cfg {
   int nohex;      /* 0 represents FALSE, anything else TRUE */
 };
 
-extern struct libtest_trace_cfg libtest_debug_config;
+extern libtest_trace_cfg libtest_debug_config;
 
 int libtest_debug_cb(CURL *handle, curl_infotype type,
                      unsigned char *data, size_t size,

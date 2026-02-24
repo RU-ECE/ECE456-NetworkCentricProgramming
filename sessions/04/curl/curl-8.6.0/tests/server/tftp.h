@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "server_setup.h"
 
 /* This file is a rewrite/clone of the arpa/tftp.h file for systems without
    it. */

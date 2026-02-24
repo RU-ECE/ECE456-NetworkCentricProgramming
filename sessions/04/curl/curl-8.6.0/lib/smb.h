@@ -34,7 +34,7 @@ enum smb_conn_state {
 };
 
 struct smb_conn {
-  enum smb_conn_state state;
+	smb_conn_state state;
   char *user;
   char *domain;
   char *share;

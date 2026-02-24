@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 /*
  * OutStruct variables keep track of information relative to curl's
@@ -83,7 +82,7 @@ struct OutStruct {
  */
 
 struct getout {
-  struct getout *next;      /* next one */
+	getout *next;      /* next one */
   char          *url;       /* the URL we deal with */
   char          *outfile;   /* where to store the output */
   char          *infile;    /* file to upload, if GETOUT_UPLOAD is set */
@@ -127,7 +126,5 @@ typedef enum {
  * Complete struct declarations which have OperationConfig struct members,
  * just in case this header is directly included in some source file.
  */
-
-#include "tool_cfgable.h"
 
 #endif /* HEADER_CURL_TOOL_SDECLS_H */

@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 #include "tool_operate.h"
 
 typedef enum {
@@ -102,12 +101,11 @@ struct writeoutvar {
   const char *name;
   writeoutid id;
   CURLINFO ci;
-  int (*writefunc)(FILE *stream, const struct writeoutvar *wovar,
-                   struct per_transfer *per, CURLcode per_result,
+  int (*writefunc)(FILE *stream, const writeoutvar *wovar, per_transfer *per, CURLcode per_result,
                    bool use_json);
 };
 
-void ourWriteOut(struct OperationConfig *config, struct per_transfer *per,
+void ourWriteOut(OperationConfig *config, per_transfer *per,
                  CURLcode per_result);
 
 #endif /* HEADER_CURL_TOOL_WRITEOUT_H */

@@ -23,9 +23,7 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "curl_setup.h"
 
-#include "nonblock.h" /* for curlx_nonblock(), formerly Curl_nonblock() */
 #include "sockaddr.h"
 #include "timeval.h"
 
@@ -33,8 +31,7 @@ struct Curl_dns_entry;
 
 /* generic function that returns how much time there's left to run, according
    to the timeouts set */
-timediff_t Curl_timeleft(struct Curl_easy *data,
-                         struct curltime *nowp,
+timediff_t Curl_timeleft(struct Curl_easy *data, curltime *nowp,
                          bool duringconnect);
 
 #define DEFAULT_CONNECT_TIMEOUT 300000 /* milliseconds == five minutes */
@@ -45,13 +42,13 @@ timediff_t Curl_timeleft(struct Curl_easy *data,
  *
  * The returned socket will be CURL_SOCKET_BAD in case of failure!
  */
-curl_socket_t Curl_getconnectinfo(struct Curl_easy *data,
+curl_socket_t Curl_getconnectinfo(Curl_easy *data,
                                   struct connectdata **connp);
 
-bool Curl_addr2string(struct sockaddr *sa, curl_socklen_t salen,
+bool Curl_addr2string(sockaddr *sa, curl_socklen_t salen,
                       char *addr, int *port);
 
-void Curl_persistconninfo(struct Curl_easy *data, struct connectdata *conn,
+void Curl_persistconninfo(Curl_easy *data, connectdata *conn,
                           char *local_ip, int local_port);
 
 /*
@@ -70,7 +67,7 @@ void Curl_persistconninfo(struct Curl_easy *data, struct connectdata *conn,
 #define CONNCTRL_CONNECTION 1
 #define CONNCTRL_STREAM 2
 
-void Curl_conncontrol(struct connectdata *conn,
+void Curl_conncontrol(connectdata *conn,
                       int closeit
 #if defined(DEBUGBUILD) && !defined(CURL_DISABLE_VERBOSE_STRINGS)
                       , const char *reason
@@ -98,15 +95,12 @@ void Curl_conncontrol(struct connectdata *conn,
  * `connect` implementation needs to support non-blocking. Once connected,
  * it MAY be installed in the connection filter chain to serve transfers.
  */
-typedef CURLcode cf_ip_connect_create(struct Curl_cfilter **pcf,
-                                      struct Curl_easy *data,
-                                      struct connectdata *conn,
+typedef CURLcode cf_ip_connect_create(struct Curl_cfilter **pcf, Curl_easy *data, connectdata *conn,
                                       const struct Curl_addrinfo *ai,
                                       int transport);
 
-CURLcode Curl_cf_setup_insert_after(struct Curl_cfilter *cf_at,
-                                    struct Curl_easy *data,
-                                    const struct Curl_dns_entry *remotehost,
+CURLcode Curl_cf_setup_insert_after(Curl_cfilter *cf_at, Curl_easy *data,
+                                    const Curl_dns_entry *remotehost,
                                     int transport,
                                     int ssl_mode);
 
@@ -115,14 +109,13 @@ CURLcode Curl_cf_setup_insert_after(struct Curl_cfilter *cf_at,
  * If no filter chain is installed yet, inspects the configuration
  * in `data` and `conn? to install a suitable filter chain.
  */
-CURLcode Curl_conn_setup(struct Curl_easy *data,
-                         struct connectdata *conn,
+CURLcode Curl_conn_setup(Curl_easy *data, connectdata *conn,
                          int sockindex,
-                         const struct Curl_dns_entry *remotehost,
+                         const Curl_dns_entry *remotehost,
                          int ssl_mode);
 
 extern struct Curl_cftype Curl_cft_happy_eyeballs;
-extern struct Curl_cftype Curl_cft_setup;
+extern Curl_cftype Curl_cft_setup;
 
 #ifdef DEBUGBUILD
 void Curl_debug_set_transport_provider(int transport,

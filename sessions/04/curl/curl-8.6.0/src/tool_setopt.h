@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 #include "tool_formparse.h"
 
@@ -48,17 +47,17 @@ struct NameValueUnsigned {
   unsigned long value;
 };
 
-extern const struct NameValue setopt_nv_CURLPROXY[];
-extern const struct NameValue setopt_nv_CURL_SOCKS_PROXY[];
-extern const struct NameValue setopt_nv_CURL_HTTP_VERSION[];
-extern const struct NameValue setopt_nv_CURL_SSLVERSION[];
-extern const struct NameValue setopt_nv_CURL_TIMECOND[];
-extern const struct NameValue setopt_nv_CURLFTPSSL_CCC[];
-extern const struct NameValue setopt_nv_CURLUSESSL[];
-extern const struct NameValueUnsigned setopt_nv_CURLSSLOPT[];
-extern const struct NameValue setopt_nv_CURL_NETRC[];
-extern const struct NameValueUnsigned setopt_nv_CURLAUTH[];
-extern const struct NameValueUnsigned setopt_nv_CURLHSTS[];
+extern const NameValue setopt_nv_CURLPROXY[];
+extern const NameValue setopt_nv_CURL_SOCKS_PROXY[];
+extern const NameValue setopt_nv_CURL_HTTP_VERSION[];
+extern const NameValue setopt_nv_CURL_SSLVERSION[];
+extern const NameValue setopt_nv_CURL_TIMECOND[];
+extern const NameValue setopt_nv_CURLFTPSSL_CCC[];
+extern const NameValue setopt_nv_CURLUSESSL[];
+extern const NameValueUnsigned setopt_nv_CURLSSLOPT[];
+extern const NameValue setopt_nv_CURL_NETRC[];
+extern const NameValueUnsigned setopt_nv_CURLAUTH[];
+extern const NameValueUnsigned setopt_nv_CURLHSTS[];
 
 /* Map options to NameValue sets */
 #define setopt_nv_CURLOPT_HSTS_CTRL setopt_nv_CURLHSTS
@@ -78,23 +77,21 @@ extern const struct NameValueUnsigned setopt_nv_CURLHSTS[];
 
 /* Intercept setopt calls for --libcurl */
 
-CURLcode tool_setopt_enum(CURL *curl, struct GlobalConfig *config,
+CURLcode tool_setopt_enum(CURL *curl, GlobalConfig *config,
                           const char *name, CURLoption tag,
-                          const struct NameValue *nv, long lval);
-CURLcode tool_setopt_flags(CURL *curl, struct GlobalConfig *config,
+                          const NameValue *nv, long lval);
+CURLcode tool_setopt_flags(CURL *curl, GlobalConfig *config,
                            const char *name, CURLoption tag,
-                           const struct NameValue *nv, long lval);
-CURLcode tool_setopt_bitmask(CURL *curl, struct GlobalConfig *config,
+                           const NameValue *nv, long lval);
+CURLcode tool_setopt_bitmask(CURL *curl, GlobalConfig *config,
                              const char *name, CURLoption tag,
-                             const struct NameValueUnsigned *nv, long lval);
-CURLcode tool_setopt_mimepost(CURL *curl, struct GlobalConfig *config,
+                             const NameValueUnsigned *nv, long lval);
+CURLcode tool_setopt_mimepost(CURL *curl, GlobalConfig *config,
                               const char *name, CURLoption tag,
                               curl_mime *mimepost);
-CURLcode tool_setopt_slist(CURL *curl, struct GlobalConfig *config,
-                           const char *name, CURLoption tag,
-                           struct curl_slist *list);
-CURLcode tool_setopt(CURL *curl, bool str, struct GlobalConfig *global,
-                     struct OperationConfig *config,
+CURLcode tool_setopt_slist(CURL *curl, GlobalConfig *config,
+                           const char *name, CURLoption tag, curl_slist *list);
+CURLcode tool_setopt(CURL *curl, bool str, GlobalConfig *global, OperationConfig *config,
                      const char *name, CURLoption tag, ...);
 
 #define my_setopt(x,y,z) \

@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 void tool_help(char *category);
 void tool_list_engines(void);
@@ -70,6 +69,6 @@ struct helptxt {
 #define CURLHELP_UPLOAD 1u << 23u
 #define CURLHELP_VERBOSE 1u << 24u
 
-extern const struct helptxt helptext[];
+extern const helptxt helptext[];
 
 #endif /* HEADER_CURL_TOOL_HELP_H */

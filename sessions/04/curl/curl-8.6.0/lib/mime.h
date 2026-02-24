@@ -89,7 +89,7 @@ struct mime_encoder_state {
 
 /* Mime readback state. */
 struct mime_state {
-  enum mimestate state;       /* Current state token. */
+	mimestate state;       /* Current state token. */
   void *ptr;                  /* State-dependent pointer. */
   curl_off_t offset;          /* State-dependent offset. */
 };
@@ -103,14 +103,14 @@ struct curl_mime {
   curl_mimepart *firstpart;        /* First part. */
   curl_mimepart *lastpart;         /* Last part. */
   char boundary[MIME_BOUNDARY_LEN + 1]; /* The part boundary. */
-  struct mime_state state;         /* Current readback state. */
+  mime_state state;         /* Current readback state. */
 };
 
 /* A mime part. */
 struct curl_mimepart {
   curl_mime *parent;               /* Parent mime structure. */
   curl_mimepart *nextpart;         /* Forward linked list. */
-  enum mimekind kind;              /* The part kind. */
+  mimekind kind;              /* The part kind. */
   unsigned int flags;              /* Flags. */
   char *data;                      /* Memory data or file name. */
   curl_read_callback readfunc;     /* Read function. */
@@ -119,18 +119,18 @@ struct curl_mimepart {
   void *arg;                       /* Argument to callback functions. */
   FILE *fp;                        /* File pointer. */
   struct curl_slist *curlheaders;  /* Part headers. */
-  struct curl_slist *userheaders;  /* Part headers. */
+  curl_slist *userheaders;  /* Part headers. */
   char *mimetype;                  /* Part mime type. */
   char *filename;                  /* Remote file name. */
   char *name;                      /* Data name. */
   curl_off_t datasize;             /* Expected data size. */
-  struct mime_state state;         /* Current readback state. */
-  const struct mime_encoder *encoder; /* Content data encoder. */
-  struct mime_encoder_state encstate; /* Data encoder state. */
+  mime_state state;         /* Current readback state. */
+  const mime_encoder *encoder; /* Content data encoder. */
+  mime_encoder_state encstate; /* Data encoder state. */
   size_t lastreadstatus;           /* Last read callback returned status. */
 };
 
-CURLcode Curl_mime_add_header(struct curl_slist **slp, const char *fmt, ...)
+CURLcode Curl_mime_add_header(curl_slist **slp, const char *fmt, ...)
   CURL_PRINTF(2, 3);
 
 #if !defined(CURL_DISABLE_MIME) && (!defined(CURL_DISABLE_HTTP) ||      \
@@ -138,25 +138,21 @@ CURLcode Curl_mime_add_header(struct curl_slist **slp, const char *fmt, ...)
                                     !defined(CURL_DISABLE_IMAP))
 
 /* Prototypes. */
-void Curl_mime_initpart(struct curl_mimepart *part);
-void Curl_mime_cleanpart(struct curl_mimepart *part);
-CURLcode Curl_mime_duppart(struct Curl_easy *data,
-                           struct curl_mimepart *dst,
+void Curl_mime_initpart(curl_mimepart *part);
+void Curl_mime_cleanpart(curl_mimepart *part);
+CURLcode Curl_mime_duppart(struct Curl_easy *data, curl_mimepart *dst,
                            const curl_mimepart *src);
-CURLcode Curl_mime_set_subparts(struct curl_mimepart *part,
-                                struct curl_mime *subparts,
+CURLcode Curl_mime_set_subparts(curl_mimepart *part, curl_mime *subparts,
                                 int take_ownership);
-CURLcode Curl_mime_prepare_headers(struct Curl_easy *data,
-                                   struct curl_mimepart *part,
+CURLcode Curl_mime_prepare_headers(Curl_easy *data, curl_mimepart *part,
                                    const char *contenttype,
-                                   const char *disposition,
-                                   enum mimestrategy strategy);
-curl_off_t Curl_mime_size(struct curl_mimepart *part);
+                                   const char *disposition, mimestrategy strategy);
+curl_off_t Curl_mime_size(curl_mimepart *part);
 size_t Curl_mime_read(char *buffer, size_t size, size_t nitems,
                       void *instream);
-CURLcode Curl_mime_rewind(struct curl_mimepart *part);
+CURLcode Curl_mime_rewind(curl_mimepart *part);
 const char *Curl_mime_contenttype(const char *filename);
-void Curl_mime_unpause(struct curl_mimepart *part);
+void Curl_mime_unpause(curl_mimepart *part);
 
 #else
 /* if disabled */

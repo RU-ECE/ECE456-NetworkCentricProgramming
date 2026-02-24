@@ -55,7 +55,7 @@
  * Write `len` bytes at `prt` to the client. `type` indicates what
  * kind of data is being written.
  */
-CURLcode Curl_client_write(struct Curl_easy *data, int type, char *ptr,
+CURLcode Curl_client_write(Curl_easy *data, int type, char *ptr,
                            size_t len) WARN_UNUSED_RESULT;
 
 /**
@@ -63,12 +63,12 @@ CURLcode Curl_client_write(struct Curl_easy *data, int type, char *ptr,
  * Attempt to flush this data to the client. This *may* trigger
  * another pause of the transfer.
  */
-CURLcode Curl_client_unpause(struct Curl_easy *data);
+CURLcode Curl_client_unpause(Curl_easy *data);
 
 /**
  * Free all resources related to client writing.
  */
-void Curl_client_cleanup(struct Curl_easy *data);
+void Curl_client_cleanup(Curl_easy *data);
 
 /**
  * Client Writers - a chain passing transfer BODY data to the client.
@@ -102,20 +102,18 @@ typedef enum {
 struct Curl_cwtype {
   const char *name;        /* writer name. */
   const char *alias;       /* writer name alias, maybe NULL. */
-  CURLcode (*do_init)(struct Curl_easy *data,
+  CURLcode (*do_init)(Curl_easy *data,
                       struct Curl_cwriter *writer);
-  CURLcode (*do_write)(struct Curl_easy *data,
-                       struct Curl_cwriter *writer, int type,
+  CURLcode (*do_write)(Curl_easy *data, Curl_cwriter *writer, int type,
                        const char *buf, size_t nbytes);
-  void (*do_close)(struct Curl_easy *data,
-                   struct Curl_cwriter *writer);
+  void (*do_close)(Curl_easy *data, Curl_cwriter *writer);
   size_t cwriter_size;  /* sizeof() allocated struct Curl_cwriter */
 };
 
 /* Client writer instance */
 struct Curl_cwriter {
-  const struct Curl_cwtype *cwt;  /* type implementation */
-  struct Curl_cwriter *next;  /* Downstream writer. */
+  const Curl_cwtype *cwt;  /* type implementation */
+	Curl_cwriter *next;  /* Downstream writer. */
   Curl_cwriter_phase phase; /* phase at which it operates */
 };
 
@@ -124,67 +122,60 @@ struct Curl_cwriter {
  * inserted into the writer chain by this call.
  * Invokes `writer->do_init()`.
  */
-CURLcode Curl_cwriter_create(struct Curl_cwriter **pwriter,
-                             struct Curl_easy *data,
-                             const struct Curl_cwtype *ce_handler,
+CURLcode Curl_cwriter_create(Curl_cwriter **pwriter, Curl_easy *data,
+                             const Curl_cwtype *ce_handler,
                              Curl_cwriter_phase phase);
 
 /**
  * Free a cwriter instance.
  * Invokes `writer->do_close()`.
  */
-void Curl_cwriter_free(struct Curl_easy *data,
-                       struct Curl_cwriter *writer);
+void Curl_cwriter_free(Curl_easy *data, Curl_cwriter *writer);
 
 /**
  * Count the number of writers installed of the given phase.
  */
-size_t Curl_cwriter_count(struct Curl_easy *data, Curl_cwriter_phase phase);
+size_t Curl_cwriter_count(Curl_easy *data, Curl_cwriter_phase phase);
 
 /**
  * Adds a writer to the transfer's writer chain.
  * The writers `phase` determines where in the chain it is inserted.
  */
-CURLcode Curl_cwriter_add(struct Curl_easy *data,
-                          struct Curl_cwriter *writer);
+CURLcode Curl_cwriter_add(Curl_easy *data, Curl_cwriter *writer);
 
-void Curl_cwriter_remove_by_name(struct Curl_easy *data,
+void Curl_cwriter_remove_by_name(Curl_easy *data,
                                  const char *name);
 
 /**
  * Convenience method for calling `writer->do_write()` that
  * checks for NULL writer.
  */
-CURLcode Curl_cwriter_write(struct Curl_easy *data,
-                            struct Curl_cwriter *writer, int type,
+CURLcode Curl_cwriter_write(Curl_easy *data, Curl_cwriter *writer, int type,
                             const char *buf, size_t nbytes);
 
 /**
  * Default implementations for do_init, do_write, do_close that
  * do nothing and pass the data through.
  */
-CURLcode Curl_cwriter_def_init(struct Curl_easy *data,
-                               struct Curl_cwriter *writer);
-CURLcode Curl_cwriter_def_write(struct Curl_easy *data,
-                                struct Curl_cwriter *writer, int type,
+CURLcode Curl_cwriter_def_init(Curl_easy *data, Curl_cwriter *writer);
+CURLcode Curl_cwriter_def_write(Curl_easy *data, Curl_cwriter *writer, int type,
                                 const char *buf, size_t nbytes);
-void Curl_cwriter_def_close(struct Curl_easy *data,
-                            struct Curl_cwriter *writer);
+void Curl_cwriter_def_close(Curl_easy *data, Curl_cwriter *writer);
 
 
 /* internal read-function, does plain socket, SSL and krb4 */
-CURLcode Curl_read(struct Curl_easy *data, curl_socket_t sockfd,
+CURLcode Curl_read(Curl_easy *data, curl_socket_t sockfd,
                    char *buf, size_t buffersize,
                    ssize_t *n);
 
 /* internal write-function, does plain socket, SSL, SCP, SFTP and krb4 */
-CURLcode Curl_write(struct Curl_easy *data,
+CURLcode Curl_write(Curl_easy *data,
                     curl_socket_t sockfd,
                     const void *mem, size_t len,
                     ssize_t *written);
 
 /* internal write-function, using sockindex for connection destination */
-CURLcode Curl_nwrite(struct Curl_easy *data,
+CURLcode Curl_nwrite(Curl_easy *data,
                      int sockindex,
                      const void *buf,
                      size_t blen,

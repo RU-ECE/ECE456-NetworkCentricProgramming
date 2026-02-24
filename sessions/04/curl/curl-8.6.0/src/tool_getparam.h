@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 typedef enum {
   PARAM_OK = 0,
@@ -58,9 +57,8 @@ struct OperationConfig;
 
 ParameterError getparameter(const char *flag, char *nextarg,
                             argv_item_t cleararg,
-                            bool *usedarg,
-                            struct GlobalConfig *global,
-                            struct OperationConfig *operation);
+                            bool *usedarg, GlobalConfig *global,
+							OperationConfig *operation);
 
 #ifdef UNITTESTS
 void parse_cert_parameter(const char *cert_parameter,
@@ -68,7 +66,7 @@ void parse_cert_parameter(const char *cert_parameter,
                           char **passphrase);
 #endif
 
-ParameterError parse_args(struct GlobalConfig *config, int argc,
+ParameterError parse_args(GlobalConfig *config, int argc,
                           argv_item_t argv[]);
 
 #endif /* HEADER_CURL_TOOL_GETPARAM_H */
