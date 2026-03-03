@@ -29,11 +29,6 @@
  * Inclusion of common header files.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <time.h>
 #include <errno.h>
 
 #ifdef HAVE_SYS_TYPES_H
@@ -93,8 +88,6 @@
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-
-#include "functypes.h"
 
 #ifdef __hpux
 #  if !defined(_XOPEN_SOURCE_EXTENDED) || defined(_KERNEL)
@@ -274,8 +267,6 @@ typedef unsigned int bit;
 #ifndef FALSE
 #define FALSE false
 #endif
-
-#include "curl_ctype.h"
 
 
 /*

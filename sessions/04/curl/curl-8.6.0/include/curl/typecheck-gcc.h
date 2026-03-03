@@ -611,11 +611,11 @@ typedef int (*_curl_sockopt_callback2)(const void *, curl_socket_t,
 typedef curl_socket_t (*_curl_opensocket_callback1)
   (void *, curlsocktype, struct curl_sockaddr *);
 typedef curl_socket_t (*_curl_opensocket_callback2)
-  (void *, curlsocktype, const struct curl_sockaddr *);
+  (void *, curlsocktype, const curl_sockaddr *);
 typedef curl_socket_t (*_curl_opensocket_callback3)
-  (const void *, curlsocktype, struct curl_sockaddr *);
+  (const void *, curlsocktype, curl_sockaddr *);
 typedef curl_socket_t (*_curl_opensocket_callback4)
-  (const void *, curlsocktype, const struct curl_sockaddr *);
+  (const void *, curlsocktype, const curl_sockaddr *);
 
 /* evaluates to true if expr is of type curl_progress_callback or "similar" */
 #define curlcheck_progress_cb(expr)                                     \

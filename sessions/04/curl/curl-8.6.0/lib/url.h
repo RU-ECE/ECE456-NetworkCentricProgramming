@@ -30,18 +30,17 @@
  */
 
 CURLcode Curl_init_do(struct Curl_easy *data, struct connectdata *conn);
-CURLcode Curl_open(struct Curl_easy **curl);
-CURLcode Curl_init_userdefined(struct Curl_easy *data);
+CURLcode Curl_open(Curl_easy **curl);
+CURLcode Curl_init_userdefined(Curl_easy *data);
 
-void Curl_freeset(struct Curl_easy *data);
+void Curl_freeset(Curl_easy *data);
 CURLcode Curl_uc_to_curlcode(CURLUcode uc);
-CURLcode Curl_close(struct Curl_easy **datap); /* opposite of curl_open() */
-CURLcode Curl_connect(struct Curl_easy *, bool *async, bool *protocol_connect);
-void Curl_disconnect(struct Curl_easy *data,
-                     struct connectdata *, bool dead_connection);
-CURLcode Curl_setup_conn(struct Curl_easy *data,
+CURLcode Curl_close(Curl_easy **datap); /* opposite of curl_open() */
+CURLcode Curl_connect(Curl_easy *, bool *async, bool *protocol_connect);
+void Curl_disconnect(Curl_easy *data, connectdata *, bool dead_connection);
+CURLcode Curl_setup_conn(Curl_easy *data,
                          bool *protocol_done);
-void Curl_free_request_state(struct Curl_easy *data);
+void Curl_free_request_state(Curl_easy *data);
 CURLcode Curl_parse_login_details(const char *login, const size_t len,
                                   char **userptr, char **passwdptr,
                                   char **optionsptr);
@@ -51,7 +50,7 @@ CURLcode Curl_parse_login_details(const char *login, const size_t len,
  * @return NULL of handler not found
  */
 const struct Curl_handler *Curl_get_scheme_handler(const char *scheme);
-const struct Curl_handler *Curl_getn_scheme_handler(const char *scheme,
+const Curl_handler *Curl_getn_scheme_handler(const char *scheme,
                                                     size_t len);
 
 #define CURL_DEFAULT_PROXY_PORT 1080 /* default proxy port unless specified */
@@ -61,7 +60,7 @@ const struct Curl_handler *Curl_getn_scheme_handler(const char *scheme,
 #ifdef CURL_DISABLE_VERBOSE_STRINGS
 #define Curl_verboseconnect(x,y)  Curl_nop_stmt
 #else
-void Curl_verboseconnect(struct Curl_easy *data, struct connectdata *conn);
+void Curl_verboseconnect(Curl_easy *data, connectdata *conn);
 #endif
 
 #if defined(USE_HTTP2) || defined(USE_HTTP3)

@@ -13,8 +13,8 @@
  * 2. The bigger the buffer, the fewer the writes, as each write takes time to go into the OS
  */
 
-void write_file_slow(int fh, uint64_t num_bytes) {
-	uint32_t buf[500] = {};
+void write_file_slow(const int fh, const uint64_t num_bytes) {
+	const uint32_t buf[500] = {};
 	for (uint64_t i = 0; i < num_bytes; i += sizeof(buf))
 		write(fh, buf, sizeof(buf));
 }
@@ -22,7 +22,7 @@ void write_file_slow(int fh, uint64_t num_bytes) {
 int main(int argc, char* argv[]) {
 	//                            rwx r-- r--
 	// leading zero is OCTAL      110 100 100
-	int fh = creat("output.txt", 0644);
+	const int fh = creat("output.txt", 0644);
 	write_file_slow(fh, 1024 * 1024 * 1024);
 	close(fh);
 	return 0;

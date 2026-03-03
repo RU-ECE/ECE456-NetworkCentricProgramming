@@ -23,32 +23,24 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "curl_setup.h"
 #include "timeval.h"
 
 struct Curl_tree {
-  struct Curl_tree *smaller; /* smaller node */
-  struct Curl_tree *larger;  /* larger node */
-  struct Curl_tree *samen;   /* points to the next node with identical key */
-  struct Curl_tree *samep;   /* points to the prev node with identical key */
-  struct curltime key;        /* this node's "sort" key */
+	Curl_tree *smaller; /* smaller node */
+	Curl_tree *larger;  /* larger node */
+	Curl_tree *samen;   /* points to the next node with identical key */
+	Curl_tree *samep;   /* points to the prev node with identical key */
+	curltime key;        /* this node's "sort" key */
   void *payload;             /* data the splay code doesn't care about */
 };
 
-struct Curl_tree *Curl_splay(struct curltime i,
-                             struct Curl_tree *t);
+Curl_tree *Curl_splay(curltime i, Curl_tree *t);
 
-struct Curl_tree *Curl_splayinsert(struct curltime key,
-                                   struct Curl_tree *t,
-                                   struct Curl_tree *newnode);
+Curl_tree *Curl_splayinsert(curltime key, Curl_tree *t, Curl_tree *newnode);
 
-struct Curl_tree *Curl_splaygetbest(struct curltime key,
-                                    struct Curl_tree *t,
-                                    struct Curl_tree **removed);
+Curl_tree *Curl_splaygetbest(curltime key, Curl_tree *t, Curl_tree **removed);
 
-int Curl_splayremove(struct Curl_tree *t,
-                     struct Curl_tree *removenode,
-                     struct Curl_tree **newroot);
+int Curl_splayremove(Curl_tree *t, Curl_tree *removenode, Curl_tree **newroot);
 
 #define Curl_splaycomparekeys(i,j) ( ((i.tv_sec)  < (j.tv_sec)) ? -1 : \
                                    ( ((i.tv_sec)  > (j.tv_sec)) ?  1 : \

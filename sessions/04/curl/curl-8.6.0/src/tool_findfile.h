@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 #ifdef _WIN32
 #define CURLRC_DOTSCORE 2 /* look for underscore-prefixed name too */

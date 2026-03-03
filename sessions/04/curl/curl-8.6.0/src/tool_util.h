@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 struct timeval tvnow(void);
 
@@ -33,7 +32,7 @@ struct timeval tvnow(void);
  *
  * Returns: the time difference in number of milliseconds.
  */
-long tvdiff(struct timeval t1, struct timeval t2);
+long tvdiff(timeval t1, timeval t2);
 
 /* Case insensitive comparison support. */
 int struplocompare(const char *p1, const char *p2);

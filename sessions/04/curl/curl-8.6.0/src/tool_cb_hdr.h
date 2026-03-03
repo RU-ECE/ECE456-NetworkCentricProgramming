@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 /*
  * curl operates using a single HdrCbData struct variable, a
@@ -44,8 +43,8 @@ struct HdrCbData {
   struct GlobalConfig *global;
   struct OperationConfig *config;
   struct OutStruct *outs;
-  struct OutStruct *heads;
-  struct OutStruct *etag_save;
+  OutStruct *heads;
+  OutStruct *etag_save;
   bool honor_cd_filename;
 };
 

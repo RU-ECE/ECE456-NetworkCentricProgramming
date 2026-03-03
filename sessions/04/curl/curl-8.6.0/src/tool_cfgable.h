@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 #include "tool_sdecls.h"
 #include "tool_urlglob.h"
 #include "var.h"
@@ -31,9 +30,9 @@
 struct GlobalConfig;
 
 struct State {
-  struct getout *urlnode;
-  struct URLGlob *inglob;
-  struct URLGlob *urls;
+	getout *urlnode;
+	URLGlob *inglob;
+	URLGlob *urls;
   char *outfiles;
   char *httpgetfields;
   char *uploadfile;
@@ -49,7 +48,7 @@ struct OperationConfig {
   char *useragent;
   struct curl_slist *cookies;  /* cookies to serialize into a single line */
   char *cookiejar;          /* write to this file */
-  struct curl_slist *cookiefiles;  /* file(s) to load cookies from */
+  curl_slist *cookiefiles;  /* file(s) to load cookies from */
   char *altsvc;             /* alt-svc cache file name */
   char *hsts;               /* HSTS cache file name */
   bool cookiesession;       /* new session? */
@@ -68,7 +67,7 @@ struct OperationConfig {
   char *proto_default;
   curl_off_t resume_from;
   char *postfields;
-  struct curlx_dynbuf postdata;
+  curlx_dynbuf postdata;
   char *referer;
   char *query;
   long timeout_ms;
@@ -102,7 +101,7 @@ struct OperationConfig {
   int proxyver;             /* set to CURLPROXY_HTTP* define */
   char *noproxy;
   char *mail_from;
-  struct curl_slist *mail_rcpt;
+  curl_slist *mail_rcpt;
   char *mail_auth;
   bool mail_rcpt_allowfails; /* --mail-rcpt-allowfails */
   char *sasl_authzid;       /* Authorization identity (identity to use) */
@@ -123,11 +122,11 @@ struct OperationConfig {
   bool netrc_opt;
   bool netrc;
   char *netrc_file;
-  struct getout *url_list;  /* point to the first node */
-  struct getout *url_last;  /* point to the last/current node */
-  struct getout *url_get;   /* point to the node to fill in URL */
-  struct getout *url_out;   /* point to the node to fill in outfile */
-  struct getout *url_ul;    /* point to the node to fill in upload */
+  getout *url_list;  /* point to the first node */
+  getout *url_last;  /* point to the last/current node */
+  getout *url_get;   /* point to the node to fill in URL */
+  getout *url_out;   /* point to the node to fill in outfile */
+  getout *url_ul;    /* point to the node to fill in upload */
   char *ipfs_gateway;
   char *doh_url;
   char *cipher_list;
@@ -187,9 +186,9 @@ struct OperationConfig {
   bool proxyanyauth;
   bool jsoned; /* added json content-type */
   char *writeout;           /* %-styled format string to output */
-  struct curl_slist *quote;
-  struct curl_slist *postquote;
-  struct curl_slist *prequote;
+  curl_slist *quote;
+  curl_slist *postquote;
+  curl_slist *prequote;
   long ssl_version;
   long ssl_version_max;
   long proxy_ssl_version;
@@ -197,14 +196,14 @@ struct OperationConfig {
   long create_file_mode; /* CURLOPT_NEW_FILE_PERMS */
   curl_TimeCond timecond;
   curl_off_t condtime;
-  struct curl_slist *headers;
-  struct curl_slist *proxyheaders;
+  curl_slist *headers;
+  curl_slist *proxyheaders;
   struct tool_mime *mimeroot;
-  struct tool_mime *mimecurrent;
+  tool_mime *mimecurrent;
   curl_mime *mimepost;
-  struct curl_slist *telnet_options;
-  struct curl_slist *resolve;
-  struct curl_slist *connect_to;
+  curl_slist *telnet_options;
+  curl_slist *resolve;
+  curl_slist *connect_to;
   HttpReq httpreq;
 
   /* for bandwidth limiting features: */
@@ -292,10 +291,10 @@ struct OperationConfig {
     CLOBBER_NEVER, /* If the file exists, always fail */
     CLOBBER_ALWAYS /* If the file exists, always overwrite it */
   } file_clobber_mode;
-  struct GlobalConfig *global;
-  struct OperationConfig *prev;
-  struct OperationConfig *next;   /* Always last in the struct */
-  struct State state;             /* for create_transfer() */
+  GlobalConfig *global;
+  OperationConfig *prev;
+  OperationConfig *next;   /* Always last in the struct */
+  State state;             /* for create_transfer() */
   bool rm_partial;                /* on error, remove partially written output
                                      files */
 };
@@ -324,13 +323,13 @@ struct GlobalConfig {
   unsigned short parallel_max; /* MAX_PARALLEL is the maximum */
   bool parallel_connect;
   char *help_category;            /* The help category, if set */
-  struct var *variables;
-  struct OperationConfig *first;
-  struct OperationConfig *current;
-  struct OperationConfig *last;   /* Always last in the struct */
+  var *variables;
+  OperationConfig *first;
+  OperationConfig *current;
+  OperationConfig *last;   /* Always last in the struct */
 };
 
-void config_init(struct OperationConfig *config);
-void config_free(struct OperationConfig *config);
+void config_init(OperationConfig *config);
+void config_free(OperationConfig *config);
 
 #endif /* HEADER_CURL_TOOL_CFGABLE_H */

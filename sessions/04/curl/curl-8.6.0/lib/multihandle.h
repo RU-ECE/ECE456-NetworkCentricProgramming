@@ -27,13 +27,11 @@
 #include "llist.h"
 #include "hash.h"
 #include "conncache.h"
-#include "psl.h"
-#include "socketpair.h"
 
 struct connectdata;
 
 struct Curl_message {
-  struct Curl_llist_element list;
+	Curl_llist_element list;
   /* the 'CURLMsg' is the part that is visible to the external user */
   struct CURLMsg extmsg;
 };
@@ -90,18 +88,18 @@ struct Curl_multi {
   unsigned int magic;
 
   /* We have a doubly-linked list with easy handles */
-  struct Curl_easy *easyp;
-  struct Curl_easy *easylp; /* last node */
+  Curl_easy *easyp;
+  Curl_easy *easylp; /* last node */
 
   unsigned int num_easy; /* amount of entries in the linked list above. */
   unsigned int num_alive; /* amount of easy handles that are added but have
-                             not yet reached COMPLETE state */
+							 not yet reached COMPLETE state */
 
-  struct Curl_llist msglist; /* a list of messages from completed transfers */
+  Curl_llist msglist; /* a list of messages from completed transfers */
 
-  struct Curl_llist pending; /* Curl_easys that are in the
-                                MSTATE_PENDING state */
-  struct Curl_llist msgsent; /* Curl_easys that are in the
+  Curl_llist pending; /* Curl_easys that are in the
+							   MSTATE_PENDING state */
+  Curl_llist msgsent; /* Curl_easys that are in the
                                 MSTATE_MSGSENT state */
 
   /* callback function and user data pointer for the *socket() API */
@@ -113,7 +111,7 @@ struct Curl_multi {
   void *push_userp;
 
   /* Hostname cache */
-  struct Curl_hash hostcache;
+  Curl_hash hostcache;
 
 #ifdef USE_LIBPSL
   /* PSL cache. */
@@ -129,12 +127,12 @@ struct Curl_multi {
 #endif
 
   /* 'sockhash' is the lookup hash for socket descriptor => easy handles (note
-     the pluralis form, there can be more than one easy handle waiting on the
-     same actual socket) */
-  struct Curl_hash sockhash;
+	 the pluralis form, there can be more than one easy handle waiting on the
+	 same actual socket) */
+  Curl_hash sockhash;
 
   /* Shared connection cache (bundles)*/
-  struct conncache conn_cache;
+  conncache conn_cache;
 
   long max_host_connections; /* if >0, a fixed limit of the maximum number
                                 of connections per host */
@@ -145,7 +143,7 @@ struct Curl_multi {
   /* timer callback and user data pointer for the *socket() API */
   curl_multi_timer_callback timer_cb;
   void *timer_userp;
-  struct curltime timer_lastcall; /* the fixed time for the timeout for the
+  curltime timer_lastcall; /* the fixed time for the timeout for the
                                     previous callback */
 #ifdef USE_WINSOCK
   WSAEVENT wsa_event; /* winsock event used for waits */

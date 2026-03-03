@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 int xferinfo_cb(void *clientp,
                 curl_off_t dltotal,

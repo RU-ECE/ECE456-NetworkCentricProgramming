@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 #if defined(_WIN32) && !defined(HAVE_FTRUNCATE)
 

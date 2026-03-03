@@ -60,13 +60,13 @@ struct POP3 {
 /* pop3_conn is used for struct connection-oriented data in the connectdata
    struct */
 struct pop3_conn {
-  struct pingpong pp;
+	pingpong pp;
   pop3state state;        /* Always use pop3.c:state() to change state! */
   size_t eob;             /* Number of bytes of the EOB (End Of Body) that
                              have been received so far */
   size_t strip;           /* Number of bytes from the start to ignore as
-                             non-body */
-  struct SASL sasl;       /* SASL-related storage */
+					 non-body */
+	SASL sasl;       /* SASL-related storage */
   char *apoptimestamp;    /* APOP timestamp from the server greeting */
   unsigned char authtypes; /* Accepted authentication types */
   unsigned char preftype;  /* Preferred authentication type */
@@ -75,7 +75,7 @@ struct pop3_conn {
 };
 
 extern const struct Curl_handler Curl_handler_pop3;
-extern const struct Curl_handler Curl_handler_pop3s;
+extern const Curl_handler Curl_handler_pop3s;
 
 /* Authentication type flags */
 #define POP3_TYPE_CLEARTEXT (1 << 0)
@@ -92,6 +92,6 @@ extern const struct Curl_handler Curl_handler_pop3s;
 
 /* This function scans the body after the end-of-body and writes everything
  * until the end is found */
-CURLcode Curl_pop3_write(struct Curl_easy *data, char *str, size_t nread);
+CURLcode Curl_pop3_write(Curl_easy *data, char *str, size_t nread);
 
 #endif /* HEADER_CURL_POP3_H */

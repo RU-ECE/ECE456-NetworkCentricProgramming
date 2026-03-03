@@ -23,16 +23,15 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 #include "tool_cfgable.h"
 
-void warnf(struct GlobalConfig *config, const char *fmt, ...)
+void warnf(GlobalConfig *config, const char *fmt, ...)
   CURL_PRINTF(2, 3);
-void notef(struct GlobalConfig *config, const char *fmt, ...)
+void notef(GlobalConfig *config, const char *fmt, ...)
   CURL_PRINTF(2, 3);
 void helpf(FILE *errors, const char *fmt, ...)
   CURL_PRINTF(2, 3);
-void errorf(struct GlobalConfig *config, const char *fmt, ...)
+void errorf(GlobalConfig *config, const char *fmt, ...)
   CURL_PRINTF(2, 3);
 
 #endif /* HEADER_CURL_TOOL_MSGS_H */

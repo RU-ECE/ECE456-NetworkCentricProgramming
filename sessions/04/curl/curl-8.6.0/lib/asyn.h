@@ -62,7 +62,7 @@ void Curl_resolver_global_cleanup(void);
  * Returning anything else than CURLE_OK fails curl_easy_init() with the
  * correspondent code.
  */
-CURLcode Curl_resolver_init(struct Curl_easy *easy, void **resolver);
+CURLcode Curl_resolver_init(Curl_easy *easy, void **resolver);
 
 /*
  * Curl_resolver_cleanup()
@@ -81,7 +81,7 @@ void Curl_resolver_cleanup(void *resolver);
  * pointer.  Returning anything else than CURLE_OK causes failed
  * curl_easy_duphandle() call.
  */
-CURLcode Curl_resolver_duphandle(struct Curl_easy *easy, void **to,
+CURLcode Curl_resolver_duphandle(Curl_easy *easy, void **to,
                                  void *from);
 
 /*
@@ -93,7 +93,7 @@ CURLcode Curl_resolver_duphandle(struct Curl_easy *easy, void **to,
  *
  * It is safe to call this when conn is in any state.
  */
-void Curl_resolver_cancel(struct Curl_easy *data);
+void Curl_resolver_cancel(Curl_easy *data);
 
 /*
  * Curl_resolver_kill().
@@ -106,7 +106,7 @@ void Curl_resolver_cancel(struct Curl_easy *data);
  *
  * It is safe to call this when conn is in any state.
  */
-void Curl_resolver_kill(struct Curl_easy *data);
+void Curl_resolver_kill(Curl_easy *data);
 
 /* Curl_resolver_getsock()
  *
@@ -116,7 +116,7 @@ void Curl_resolver_kill(struct Curl_easy *data);
  * return bitmask indicating what file descriptors (referring to array indexes
  * in the 'sock' array) to wait for, read/write.
  */
-int Curl_resolver_getsock(struct Curl_easy *data, curl_socket_t *sock);
+int Curl_resolver_getsock(Curl_easy *data, curl_socket_t *sock);
 
 /*
  * Curl_resolver_is_resolved()
@@ -127,8 +127,7 @@ int Curl_resolver_getsock(struct Curl_easy *data, curl_socket_t *sock);
  *
  * Returns normal CURLcode errors.
  */
-CURLcode Curl_resolver_is_resolved(struct Curl_easy *data,
-                                   struct Curl_dns_entry **dns);
+CURLcode Curl_resolver_is_resolved(Curl_easy *data, Curl_dns_entry **dns);
 
 /*
  * Curl_resolver_wait_resolv()
@@ -141,8 +140,7 @@ CURLcode Curl_resolver_is_resolved(struct Curl_easy *data,
  * Returns CURLE_COULDNT_RESOLVE_HOST if the host was not resolved,
  * CURLE_OPERATION_TIMEDOUT if a time-out occurred, or other errors.
  */
-CURLcode Curl_resolver_wait_resolv(struct Curl_easy *data,
-                                   struct Curl_dns_entry **dnsentry);
+CURLcode Curl_resolver_wait_resolv(Curl_easy *data, Curl_dns_entry **dnsentry);
 
 /*
  * Curl_resolver_getaddrinfo() - when using this resolver
@@ -155,7 +153,7 @@ CURLcode Curl_resolver_wait_resolv(struct Curl_easy *data,
  * Each resolver backend must of course make sure to return data in the
  * correct format to comply with this.
  */
-struct Curl_addrinfo *Curl_resolver_getaddrinfo(struct Curl_easy *data,
+Curl_addrinfo *Curl_resolver_getaddrinfo(Curl_easy *data,
                                                 const char *hostname,
                                                 int port,
                                                 int *waitp);

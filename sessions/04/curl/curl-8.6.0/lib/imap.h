@@ -71,9 +71,9 @@ struct IMAP {
 /* imap_conn is used for struct connection-oriented data in the connectdata
    struct */
 struct imap_conn {
-  struct pingpong pp;
-  struct SASL sasl;           /* SASL-related parameters */
-  struct dynbuf dyn;          /* for the IMAP commands */
+	pingpong pp;
+	SASL sasl;           /* SASL-related parameters */
+	dynbuf dyn;          /* for the IMAP commands */
   char *mailbox;              /* The last selected mailbox */
   char *mailbox_uidvalidity;  /* UIDVALIDITY parsed from select response */
   imapstate state;            /* Always use imap.c:state() to change state! */
@@ -88,7 +88,7 @@ struct imap_conn {
 };
 
 extern const struct Curl_handler Curl_handler_imap;
-extern const struct Curl_handler Curl_handler_imaps;
+extern const Curl_handler Curl_handler_imaps;
 
 /* Authentication type flags */
 #define IMAP_TYPE_CLEARTEXT (1 << 0)

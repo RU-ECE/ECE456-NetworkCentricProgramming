@@ -60,12 +60,12 @@ struct dnsprobe {
   DNStype dnstype;
   unsigned char dohbuffer[512];
   size_t dohlen;
-  struct dynbuf serverdoh;
+  dynbuf serverdoh;
 };
 
 struct dohdata {
-  struct curl_slist *headers;
-  struct dnsprobe probe[DOH_PROBE_SLOTS];
+	curl_slist *headers;
+	dnsprobe probe[DOH_PROBE_SLOTS];
   unsigned int pending; /* still outstanding requests */
   int port;
   const char *host;
@@ -76,15 +76,14 @@ struct dohdata {
  * and returns a 'Curl_addrinfo *' with the address information.
  */
 
-struct Curl_addrinfo *Curl_doh(struct Curl_easy *data,
+Curl_addrinfo *Curl_doh(Curl_easy *data,
                                const char *hostname,
                                int port,
                                int *waitp);
 
-CURLcode Curl_doh_is_resolved(struct Curl_easy *data,
-                              struct Curl_dns_entry **dns);
+CURLcode Curl_doh_is_resolved(Curl_easy *data, Curl_dns_entry **dns);
 
-int Curl_doh_getsock(struct connectdata *conn, curl_socket_t *socks);
+int Curl_doh_getsock(connectdata *conn, curl_socket_t *socks);
 
 #define DOH_MAX_ADDR 24
 #define DOH_MAX_CNAME 4
@@ -98,8 +97,8 @@ struct dohaddr {
 };
 
 struct dohentry {
-  struct dynbuf cname[DOH_MAX_CNAME];
-  struct dohaddr addr[DOH_MAX_ADDR];
+	dynbuf cname[DOH_MAX_CNAME];
+	dohaddr addr[DOH_MAX_ADDR];
   int numaddr;
   unsigned int ttl;
   int numcname;

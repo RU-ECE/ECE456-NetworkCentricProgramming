@@ -50,11 +50,7 @@
 #define CURL_IGNORE_DEPRECATION(statements)     statements
 #endif
 
-#include "curlver.h"         /* libcurl version defines   */
 #include "system.h"          /* determine things run-time */
-
-#include <stdio.h>
-#include <limits.h>
 
 #if defined(__FreeBSD__) || defined(__MidnightBSD__)
 /* Needed for __FreeBSD_version or __MidnightBSD_version symbol definition */
@@ -62,7 +58,6 @@
 #endif
 
 /* The include stuff here below is mainly for time_t! */
-#include <sys/types.h>
 #include <time.h>
 
 #if defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__CYGWIN__)
@@ -93,7 +88,6 @@
 #endif
 
 #if !defined(_WIN32)
-#include <sys/time.h>
 #endif
 
 /* Compatibility for non-Clang compilers */
@@ -174,7 +168,7 @@ typedef enum {
 #define CURLSSLBACKEND_DARWINSSL CURLSSLBACKEND_SECURETRANSPORT
 
 struct curl_httppost {
-  struct curl_httppost *next;       /* next entry in the list */
+	curl_httppost *next;       /* next entry in the list */
   char *name;                       /* pointer to allocated name */
   long namelength;                  /* length of name length */
   char *contents;                   /* pointer to allocated data contents */
@@ -184,7 +178,7 @@ struct curl_httppost {
   long bufferlength;                /* length of buffer field */
   char *contenttype;                /* Content-Type */
   struct curl_slist *contentheader; /* list of extra headers for this form */
-  struct curl_httppost *more;       /* if one field name has more than one
+	curl_httppost *more;       /* if one field name has more than one
                                        file, this link should link to following
                                        files */
   long flags;                       /* as defined below */
@@ -393,7 +387,7 @@ typedef size_t (*curl_read_callback)(char *buffer,
                                       size_t nitems,
                                       void *instream);
 
-typedef int (*curl_trailer_callback)(struct curl_slist **list,
+typedef int (*curl_trailer_callback)(curl_slist **list,
                                       void *userdata);
 
 typedef enum {
@@ -418,15 +412,14 @@ struct curl_sockaddr {
   int socktype;
   int protocol;
   unsigned int addrlen; /* addrlen was a socklen_t type before 7.18.0 but it
-                           turned really ugly and painful on the systems that
-                           lack this type */
-  struct sockaddr addr;
+						   turned really ugly and painful on the systems that
+						   lack this type */
+  sockaddr addr;
 };
 
 typedef curl_socket_t
 (*curl_opensocket_callback)(void *clientp,
-                            curlsocktype purpose,
-                            struct curl_sockaddr *address);
+                            curlsocktype purpose, curl_sockaddr *address);
 
 typedef int
 (*curl_closesocket_callback)(void *clientp, curl_socket_t item);
@@ -847,7 +840,7 @@ struct curl_khkey {
   const char *key; /* points to a null-terminated string encoded with base64
                       if len is zero, otherwise to the "raw" data */
   size_t len;
-  enum curl_khtype keytype;
+  curl_khtype keytype;
 };
 
 /* this is the set of return values expected from the curl_sshkeycallback
@@ -873,9 +866,9 @@ enum curl_khmatch {
 
 typedef int
   (*curl_sshkeycallback) (CURL *easy,     /* easy handle */
-                          const struct curl_khkey *knownkey, /* known */
-                          const struct curl_khkey *foundkey, /* found */
-                          enum curl_khmatch, /* libcurl's view on the keys */
+                          const curl_khkey *knownkey, /* known */
+                          const curl_khkey *foundkey, /* found */
+								   curl_khmatch, /* libcurl's view on the keys */
                           void *clientp); /* custom pointer passed with */
                                           /* CURLOPT_SSH_KEYDATA */
 
@@ -1015,12 +1008,9 @@ typedef enum {
   CURLSTS_FAIL
 } CURLSTScode;
 
-typedef CURLSTScode (*curl_hstsread_callback)(CURL *easy,
-                                              struct curl_hstsentry *e,
+typedef CURLSTScode (*curl_hstsread_callback)(CURL *easy, curl_hstsentry *e,
                                               void *userp);
-typedef CURLSTScode (*curl_hstswrite_callback)(CURL *easy,
-                                               struct curl_hstsentry *e,
-                                               struct curl_index *i,
+typedef CURLSTScode (*curl_hstswrite_callback)(CURL *easy, curl_hstsentry *e, curl_index *i,
                                                void *userp);
 
 /* CURLHSTS_* are bits for the CURLOPT_HSTS option */
@@ -2496,8 +2486,7 @@ CURL_EXTERN CURLcode curl_mime_subparts(curl_mimepart *part,
  *
  * Set mime part headers.
  */
-CURL_EXTERN CURLcode curl_mime_headers(curl_mimepart *part,
-                                       struct curl_slist *headers,
+CURL_EXTERN CURLcode curl_mime_headers(curl_mimepart *part, curl_slist *headers,
                                        int take_ownership);
 
 typedef enum {
@@ -2578,8 +2567,7 @@ typedef enum {
  * CURLOPT_HTTPPOST to send it off to libcurl.
  */
 CURL_EXTERN CURLFORMcode CURL_DEPRECATED(7.56.0, "Use curl_mime_init()")
-curl_formadd(struct curl_httppost **httppost,
-             struct curl_httppost **last_post,
+curl_formadd(curl_httppost **httppost, curl_httppost **last_post,
              ...);
 
 /*
@@ -2604,7 +2592,7 @@ typedef size_t (*curl_formget_callback)(void *arg, const char *buf,
  * Returns 0 on success.
  */
 CURL_EXTERN int CURL_DEPRECATED(7.56.0, "")
-curl_formget(struct curl_httppost *form, void *arg,
+curl_formget(curl_httppost *form, void *arg,
              curl_formget_callback append);
 /*
  * NAME curl_formfree()
@@ -2614,7 +2602,7 @@ curl_formget(struct curl_httppost *form, void *arg,
  * Free a multipart formpost previously built with curl_formadd().
  */
 CURL_EXTERN void CURL_DEPRECATED(7.56.0, "Use curl_mime_free()")
-curl_formfree(struct curl_httppost *form);
+curl_formfree(curl_httppost *form);
 
 /*
  * NAME curl_getenv()
@@ -2744,7 +2732,7 @@ CURL_EXTERN CURLcode curl_global_trace(const char *config);
 /* linked-list structure for the CURLOPT_QUOTE option (and other) */
 struct curl_slist {
   char *data;
-  struct curl_slist *next;
+	curl_slist *next;
 };
 
 /*
@@ -2777,7 +2765,7 @@ struct curl_ssl_backend {
   curl_sslbackend id;
   const char *name;
 };
-typedef struct curl_ssl_backend curl_ssl_backend;
+typedef curl_ssl_backend curl_ssl_backend;
 
 typedef enum {
   CURLSSLSET_OK = 0,
@@ -2797,7 +2785,7 @@ CURL_EXTERN CURLsslset curl_global_sslset(curl_sslbackend id, const char *name,
  * Appends a string to a linked list. If no list exists, it will be created
  * first. Returns the new list, after appending.
  */
-CURL_EXTERN struct curl_slist *curl_slist_append(struct curl_slist *list,
+CURL_EXTERN curl_slist *curl_slist_append(curl_slist *list,
                                                  const char *data);
 
 /*
@@ -2807,7 +2795,7 @@ CURL_EXTERN struct curl_slist *curl_slist_append(struct curl_slist *list,
  *
  * free a previously built curl_slist.
  */
-CURL_EXTERN void curl_slist_free_all(struct curl_slist *list);
+CURL_EXTERN void curl_slist_free_all(curl_slist *list);
 
 /*
  * NAME curl_getdate()
@@ -2824,7 +2812,7 @@ CURL_EXTERN time_t curl_getdate(const char *p, const time_t *unused);
    for with CURLOPT_CERTINFO / CURLINFO_CERTINFO */
 struct curl_certinfo {
   int num_of_certs;             /* number of certificates with information */
-  struct curl_slist **certinfo; /* for each index in this array, there's a
+	curl_slist **certinfo; /* for each index in this array, there's a
                                    linked list with textual information for a
                                    certificate in the format "name:content".
                                    eg "Subject:foo", "Issuer:bar", etc. */
@@ -3114,7 +3102,7 @@ struct curl_version_info_data {
   /* feature_names is terminated by an entry with a NULL feature name */
   const char * const *feature_names;
 };
-typedef struct curl_version_info_data curl_version_info_data;
+typedef curl_version_info_data curl_version_info_data;
 
 #define CURL_VERSION_IPV6         (1<<0)  /* IPv6-enabled */
 #define CURL_VERSION_KERBEROS4    (1<<1)  /* Kerberos V4 auth is supported
@@ -3211,13 +3199,6 @@ CURL_EXTERN CURLcode curl_easy_pause(CURL *handle, int bitmask);
 
 /* unfortunately, the easy.h and multi.h include files need options and info
   stuff before they can be included! */
-#include "easy.h" /* nothing in curl is fun without the easy stuff */
-#include "multi.h"
-#include "urlapi.h"
-#include "options.h"
-#include "header.h"
-#include "websockets.h"
-#include "mprintf.h"
 
 /* the typechecker doesn't work in C++ (yet) */
 #if defined(__GNUC__) && defined(__GNUC_MINOR__) && \

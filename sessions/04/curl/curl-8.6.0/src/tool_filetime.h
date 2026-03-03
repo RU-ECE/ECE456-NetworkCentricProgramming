@@ -23,11 +23,10 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 struct GlobalConfig;
 
-int getfiletime(const char *filename, struct GlobalConfig *global,
+int getfiletime(const char *filename, GlobalConfig *global,
                 curl_off_t *stamp);
 
 #if defined(HAVE_UTIME) || defined(HAVE_UTIMES) ||      \

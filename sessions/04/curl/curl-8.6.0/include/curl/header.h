@@ -60,12 +60,11 @@ CURL_EXTERN CURLHcode curl_easy_header(CURL *easy,
                                        size_t index,
                                        unsigned int origin,
                                        int request,
-                                       struct curl_header **hout);
+									   curl_header **hout);
 
-CURL_EXTERN struct curl_header *curl_easy_nextheader(CURL *easy,
+CURL_EXTERN curl_header *curl_easy_nextheader(CURL *easy,
                                                      unsigned int origin,
-                                                     int request,
-                                                     struct curl_header *prev);
+                                                     int request, curl_header *prev);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

@@ -24,15 +24,13 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
 #include "urldata.h"
 
 #if !defined(CURL_DISABLE_PROXY)
 
-CURLcode Curl_cf_haproxy_insert_after(struct Curl_cfilter *cf_at,
-                                      struct Curl_easy *data);
+CURLcode Curl_cf_haproxy_insert_after(Curl_cfilter *cf_at, Curl_easy *data);
 
-extern struct Curl_cftype Curl_cft_haproxy;
+extern Curl_cftype Curl_cft_haproxy;
 
 #endif /* !CURL_DISABLE_PROXY */
 

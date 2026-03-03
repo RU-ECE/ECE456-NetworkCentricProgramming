@@ -79,7 +79,7 @@ Rubric:
 	  objdump -d prog.o  #display assembler
 	  objdump -d prog.o > prog.s #save assembler to file
 	  ```
-		- TBD: Global and extern variables TBD: we haven't done extern yet
+		- TBD: Global and extern variables TBD: we haven’t done extern yet
 		- TBD: Function prototypes
 	- TBD: Show an error when a function is called in one file that:
 		- TBD: Does not exist

@@ -94,17 +94,17 @@ struct Curl_chunker {
   curl_off_t datasize;
   ChunkyState state;
   CHUNKcode last_code;
-  struct dynbuf trailer; /* for chunked-encoded trailer */
+  dynbuf trailer; /* for chunked-encoded trailer */
   unsigned char hexindex;
   char hexbuffer[CHUNK_MAXNUM_LEN + 1]; /* +1 for null-terminator */
   BIT(ignore_body); /* never write response body data */
 };
 
 /* The following functions are defined in http_chunks.c */
-void Curl_httpchunk_init(struct Curl_easy *data, struct Curl_chunker *ch,
+void Curl_httpchunk_init(struct Curl_easy *data, Curl_chunker *ch,
                          bool ignore_body);
-void Curl_httpchunk_free(struct Curl_easy *data, struct Curl_chunker *ch);
-void Curl_httpchunk_reset(struct Curl_easy *data, struct Curl_chunker *ch,
+void Curl_httpchunk_free(Curl_easy *data, Curl_chunker *ch);
+void Curl_httpchunk_reset(Curl_easy *data, Curl_chunker *ch,
                           bool ignore_body);
 
 /*
@@ -123,13 +123,13 @@ void Curl_httpchunk_reset(struct Curl_easy *data, struct Curl_chunker *ch,
  * This function always uses ASCII hex values to accommodate non-ASCII hosts.
  * For example, 0x0d and 0x0a are used instead of '\r' and '\n'.
  */
-CURLcode Curl_httpchunk_read(struct Curl_easy *data, struct Curl_chunker *ch,
+CURLcode Curl_httpchunk_read(Curl_easy *data, Curl_chunker *ch,
                              char *buf, size_t blen, size_t *pconsumed);
 
 /**
  * @return TRUE iff chunked decoded has finished successfully.
  */
-bool Curl_httpchunk_is_done(struct Curl_easy *data, struct Curl_chunker *ch);
+bool Curl_httpchunk_is_done(Curl_easy *data, Curl_chunker *ch);
 
 extern const struct Curl_cwtype Curl_httpchunk_unencoder;
 

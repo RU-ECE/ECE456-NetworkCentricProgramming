@@ -24,8 +24,6 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 #ifdef HAVE_NETINET_IN_H
 #  include <netinet/in.h>
 #endif
@@ -57,11 +55,11 @@ struct Curl_addrinfo {
   curl_socklen_t        ai_addrlen;   /* Follow rfc3493 struct addrinfo */
   char                 *ai_canonname;
   struct sockaddr      *ai_addr;
-  struct Curl_addrinfo *ai_next;
+  Curl_addrinfo *ai_next;
 };
 
 void
-Curl_freeaddrinfo(struct Curl_addrinfo *cahead);
+Curl_freeaddrinfo(Curl_addrinfo *cahead);
 
 #ifdef HAVE_GETADDRINFO
 int
@@ -71,13 +69,13 @@ Curl_getaddrinfo_ex(const char *nodename,
                     struct Curl_addrinfo **result);
 #endif
 
-struct Curl_addrinfo *
+Curl_addrinfo *
 Curl_he2ai(const struct hostent *he, int port);
 
-struct Curl_addrinfo *
+Curl_addrinfo *
 Curl_ip2addr(int af, const void *inaddr, const char *hostname, int port);
 
-struct Curl_addrinfo *Curl_str2addr(char *dotted, int port);
+Curl_addrinfo *Curl_str2addr(char *dotted, int port);
 
 #ifdef USE_UNIX_SOCKETS
 struct Curl_addrinfo *Curl_unix2addr(const char *path, bool *longpath,

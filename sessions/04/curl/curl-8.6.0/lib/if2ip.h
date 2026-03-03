@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "curl_setup.h"
 
 /* IPv6 address scopes. */
 #define IPV6_SCOPE_GLOBAL       0       /* Global scope. */

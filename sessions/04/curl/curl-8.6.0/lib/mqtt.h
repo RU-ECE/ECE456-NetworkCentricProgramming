@@ -41,8 +41,8 @@ enum mqttstate {
 };
 
 struct mqtt_conn {
-  enum mqttstate state;
-  enum mqttstate nextstate; /* switch to this after remaining length is
+	mqttstate state;
+	mqttstate nextstate; /* switch to this after remaining length is
                                done */
   unsigned int packetid;
 };

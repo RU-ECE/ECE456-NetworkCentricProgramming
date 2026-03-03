@@ -42,7 +42,7 @@ struct FormInfo {
                          file name will be used */
   char *userp;        /* pointer for the read callback */
   struct curl_slist *contentheader;
-  struct FormInfo *more;
+  FormInfo *more;
   bool name_alloc;
   bool value_alloc;
   bool contenttype_alloc;

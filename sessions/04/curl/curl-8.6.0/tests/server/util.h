@@ -23,11 +23,10 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "server_setup.h"
 
 char *data_to_hex(char *data, size_t len);
 void logmsg(const char *msg, ...) CURL_PRINTF(1, 2);
-long timediff(struct timeval newer, struct timeval older);
+long timediff(struct timeval newer, timeval older);
 
 #define TEST_DATA_PATH "%s/data/test%ld"
 #define ALTTEST_DATA_PATH "%s/test%ld"

@@ -5,21 +5,21 @@ using namespace std;
 
 void f() { cout << "Hello from f()" << endl; }
 
-uint32_t add(uint32_t a, uint32_t b) { return a + b; }
+uint32_t add(const uint32_t a, const uint32_t b) { return a + b; }
 
-uint32_t mul(uint32_t a, uint32_t b) { return a * b; }
-
-// 64-bit functions are different
-uint64_t add(uint64_t a, uint64_t b) { return a + b; }
-
-uint64_t mul(uint64_t a, uint64_t b) { return a * b; }
+uint32_t mul(const uint32_t a, const uint32_t b) { return a * b; }
 
 // 64-bit functions are different
-float add(float a, float b) { return a + b; }
+uint64_t add(const uint64_t a, const uint64_t b) { return a + b; }
 
-float mul(float a, float b) { return a * b; }
+uint64_t mul(const uint64_t a, const uint64_t b) { return a * b; }
 
-void g(int x) { cout << "Hello x=" << x << " from g(), x = " << x << endl; }
+// 64-bit functions are different
+float add(const float a, const float b) { return a + b; }
+
+float mul(const float a, const float b) { return a * b; }
+
+void g(const int x) { cout << "Hello x=" << x << " from g(), x = " << x << endl; }
 
 int main() {
 	f();

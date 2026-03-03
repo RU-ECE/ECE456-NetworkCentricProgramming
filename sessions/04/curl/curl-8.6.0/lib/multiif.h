@@ -29,23 +29,23 @@
  */
 
 CURLcode Curl_updatesocket(struct Curl_easy *data);
-void Curl_expire(struct Curl_easy *data, timediff_t milli, expire_id);
-void Curl_expire_clear(struct Curl_easy *data);
-void Curl_expire_done(struct Curl_easy *data, expire_id id);
+void Curl_expire(Curl_easy *data, timediff_t milli, expire_id);
+void Curl_expire_clear(Curl_easy *data);
+void Curl_expire_done(Curl_easy *data, expire_id id);
 CURLMcode Curl_update_timer(struct Curl_multi *multi) WARN_UNUSED_RESULT;
-void Curl_attach_connection(struct Curl_easy *data,
+void Curl_attach_connection(Curl_easy *data,
                              struct connectdata *conn);
-void Curl_detach_connection(struct Curl_easy *data);
-bool Curl_multiplex_wanted(const struct Curl_multi *multi);
-void Curl_set_in_callback(struct Curl_easy *data, bool value);
-bool Curl_is_in_callback(struct Curl_easy *easy);
-CURLcode Curl_preconnect(struct Curl_easy *data);
+void Curl_detach_connection(Curl_easy *data);
+bool Curl_multiplex_wanted(const Curl_multi *multi);
+void Curl_set_in_callback(Curl_easy *data, bool value);
+bool Curl_is_in_callback(Curl_easy *easy);
+CURLcode Curl_preconnect(Curl_easy *data);
 
-void Curl_multi_connchanged(struct Curl_multi *multi);
+void Curl_multi_connchanged(Curl_multi *multi);
 
 /* Internal version of curl_multi_init() accepts size parameters for the
    socket, connection and dns hashes */
-struct Curl_multi *Curl_multi_handle(int hashsize, int chashsize,
+Curl_multi *Curl_multi_handle(int hashsize, int chashsize,
                                      int dnssize);
 
 /* the write bits start at bit 16 for the *getsock() bitmap */
@@ -63,12 +63,12 @@ struct Curl_multi *Curl_multi_handle(int hashsize, int chashsize,
 #define GETSOCK_MASK_RW(x) (GETSOCK_READSOCK(x)|GETSOCK_WRITESOCK(x))
 
 /* Return the value of the CURLMOPT_MAX_HOST_CONNECTIONS option */
-size_t Curl_multi_max_host_connections(struct Curl_multi *multi);
+size_t Curl_multi_max_host_connections(Curl_multi *multi);
 
 /* Return the value of the CURLMOPT_MAX_TOTAL_CONNECTIONS option */
-size_t Curl_multi_max_total_connections(struct Curl_multi *multi);
+size_t Curl_multi_max_total_connections(Curl_multi *multi);
 
-void Curl_multiuse_state(struct Curl_easy *data,
+void Curl_multiuse_state(Curl_easy *data,
                          int bundlestate); /* use BUNDLE_* defines */
 
 /*
@@ -81,17 +81,15 @@ void Curl_multiuse_state(struct Curl_easy *data,
  * socket again and it gets the same file descriptor number.
  */
 
-void Curl_multi_closed(struct Curl_easy *data, curl_socket_t s);
+void Curl_multi_closed(Curl_easy *data, curl_socket_t s);
 
 /*
  * Add a handle and move it into PERFORM state at once. For pushed streams.
  */
-CURLMcode Curl_multi_add_perform(struct Curl_multi *multi,
-                                 struct Curl_easy *data,
-                                 struct connectdata *conn);
+CURLMcode Curl_multi_add_perform(Curl_multi *multi, Curl_easy *data, connectdata *conn);
 
 
 /* Return the value of the CURLMOPT_MAX_CONCURRENT_STREAMS option */
-unsigned int Curl_multi_max_concurrent_streams(struct Curl_multi *multi);
+unsigned int Curl_multi_max_concurrent_streams(Curl_multi *multi);
 
 #endif /* HEADER_CURL_MULTIIF_H */

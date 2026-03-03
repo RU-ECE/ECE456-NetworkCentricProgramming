@@ -23,11 +23,10 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 struct OperationConfig;
 
-void clean_getout(struct OperationConfig *config);
+void clean_getout(OperationConfig *config);
 
 bool output_expected(const char *url, const char *uploadfile);
 

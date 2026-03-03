@@ -24,8 +24,6 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 struct Curl_sockaddr_storage {
   union {
     struct sockaddr sa;

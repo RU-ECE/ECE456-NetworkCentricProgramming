@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 #define CURL_PROGRESS_STATS 0 /* default progress display */
 #define CURL_PROGRESS_BAR   1
@@ -40,7 +39,7 @@ struct ProgressData {
   int barmove;
 };
 
-void progressbarinit(struct ProgressData *bar,
+void progressbarinit(ProgressData *bar,
                      struct OperationConfig *config);
 
 /*

@@ -23,7 +23,6 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "tool_setup.h"
 
 typedef enum {
   UPTSet = 1,
@@ -61,7 +60,7 @@ struct URLPattern {
 #define GLOB_PATTERN_NUM 100
 
 struct URLGlob {
-  struct URLPattern pattern[GLOB_PATTERN_NUM];
+	URLPattern pattern[GLOB_PATTERN_NUM];
   size_t size;
   size_t urllen;
   char *glob_buffer;
@@ -70,9 +69,9 @@ struct URLGlob {
   size_t pos;        /* column position of error or 0 */
 };
 
-CURLcode glob_url(struct URLGlob**, char *, curl_off_t *, FILE *);
-CURLcode glob_next_url(char **, struct URLGlob *);
-CURLcode glob_match_url(char **, char *, struct URLGlob *);
-void glob_cleanup(struct URLGlob *glob);
+CURLcode glob_url(URLGlob**, char *, curl_off_t *, FILE *);
+CURLcode glob_next_url(char **, URLGlob *);
+CURLcode glob_match_url(char **, char *, URLGlob *);
+void glob_cleanup(URLGlob *glob);
 
 #endif /* HEADER_CURL_TOOL_URLGLOB_H */

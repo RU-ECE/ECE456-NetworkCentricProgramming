@@ -106,7 +106,7 @@ struct CURLMsg {
     CURLcode result;   /* return code for transfer */
   } data;
 };
-typedef struct CURLMsg CURLMsg;
+typedef CURLMsg CURLMsg;
 
 /* Based on poll(2) structure and values.
  * We don't use pollfd and POLL* constants explicitly
@@ -173,8 +173,7 @@ CURL_EXTERN CURLMcode curl_multi_fdset(CURLM *multi_handle,
  *
  * Returns:  CURLMcode type, general multi error code.
  */
-CURL_EXTERN CURLMcode curl_multi_wait(CURLM *multi_handle,
-                                      struct curl_waitfd extra_fds[],
+CURL_EXTERN CURLMcode curl_multi_wait(CURLM *multi_handle, curl_waitfd extra_fds[],
                                       unsigned int extra_nfds,
                                       int timeout_ms,
                                       int *ret);
@@ -187,8 +186,7 @@ CURL_EXTERN CURLMcode curl_multi_wait(CURLM *multi_handle,
  *
  * Returns:  CURLMcode type, general multi error code.
  */
-CURL_EXTERN CURLMcode curl_multi_poll(CURLM *multi_handle,
-                                      struct curl_waitfd extra_fds[],
+CURL_EXTERN CURLMcode curl_multi_poll(CURLM *multi_handle, curl_waitfd extra_fds[],
                                       unsigned int extra_nfds,
                                       int timeout_ms,
                                       int *ret);
@@ -453,15 +451,14 @@ CURL_EXTERN CURL **curl_multi_get_handles(CURLM *multi_handle);
 
 struct curl_pushheaders;  /* forward declaration only */
 
-CURL_EXTERN char *curl_pushheader_bynum(struct curl_pushheaders *h,
+CURL_EXTERN char *curl_pushheader_bynum(curl_pushheaders *h,
                                         size_t num);
-CURL_EXTERN char *curl_pushheader_byname(struct curl_pushheaders *h,
+CURL_EXTERN char *curl_pushheader_byname(curl_pushheaders *h,
                                          const char *name);
 
 typedef int (*curl_push_callback)(CURL *parent,
                                   CURL *easy,
-                                  size_t num_headers,
-                                  struct curl_pushheaders *headers,
+                                  size_t num_headers, curl_pushheaders *headers,
                                   void *userp);
 
 #ifdef __cplusplus

@@ -24,8 +24,6 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 int Curl_inet_pton(int, const char *, void *);
 
 #ifdef HAVE_INET_PTON
