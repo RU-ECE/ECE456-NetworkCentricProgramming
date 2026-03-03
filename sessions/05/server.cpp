@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <cstring>
 
 using namespace std;
 
@@ -26,17 +27,35 @@ void wait_for_client(const char* port) {
 	}
 
 	cout << "Waiting for client connection..." << endl;
+	char buf[4096]; // use this buffer for all the messages incoming from the client...
+	char reply[1024]; // use this buffer for formulating replies
+	// note: if you send more than 4096 bytes, we will truncate the message. This isn't great behavior.
+	int msg_num = 0;
 	do {
 		const int client_sock = accept(server_sock, nullptr, nullptr);
+		msg_num++; // each time we receive a message, increase the count.
 		if (client_sock < 0) {
 			close(server_sock);
 			throw runtime_error("Accept failed");
 		}
-		const int bytes_written = send(client_sock, "Hello, yourself!", 17, 0);
+		int bytes_read = recv(client_sock, buf, sizeof(buf), 0);
+		if (bytes_read < 0)
+		  cerr << "server: Error reading from socket";
+
+		sprintf(reply, "Hello yourself. This is message# %d\n", msg_num);
+		const int bytes_written = send(client_sock, reply, strlen(reply), 0);
 		if (bytes_written == -1) {
 			close(client_sock);
 			throw runtime_error("Failed to send message");
 		}
+		cerr << "reading big file: ";
+		do {
+			//receive chunks of data. We only have 4k buffer
+			bytes_read = recv(client_sock, buf, sizeof(buf), 0);
+			cerr << bytes_read << "..."; 
+		} while (bytes_read > 0);
+		if (bytes_read < 0)
+		  cerr << "server: Error reading from socket";
 	} while (true);
 
 	cout << "Connected to server successfully!" << endl;
