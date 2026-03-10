@@ -1,0 +1,267 @@
+\input{test_preamble}
+
+\title{ECE456 Network Centric Programming -- Socket Programming}
+\date{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{questions}
+
+%------------------------------------------------
+\question[6]
+
+Fill in the missing line to send a short message.
+
+\begin{lstlisting}[language=C]
+#include <sys/socket.h>
+
+int main() {
+
+    int sock;
+
+    const char* msg = "hello";
+
+    ________(sock, msg, 5, 0);
+}
+\end{lstlisting}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[6]
+
+What condition indicates an error from \texttt{recv()}?
+
+\begin{lstlisting}[language=C]
+int n = recv(sock, buf, 1000, 0);
+\end{lstlisting}
+
+Circle the correct answer.
+
+\begin{itemize}
+\item n $<$ 0
+\item n $<$ 1000
+\item n $>$ 0
+\end{itemize}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[6]
+
+What does a return value of **0** from \texttt{recv()} indicate?
+
+Short answer.
+
+\vspace{2cm}
+
+%------------------------------------------------
+\question[8]
+
+What is wrong with the following code?
+
+(single phrase)
+
+\begin{lstlisting}[language=C]
+int n = recv(sock, buf, 1024, 0);
+
+if(n < 1024) {
+    printf("error\n");
+}
+\end{lstlisting}
+
+Answer:
+
+\vspace{2cm}
+
+%------------------------------------------------
+\question[10]
+
+Consider the following client code.
+
+\begin{lstlisting}[language=C]
+const char* msg = "HELLO";
+
+send(sock, msg, 5, 0);
+\end{lstlisting}
+
+Is it guaranteed that all 5 bytes are sent?
+
+\begin{itemize}
+\item Yes
+\item No
+\end{itemize}
+
+If no, what must the program do?
+
+\begin{itemize}
+\item retry in a loop
+\item reopen the socket
+\item call fork()
+\end{itemize}
+
+%------------------------------------------------
+\question[10]
+
+Fill in the missing code so the program sends the entire buffer.
+
+\begin{lstlisting}[language=C]
+int sent = 0;
+
+while(sent < len) {
+
+    int n = send(sock,
+                 buf + sent,
+                 len - sent,
+                 0);
+
+    if(n < 0)
+        return -1;
+
+    __________;
+}
+\end{lstlisting}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[10]
+
+Fill in the missing code so the program receives a full message.
+
+\begin{lstlisting}[language=C]
+int received = 0;
+
+while(received < len) {
+
+    int n = recv(sock,
+                 buf + received,
+                 len - received,
+                 0);
+
+    if(n < 0)
+        return -1;
+
+    __________;
+}
+\end{lstlisting}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[8]
+
+What does the following IP address represent?
+
+\begin{center}
+127.0.0.1
+\end{center}
+
+Short answer.
+
+\vspace{2cm}
+
+%------------------------------------------------
+\question[8]
+
+Which protocol guarantees reliable delivery?
+
+\begin{itemize}
+\item UDP
+\item TCP
+\end{itemize}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[10]
+
+A TCP client sends a message.
+
+The client later receives an **ACK** packet.
+
+Does this guarantee that the server application has processed the message?
+
+\begin{itemize}
+\item Yes
+\item No
+\end{itemize}
+
+\vspace{1cm}
+
+%------------------------------------------------
+\question[10]
+
+What layer generates the ACK packet?
+
+\begin{itemize}
+\item Application
+\item TCP
+\item IP
+\end{itemize}
+
+%------------------------------------------------
+\question[12]
+
+Consider the following server code.
+
+\begin{lstlisting}[language=C]
+int client = accept(server_fd, NULL, NULL);
+
+char buf[100];
+
+recv(client, buf, 100, 0);
+
+printf("%s\n", buf);
+\end{lstlisting}
+
+Is it guaranteed that the full message was received?
+
+\begin{itemize}
+\item Yes
+\item No
+\end{itemize}
+
+Brief reason:
+
+\vspace{2cm}
+
+%------------------------------------------------
+\question[12]
+
+What is wrong with the following code?
+
+(single phrase)
+
+\begin{lstlisting}[language=C]
+char buf[100];
+
+int n = recv(sock, buf, 100, 0);
+
+printf("%s\n", buf);
+\end{lstlisting}
+
+Answer:
+
+\vspace{2cm}
+
+%------------------------------------------------
+\question[15]
+
+Write a loop that reads from a socket until the connection closes.
+
+Use:
+
+\begin{itemize}
+\item recv
+\item break when recv returns 0
+\end{itemize}
+
+\vspace{6cm}
+
+\end{questions}
+
+\end{document}
