@@ -31,6 +31,14 @@ public:
 
     TextBuffer() { lines.push_back(""); }
 
+  	string get_text() const {
+			string test;
+			test.reserve(lines.size() * 80);
+			for (auto& s : lines)
+				test += s;
+			return test;
+		}
+	
     void apply(const Change& c) {
         if (c.line >= lines.size()) return;
 

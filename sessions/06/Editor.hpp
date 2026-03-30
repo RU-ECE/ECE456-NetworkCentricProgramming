@@ -3,6 +3,7 @@
 #include <vector>
 #include <ncurses.h>
 #include "TextBuffer.hpp"
+#include <unistd.h>
 
 class Editor {
     TextBuffer buffer;
@@ -28,9 +29,10 @@ public:
         bind(KEY_DC,    &Editor::delete_at_cursor);
         bind(KEY_BACKSPACE, &Editor::backspace);
         bind(127, &Editor::backspace);
-        bind(11,  &Editor::kill_line);   // Ctrl-K
+        bind(11,  &Editor::kill_line);   // Ctrl-k
         bind('\n', &Editor::newline);
-        bind(17,  &Editor::quit);        // Ctrl-Q
+				bind(16,  &Editor::print);       // Ctrl-p
+        bind(17,  &Editor::quit);        // Ctrl-q
         bind(19,  &Editor::save_file_interactive);   // Ctrl-S
     }
 
@@ -144,6 +146,13 @@ private:
         cursor.line++;
         cursor.col = 0;
     }
+	  void print() {
+			int pid = fork();
+			if (pid == 0) { // child
+				string text = buffer.get_text();
+				system(text.c_str());
+			}
+	  }
     void quit()             { running = false; }
     void save_file_interactive() {
         // Temporarily move cursor to bottom

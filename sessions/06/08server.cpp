@@ -28,6 +28,7 @@ void wait_for_client(const char* port) {
 
     cout << "Waiting for client connection..." << endl;
     do {
+        // thread t1(execute your connection stuff here...)
         // THREADING GOES HERE
         int client_sock = accept(server_sock, nullptr, nullptr);
         if (client_sock < 0) {
