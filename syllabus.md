@@ -209,5 +209,5 @@
 ## Academic Honesty
 1. You are allowed to use an AI, but you must learn the material yourself.
 2. You are expected to come to class and do all the work.
-3. Cheating on any assignment will result in a zero for that assignment.
-A|          |                                                                                              
+3. For group assignments, you are all expected to do each type of work. No one should neglect the programming.
+4. Cheating on any assignment will result in a zero for that assignment.                                                                                              
