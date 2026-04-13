@@ -198,4 +198,16 @@
 | 12   | 4/13 | Web servers (HTTP), secure web servers (HTTPS)                                                                                                                  |                                                                      |          |                                                                                                                                                                                                  |
 | 13   | 4/20 | Data formats (XML, JSON, YML). Inclass read a JSON file, write a cheaper config format.                                                                                                               |                                                                      |          |                                                                                                                                                                                                  |
 | 14   | 4/27 | Run a Local AI (ollama). Write code to access it                                                                  |                                                                      |          |                                                                                                                                                                                                  |
-| 15   | 5/4  | Last class: TBD                                                                                                                                                  |                                                                      |          |                                                                                              
+| 15   | 5/4  | Last class: TBD                                                                                                                                                  |          
+## Grading
+
+- Midterm 40%
+- Homework 20%
+- Inclass  20%
+- Projects 20% (basically a larger homework)
+
+## Academic Honesty
+1. You are allowed to use an AI, but you must learn the material yourself.
+2. You are expected to come to class and do all the work.
+3. Cheating on any assignment will result in a zero for that assignment.
+A|          |                                                                                              
