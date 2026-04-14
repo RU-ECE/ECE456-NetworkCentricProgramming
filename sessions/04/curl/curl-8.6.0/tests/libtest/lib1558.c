@@ -21,49 +21,43 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
+#include "memdebug.h"
 #include "test.h"
-
 #include "testutil.h"
 #include "warnless.h"
-#include "memdebug.h"
 
-int test(char *URL)
-{
-  CURLcode res = CURLE_OK;
-  CURL *curl = NULL;
-  long protocol = 0;
+int test(char* URL) {
+	CURLcode res = CURLE_OK;
+	CURL* curl = NULL;
+	long protocol = 0;
 
-  global_init(CURL_GLOBAL_ALL);
-  easy_init(curl);
+	global_init(CURL_GLOBAL_ALL);
+	easy_init(curl);
 
-  easy_setopt(curl, CURLOPT_URL, URL);
-  res = curl_easy_perform(curl);
-  if(res) {
-    fprintf(stderr, "curl_easy_perform() returned %d (%s)\n",
-            res, curl_easy_strerror(res));
-    goto test_cleanup;
-  }
+	easy_setopt(curl, CURLOPT_URL, URL);
+	res = curl_easy_perform(curl);
+	if (res) {
+		fprintf(stderr, "curl_easy_perform() returned %d (%s)\n", res, curl_easy_strerror(res));
+		goto test_cleanup;
+	}
 
-  CURL_IGNORE_DEPRECATION(
-    res = curl_easy_getinfo(curl, CURLINFO_PROTOCOL, &protocol);
-  )
-  if(res) {
-    fprintf(stderr, "curl_easy_getinfo() returned %d (%s)\n",
-            res, curl_easy_strerror(res));
-    goto test_cleanup;
-  }
+	CURL_IGNORE_DEPRECATION(res = curl_easy_getinfo(curl, CURLINFO_PROTOCOL, &protocol);)
+	if (res) {
+		fprintf(stderr, "curl_easy_getinfo() returned %d (%s)\n", res, curl_easy_strerror(res));
+		goto test_cleanup;
+	}
 
-  printf("Protocol: %lx\n", protocol);
+	printf("Protocol: %lx\n", protocol);
 
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 
-  return 0;
+	return 0;
 
 test_cleanup:
 
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 
-  return res; /* return the final return code */
+	return res; /* return the final return code */
 }

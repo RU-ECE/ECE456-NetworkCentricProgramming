@@ -42,11 +42,11 @@ typedef curl_off_t timediff_t;
  *    tv with 0 in both fields IF ms == 0 (eg. 0ms timeout -> polling select)
  *    tv with converted fields IF ms > 0 (eg. >0ms timeout -> waiting select)
  */
-struct timeval *curlx_mstotv(struct timeval *tv, timediff_t ms);
+struct timeval* curlx_mstotv(struct timeval* tv, timediff_t ms);
 
 /*
  * Converts a timeval structure into number of milliseconds.
  */
-timediff_t curlx_tvtoms(struct timeval *tv);
+timediff_t curlx_tvtoms(struct timeval* tv);
 
 #endif /* HEADER_CURL_TIMEDIFF_H */

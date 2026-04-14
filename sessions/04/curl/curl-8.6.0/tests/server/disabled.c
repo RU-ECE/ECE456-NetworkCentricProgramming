@@ -31,87 +31,86 @@
  * in this table.
  */
 
+#include <stdio.h>
+
 #include "curl_setup.h"
 #include "multihandle.h" /* for ENABLE_WAKEUP */
 #include "tool_xattr.h" /* for USE_XATTR */
-#include <stdio.h>
 
-static const char *disabled[]={
+static const char* disabled[] = {
 #ifdef CURL_DISABLE_BINDLOCAL
-  "bindlocal",
+	"bindlocal",
 #endif
 #ifdef CURL_DISABLE_COOKIES
-  "cookies",
+	"cookies",
 #endif
 #ifdef CURL_DISABLE_BASIC_AUTH
-  "basic-auth",
+	"basic-auth",
 #endif
 #ifdef CURL_DISABLE_BEARER_AUTH
-  "bearer-auth",
+	"bearer-auth",
 #endif
 #ifdef CURL_DISABLE_DIGEST_AUTH
-  "digest-auth",
+	"digest-auth",
 #endif
 #ifdef CURL_DISABLE_NEGOTIATE_AUTH
-  "negotiate-auth",
+	"negotiate-auth",
 #endif
 #ifdef CURL_DISABLE_AWS
-  "aws",
+	"aws",
 #endif
 #ifdef CURL_DISABLE_DOH
-  "DoH",
+	"DoH",
 #endif
 #ifdef CURL_DISABLE_HTTP_AUTH
-  "HTTP-auth",
+	"HTTP-auth",
 #endif
 #ifdef CURL_DISABLE_MIME
-  "Mime",
+	"Mime",
 #endif
 #ifdef CURL_DISABLE_NETRC
-  "netrc",
+	"netrc",
 #endif
 #ifdef CURL_DISABLE_PARSEDATE
-  "parsedate",
+	"parsedate",
 #endif
 #ifdef CURL_DISABLE_PROXY
-  "proxy",
+	"proxy",
 #endif
 #ifdef CURL_DISABLE_SHUFFLE_DNS
-  "shuffle-dns",
+	"shuffle-dns",
 #endif
 #ifdef CURL_DISABLE_TYPECHECK
-  "typecheck",
+	"typecheck",
 #endif
 #ifdef CURL_DISABLE_VERBOSE_STRINGS
-  "verbose-strings",
+	"verbose-strings",
 #endif
 #ifndef ENABLE_WAKEUP
-  "wakeup",
+	"wakeup",
 #endif
 #ifdef CURL_DISABLE_HEADERS_API
-  "headers-api",
+	"headers-api",
 #endif
 #ifndef USE_XATTR
-  "xattr",
+	"xattr",
 #endif
 #ifdef CURL_DISABLE_FORM_API
-  "form-api",
+	"form-api",
 #endif
 #if (SIZEOF_TIME_T < 5)
-  "large-time",
+	"large-time",
 #endif
-  NULL
-};
+	NULL};
 
-int main(int argc, char **argv)
-{
-  int i;
+int main(int argc, char** argv) {
+	int i;
 
-  (void) argc;
-  (void) argv;
+	(void)argc;
+	(void)argv;
 
-  for(i = 0; disabled[i]; i++)
-    printf("%s\n", disabled[i]);
+	for (i = 0; disabled[i]; i++)
+		printf("%s\n", disabled[i]);
 
-  return 0;
+	return 0;
 }

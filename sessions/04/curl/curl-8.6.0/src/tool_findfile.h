@@ -30,6 +30,6 @@
 #define CURLRC_DOTSCORE 1 /* regular .curlrc check */
 #endif
 
-char *findfile(const char *fname, int dotscore);
+char* findfile(const char* fname, int dotscore);
 
 #endif /* HEADER_CURL_TOOL_HOMEDIR_H */

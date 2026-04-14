@@ -26,76 +26,70 @@
 #       libcurl compilation script for the OS/400.
 #
 
-SCRIPTDIR=`dirname "${0}"`
+SCRIPTDIR=$(dirname "${0}")
 . "${SCRIPTDIR}/initscript.sh"
 cd "${TOPDIR}/lib"
 
 #       Need to have IFS access to the mih/cipher header file.
 
-if action_needed cipher.mih '/QSYS.LIB/QSYSINC.LIB/MIH.FILE/CIPHER.MBR'
-then    rm -f cipher.mih
-        ln -s '/QSYS.LIB/QSYSINC.LIB/MIH.FILE/CIPHER.MBR' cipher.mih
+if action_needed cipher.mih '/QSYS.LIB/QSYSINC.LIB/MIH.FILE/CIPHER.MBR'; then
+	rm -f cipher.mih
+	ln -s '/QSYS.LIB/QSYSINC.LIB/MIH.FILE/CIPHER.MBR' cipher.mih
 fi
-
 
 #      Create and compile the identification source file.
 
-echo '#pragma comment(user, "libcurl version '"${LIBCURL_VERSION}"'")' > os400.c
-echo '#pragma comment(user, __DATE__)' >> os400.c
-echo '#pragma comment(user, __TIME__)' >> os400.c
-echo '#pragma comment(copyright, "Copyright (C) Daniel Stenberg et al. OS/400 version by P. Monnerat")' >> os400.c
-make_module     OS400           os400.c         BUILDING_LIBCURL
-LINK=                           # No need to rebuild service program yet.
+echo '#pragma comment(user, "libcurl version '"${LIBCURL_VERSION}"'")' >os400.c
+echo '#pragma comment(user, __DATE__)' >>os400.c
+echo '#pragma comment(user, __TIME__)' >>os400.c
+echo '#pragma comment(copyright, "Copyright (C) Daniel Stenberg et al. OS/400 version by P. Monnerat")' >>os400.c
+make_module OS400 os400.c BUILDING_LIBCURL
+LINK= # No need to rebuild service program yet.
 MODULES=
-
 
 #       Get source list (CSOURCES variable).
 
 get_make_vars Makefile.inc
 
-
 #       Compile the sources into modules.
 
-INCLUDES="'`pwd`'"
+INCLUDES="'$(pwd)'"
 
-make_module     OS400SYS        "${SCRIPTDIR}/os400sys.c"       BUILDING_LIBCURL
-make_module     CCSIDCURL       "${SCRIPTDIR}/ccsidcurl.c"      BUILDING_LIBCURL
+make_module OS400SYS "${SCRIPTDIR}/os400sys.c" BUILDING_LIBCURL
+make_module CCSIDCURL "${SCRIPTDIR}/ccsidcurl.c" BUILDING_LIBCURL
 
-for SRC in ${CSOURCES}
-do      MODULE=`db2_name "${SRC}"`
-        make_module "${MODULE}" "${SRC}" BUILDING_LIBCURL
+for SRC in ${CSOURCES}; do
+	MODULE=$(db2_name "${SRC}")
+	make_module "${MODULE}" "${SRC}" BUILDING_LIBCURL
 done
-
 
 #       If needed, (re)create the static binding directory.
 
-if action_needed "${LIBIFSNAME}/${STATBNDDIR}.BNDDIR"
-then    LINK=YES
+if action_needed "${LIBIFSNAME}/${STATBNDDIR}.BNDDIR"; then
+	LINK=YES
 fi
 
-if [ "${LINK}" ]
-then    rm -rf "${LIBIFSNAME}/${STATBNDDIR}.BNDDIR"
-        CMD="CRTBNDDIR BNDDIR(${TARGETLIB}/${STATBNDDIR})"
-        CMD="${CMD} TEXT('LibCurl API static binding directory')"
-        CLcommand "${CMD}"
+if [ "${LINK}" ]; then
+	rm -rf "${LIBIFSNAME}/${STATBNDDIR}.BNDDIR"
+	CMD="CRTBNDDIR BNDDIR(${TARGETLIB}/${STATBNDDIR})"
+	CMD="${CMD} TEXT('LibCurl API static binding directory')"
+	CLcommand "${CMD}"
 
-        for MODULE in ${MODULES}
-        do      CMD="ADDBNDDIRE BNDDIR(${TARGETLIB}/${STATBNDDIR})"
-                CMD="${CMD} OBJ((${TARGETLIB}/${MODULE} *MODULE))"
-                CLcommand "${CMD}"
-        done
+	for MODULE in ${MODULES}; do
+		CMD="ADDBNDDIRE BNDDIR(${TARGETLIB}/${STATBNDDIR})"
+		CMD="${CMD} OBJ((${TARGETLIB}/${MODULE} *MODULE))"
+		CLcommand "${CMD}"
+	done
 fi
-
 
 #       The exportation file for service program creation must be in a DB2
 #               source file, so make sure it exists.
 
-if action_needed "${LIBIFSNAME}/TOOLS.FILE"
-then    CMD="CRTSRCPF FILE(${TARGETLIB}/TOOLS) RCDLEN(112)"
-        CMD="${CMD} TEXT('curl: build tools')"
-        CLcommand "${CMD}"
+if action_needed "${LIBIFSNAME}/TOOLS.FILE"; then
+	CMD="CRTSRCPF FILE(${TARGETLIB}/TOOLS) RCDLEN(112)"
+	CMD="${CMD} TEXT('curl: build tools')"
+	CLcommand "${CMD}"
 fi
-
 
 #       Gather the list of symbols to export.
 #       First use awk to pull all CURL_EXTERN function prototypes from
@@ -103,11 +97,11 @@ fi
 #       and CURL_TEMP_PRINTF(..) then back to awk to pull the string
 #       immediately to the left of a bracket stripping any spaces or *'s.
 
-EXPORTS=`awk '/^CURL_EXTERN/,/;/'                                       \
-              "${TOPDIR}"/include/curl/*.h                              \
-              "${SCRIPTDIR}/ccsidcurl.h"                                |
-         sed 's/ CURL_DEPRECATED(.*)//g;s/ CURL_TEMP_PRINTF(.*)//g'     |
-         awk '{br=index($0,"(");                                        \
+EXPORTS=$(awk '/^CURL_EXTERN/,/;/' \
+	"${TOPDIR}"/include/curl/*.h \
+	"${SCRIPTDIR}/ccsidcurl.h" |
+	sed 's/ CURL_DEPRECATED(.*)//g;s/ CURL_TEMP_PRINTF(.*)//g' |
+	awk '{br=index($0,"(");                                        \
               if (br) {                                                 \
                 for(c=br-1; ;c--) {                                     \
                   if (c==1) {                                           \
@@ -117,67 +111,65 @@ EXPORTS=`awk '/^CURL_EXTERN/,/;/'                                       \
                   }                                                     \
                 }                                                       \
               }                                                         \
-        }'`
+        }')
 
 #       Create the service program exportation file in DB2 member if needed.
 
 BSF="${LIBIFSNAME}/TOOLS.FILE/BNDSRC.MBR"
 
-if action_needed "${BSF}" Makefile.am
-then    LINK=YES
+if action_needed "${BSF}" Makefile.am; then
+	LINK=YES
 fi
 
-if [ "${LINK}" ]
-then    echo " STRPGMEXP PGMLVL(*CURRENT) SIGNATURE('LIBCURL_${SONAME}')" \
-            > "${BSF}"
-        for EXPORT in ${EXPORTS}
-        do      echo ' EXPORT    SYMBOL("'"${EXPORT}"'")' >> "${BSF}"
-        done
+if [ "${LINK}" ]; then
+	echo " STRPGMEXP PGMLVL(*CURRENT) SIGNATURE('LIBCURL_${SONAME}')" \
+		>"${BSF}"
+	for EXPORT in ${EXPORTS}; do
+		echo ' EXPORT    SYMBOL("'"${EXPORT}"'")' >>"${BSF}"
+	done
 
-        echo ' ENDPGMEXP' >> "${BSF}"
+	echo ' ENDPGMEXP' >>"${BSF}"
 fi
-
 
 #       Build the service program if needed.
 
-if action_needed "${LIBIFSNAME}/${SRVPGM}.SRVPGM"
-then    LINK=YES
+if action_needed "${LIBIFSNAME}/${SRVPGM}.SRVPGM"; then
+	LINK=YES
 fi
 
-if [ "${LINK}" ]
-then    CMD="CRTSRVPGM SRVPGM(${TARGETLIB}/${SRVPGM})"
-        CMD="${CMD} SRCFILE(${TARGETLIB}/TOOLS) SRCMBR(BNDSRC)"
-        CMD="${CMD} MODULE(${TARGETLIB}/OS400)"
-        CMD="${CMD} BNDDIR(${TARGETLIB}/${STATBNDDIR}"
-        if [ "${WITH_ZLIB}" != 0 ]
-        then    CMD="${CMD} ${ZLIB_LIB}/${ZLIB_BNDDIR}"
-                liblist -a "${ZLIB_LIB}"
-        fi
-        if [ "${WITH_LIBSSH2}" != 0 ]
-        then    CMD="${CMD} ${LIBSSH2_LIB}/${LIBSSH2_BNDDIR}"
-                liblist -a "${LIBSSH2_LIB}"
-        fi
-        CMD="${CMD})"
-        CMD="${CMD} BNDSRVPGM(QADRTTS QGLDCLNT QGLDBRDR)"
-        CMD="${CMD} TEXT('curl API library')"
-        CMD="${CMD} TGTRLS(${TGTRLS})"
-        CLcommand "${CMD}"
-        LINK=YES
+if [ "${LINK}" ]; then
+	CMD="CRTSRVPGM SRVPGM(${TARGETLIB}/${SRVPGM})"
+	CMD="${CMD} SRCFILE(${TARGETLIB}/TOOLS) SRCMBR(BNDSRC)"
+	CMD="${CMD} MODULE(${TARGETLIB}/OS400)"
+	CMD="${CMD} BNDDIR(${TARGETLIB}/${STATBNDDIR}"
+	if [ "${WITH_ZLIB}" != 0 ]; then
+		CMD="${CMD} ${ZLIB_LIB}/${ZLIB_BNDDIR}"
+		liblist -a "${ZLIB_LIB}"
+	fi
+	if [ "${WITH_LIBSSH2}" != 0 ]; then
+		CMD="${CMD} ${LIBSSH2_LIB}/${LIBSSH2_BNDDIR}"
+		liblist -a "${LIBSSH2_LIB}"
+	fi
+	CMD="${CMD})"
+	CMD="${CMD} BNDSRVPGM(QADRTTS QGLDCLNT QGLDBRDR)"
+	CMD="${CMD} TEXT('curl API library')"
+	CMD="${CMD} TGTRLS(${TGTRLS})"
+	CLcommand "${CMD}"
+	LINK=YES
 fi
-
 
 #       If needed, (re)create the dynamic binding directory.
 
-if action_needed "${LIBIFSNAME}/${DYNBNDDIR}.BNDDIR"
-then    LINK=YES
+if action_needed "${LIBIFSNAME}/${DYNBNDDIR}.BNDDIR"; then
+	LINK=YES
 fi
 
-if [ "${LINK}" ]
-then    rm -rf "${LIBIFSNAME}/${DYNBNDDIR}.BNDDIR"
-        CMD="CRTBNDDIR BNDDIR(${TARGETLIB}/${DYNBNDDIR})"
-        CMD="${CMD} TEXT('LibCurl API dynamic binding directory')"
-        CLcommand "${CMD}"
-        CMD="ADDBNDDIRE BNDDIR(${TARGETLIB}/${DYNBNDDIR})"
-        CMD="${CMD} OBJ((*LIBL/${SRVPGM} *SRVPGM))"
-        CLcommand "${CMD}"
+if [ "${LINK}" ]; then
+	rm -rf "${LIBIFSNAME}/${DYNBNDDIR}.BNDDIR"
+	CMD="CRTBNDDIR BNDDIR(${TARGETLIB}/${DYNBNDDIR})"
+	CMD="${CMD} TEXT('LibCurl API dynamic binding directory')"
+	CLcommand "${CMD}"
+	CMD="ADDBNDDIRE BNDDIR(${TARGETLIB}/${DYNBNDDIR})"
+	CMD="${CMD} OBJ((*LIBL/${SRVPGM} *SRVPGM))"
+	CLcommand "${CMD}"
 fi

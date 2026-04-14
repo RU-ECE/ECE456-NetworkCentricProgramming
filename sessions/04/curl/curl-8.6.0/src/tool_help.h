@@ -24,16 +24,16 @@
  *
  ***************************************************************************/
 
-void tool_help(char *category);
+void tool_help(char* category);
 void tool_list_engines(void);
 void tool_version_info(void);
 
 typedef unsigned int curlhelp_t;
 
 struct helptxt {
-  const char *opt;
-  const char *desc;
-  curlhelp_t categories;
+	const char* opt;
+	const char* desc;
+	curlhelp_t categories;
 };
 
 /*

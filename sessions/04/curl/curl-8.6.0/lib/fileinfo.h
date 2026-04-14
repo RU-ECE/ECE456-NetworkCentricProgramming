@@ -25,16 +25,17 @@
  ***************************************************************************/
 
 #include <curl/curl.h>
-#include "llist.h"
+
 #include "dynbuf.h"
+#include "llist.h"
 
 struct fileinfo {
-  struct curl_fileinfo info;
-  struct Curl_llist_element list;
-  struct dynbuf buf;
+	struct curl_fileinfo info;
+	struct Curl_llist_element list;
+	struct dynbuf buf;
 };
 
-struct fileinfo *Curl_fileinfo_alloc(void);
-void Curl_fileinfo_cleanup(struct fileinfo *finfo);
+struct fileinfo* Curl_fileinfo_alloc(void);
+void Curl_fileinfo_cleanup(struct fileinfo* finfo);
 
 #endif /* HEADER_CURL_FILEINFO_H */

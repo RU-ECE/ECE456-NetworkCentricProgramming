@@ -24,36 +24,32 @@
  *
  ***************************************************************************/
 
-typedef enum {
-  UPTSet = 1,
-  UPTCharRange,
-  UPTNumRange
-} URLPatternType;
+typedef enum { UPTSet = 1, UPTCharRange, UPTNumRange } URLPatternType;
 
 struct URLPattern {
-  URLPatternType type;
-  int globindex; /* the number of this particular glob or -1 if not used
-                    within {} or [] */
-  union {
-    struct {
-      char **elements;
-      curl_off_t size;
-      int ptr_s;
-    } Set;
-    struct {
-      char min_c;
-      char max_c;
-      char ptr_c;
-      int step;
-    } CharRange;
-    struct {
-      curl_off_t min_n;
-      curl_off_t max_n;
-      int padlength;
-      curl_off_t ptr_n;
-      curl_off_t step;
-    } NumRange;
-  } content;
+	URLPatternType type;
+	int globindex; /* the number of this particular glob or -1 if not used
+					  within {} or [] */
+	union {
+		struct {
+			char** elements;
+			curl_off_t size;
+			int ptr_s;
+		} Set;
+		struct {
+			char min_c;
+			char max_c;
+			char ptr_c;
+			int step;
+		} CharRange;
+		struct {
+			curl_off_t min_n;
+			curl_off_t max_n;
+			int padlength;
+			curl_off_t ptr_n;
+			curl_off_t step;
+		} NumRange;
+	} content;
 };
 
 /* the total number of globs supported */
@@ -61,17 +57,17 @@ struct URLPattern {
 
 struct URLGlob {
 	URLPattern pattern[GLOB_PATTERN_NUM];
-  size_t size;
-  size_t urllen;
-  char *glob_buffer;
-  char beenhere;
-  const char *error; /* error message */
-  size_t pos;        /* column position of error or 0 */
+	size_t size;
+	size_t urllen;
+	char* glob_buffer;
+	char beenhere;
+	const char* error; /* error message */
+	size_t pos; /* column position of error or 0 */
 };
 
-CURLcode glob_url(URLGlob**, char *, curl_off_t *, FILE *);
-CURLcode glob_next_url(char **, URLGlob *);
-CURLcode glob_match_url(char **, char *, URLGlob *);
-void glob_cleanup(URLGlob *glob);
+CURLcode glob_url(URLGlob**, char*, curl_off_t*, FILE*);
+CURLcode glob_next_url(char**, URLGlob*);
+CURLcode glob_match_url(char**, char*, URLGlob*);
+void glob_cleanup(URLGlob* glob);
 
 #endif /* HEADER_CURL_TOOL_URLGLOB_H */

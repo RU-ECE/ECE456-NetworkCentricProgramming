@@ -30,7 +30,7 @@
 
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable: 4201)
+#pragma warning(disable : 4201)
 #endif
 #include <subauth.h>
 #ifdef _MSC_VER
@@ -48,11 +48,11 @@
 #undef OCSP_RESPONSE
 #endif
 
-#include <schnlsp.h>
 #include <schannel.h>
-#include "curl_sspi.h"
+#include <schnlsp.h>
 
 #include "cfilters.h"
+#include "curl_sspi.h"
 #include "urldata.h"
 
 /* <wincrypt.h> has been included via the above <schnlsp.h>.
@@ -69,18 +69,16 @@
  * (and only here).
  */
 #if defined(OPENSSL_IS_BORINGSSL)
-# undef X509_NAME
-# undef X509_CERT_PAIR
-# undef X509_EXTENSIONS
+#undef X509_NAME
+#undef X509_CERT_PAIR
+#undef X509_EXTENSIONS
 #endif
 
 extern const struct Curl_ssl Curl_ssl_schannel;
 
-CURLcode Curl_verify_host(struct Curl_cfilter *cf,
-                          struct Curl_easy *data);
+CURLcode Curl_verify_host(struct Curl_cfilter* cf, struct Curl_easy* data);
 
-CURLcode Curl_verify_certificate(struct Curl_cfilter *cf,
-                                 struct Curl_easy *data);
+CURLcode Curl_verify_certificate(struct Curl_cfilter* cf, struct Curl_easy* data);
 
 #endif /* USE_SCHANNEL */
 #endif /* HEADER_CURL_SCHANNEL_H */

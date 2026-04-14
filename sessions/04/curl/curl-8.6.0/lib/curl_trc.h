@@ -48,22 +48,20 @@ CURLcode Curl_trc_init(void);
  *
  * @param config configuration string
  */
-CURLcode Curl_trc_opt(const char *config);
+CURLcode Curl_trc_opt(const char* config);
 
 /* the function used to output verbose information */
-void Curl_debug(Curl_easy *data, curl_infotype type,
-                char *ptr, size_t size);
+void Curl_debug(Curl_easy* data, curl_infotype type, char* ptr, size_t size);
 
 /**
  * Output a failure message on registered callbacks for transfer.
  */
-void Curl_failf(Curl_easy *data,
-                const char *fmt, ...) CURL_PRINTF(2, 3);
+void Curl_failf(Curl_easy* data, const char* fmt, ...) CURL_PRINTF(2, 3);
 
 #define failf Curl_failf
 
-#define CURL_LOG_LVL_NONE  0
-#define CURL_LOG_LVL_INFO  1
+#define CURL_LOG_LVL_NONE 0
+#define CURL_LOG_LVL_INFO 1
 
 
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
@@ -71,12 +69,16 @@ void Curl_failf(Curl_easy *data,
 #endif
 
 #ifdef CURL_HAVE_C99
-#define infof(data, ...) \
-  do { if(Curl_trc_is_verbose(data)) \
-         Curl_infof(data, __VA_ARGS__); } while(0)
-#define CURL_TRC_CF(data, cf, ...) \
-  do { if(Curl_trc_cf_is_verbose(cf, data)) \
-         Curl_trc_cf_infof(data, cf, __VA_ARGS__); } while(0)
+#define infof(data, ...)                                                                                               \
+	do {                                                                                                               \
+		if (Curl_trc_is_verbose(data))                                                                                 \
+			Curl_infof(data, __VA_ARGS__);                                                                             \
+	} while (0)
+#define CURL_TRC_CF(data, cf, ...)                                                                                     \
+	do {                                                                                                               \
+		if (Curl_trc_cf_is_verbose(cf, data))                                                                          \
+			Curl_trc_cf_infof(data, cf, __VA_ARGS__);                                                                  \
+	} while (0)
 
 #else
 #define infof Curl_infof
@@ -86,40 +88,36 @@ void Curl_failf(Curl_easy *data,
 #ifndef CURL_DISABLE_VERBOSE_STRINGS
 /* informational messages enabled */
 
-#define Curl_trc_is_verbose(data)    ((data) && (data)->set.verbose)
-#define Curl_trc_cf_is_verbose(cf, data) \
-                            ((data) && (data)->set.verbose && \
-                            (cf) && (cf)->cft->log_level >= CURL_LOG_LVL_INFO)
+#define Curl_trc_is_verbose(data) ((data) && (data)->set.verbose)
+#define Curl_trc_cf_is_verbose(cf, data)                                                                               \
+	((data) && (data)->set.verbose && (cf) && (cf)->cft->log_level >= CURL_LOG_LVL_INFO)
 
 /**
  * Output an informational message when transfer's verbose logging is enabled.
  */
-void Curl_infof(Curl_easy *data,
-                const char *fmt, ...) CURL_PRINTF(2, 3);
+void Curl_infof(Curl_easy* data, const char* fmt, ...) CURL_PRINTF(2, 3);
 
 /**
  * Output an informational message when both transfer's verbose logging
  * and connection filters verbose logging are enabled.
  */
-void Curl_trc_cf_infof(Curl_easy *data, Curl_cfilter *cf,
-                       const char *fmt, ...) CURL_PRINTF(3, 4);
+void Curl_trc_cf_infof(Curl_easy* data, Curl_cfilter* cf, const char* fmt, ...) CURL_PRINTF(3, 4);
 
 #else /* defined(CURL_DISABLE_VERBOSE_STRINGS) */
 /* All informational messages are not compiled in for size savings */
 
-#define Curl_trc_is_verbose(d)        ((void)(d), FALSE)
-#define Curl_trc_cf_is_verbose(x,y)   ((void)(x), (void)(y), FALSE)
+#define Curl_trc_is_verbose(d) ((void)(d), FALSE)
+#define Curl_trc_cf_is_verbose(x, y) ((void)(x), (void)(y), FALSE)
 
-static void Curl_infof(struct Curl_easy *data, const char *fmt, ...)
-{
-  (void)data; (void)fmt;
+static void Curl_infof(struct Curl_easy* data, const char* fmt, ...) {
+	(void)data;
+	(void)fmt;
 }
 
-static void Curl_trc_cf_infof(struct Curl_easy *data,
-                              struct Curl_cfilter *cf,
-                              const char *fmt, ...)
-{
-  (void)data; (void)cf; (void)fmt;
+static void Curl_trc_cf_infof(struct Curl_easy* data, struct Curl_cfilter* cf, const char* fmt, ...) {
+	(void)data;
+	(void)cf;
+	(void)fmt;
 }
 
 #endif /* !defined(CURL_DISABLE_VERBOSE_STRINGS) */

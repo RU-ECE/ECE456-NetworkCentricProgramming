@@ -1,6 +1,8 @@
 #include <iostream>
-using namespace std;
+
 #include "mathlib.hpp"
+
+using namespace std;
 
 int main() {
 	int a, b;

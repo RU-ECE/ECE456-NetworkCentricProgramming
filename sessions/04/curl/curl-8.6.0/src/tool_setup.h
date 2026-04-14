@@ -37,7 +37,7 @@
 
 #include "curl_setup.h" /* from the lib directory */
 
-extern FILE *tool_stderr;
+extern FILE* tool_stderr;
 
 /*
  * curl tool certainly uses libcurl's external interface.
@@ -50,20 +50,20 @@ extern FILE *tool_stderr;
  */
 
 #ifdef macintosh
-#  define main(x,y) curl_main(x,y)
+#define main(x, y) curl_main(x, y)
 #endif
 
 #ifndef OS
-#  define OS "unknown"
+#define OS "unknown"
 #endif
 
 #ifndef UNPRINTABLE_CHAR
-   /* define what to use for unprintable characters */
-#  define UNPRINTABLE_CHAR '.'
+/* define what to use for unprintable characters */
+#define UNPRINTABLE_CHAR '.'
 #endif
 
 #ifndef HAVE_STRDUP
-#  include "tool_strdup.h"
+#include "tool_strdup.h"
 #endif
 
 #if defined(_WIN32)

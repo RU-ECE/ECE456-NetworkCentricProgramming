@@ -6,8 +6,7 @@
 using namespace std;
 
 int main() {
-	const int status = mkdir("testdir", 0777); // create a directory with read/write/execute permissions for everyone
-	if (status < 0) {
+	if (const int status = mkdir("testdir", 0777); status < 0) {
 		cerr << "Error creating directory" << endl;
 		return 1;
 	}

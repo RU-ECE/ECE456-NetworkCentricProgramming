@@ -1,113 +1,115 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <fstream>
+#include <cstddef>
 #include <cstdint>
+#include <fstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
 struct Mark {
-    size_t line = 0;
-    size_t col  = 0;
+	size_t line = 0;
+	size_t col = 0;
 };
 
-enum class ChangeType : uint8_t {
-    InsertChar      = 1,
-    DeleteChar      = 2,
-    InsertNewline   = 3,
-    DeleteToEol     = 4
-};
+enum class ChangeType : uint8_t { InsertChar = 1, DeleteChar = 2, InsertNewline = 3, DeleteToEol = 4 };
 
 struct Change {
-    ChangeType type;
-    uint32_t line;
-    uint32_t col;
-    string payload;   // used for InsertChar
+	ChangeType type;
+	uint32_t line;
+	uint32_t col;
+	string payload; // used for InsertChar
 };
 
 class TextBuffer {
 public:
-    vector<string> lines;
+	vector<string> lines;
 
-    TextBuffer() { lines.push_back(""); }
+	TextBuffer() { lines.push_back(""); }
 
-  	string get_text() const {
-			string test;
-			test.reserve(lines.size() * 80);
-			for (auto& s : lines)
-				test += s;
-			return test;
+	string get_text() const {
+		string test;
+		test.reserve(lines.size() * 80);
+		for (auto& s : lines)
+			test += s;
+		return test;
+	}
+
+	void apply(const Change& c) {
+		if (c.line >= lines.size())
+			return;
+
+		switch (c.type) {
+		case ChangeType::InsertChar:
+			lines[c.line].insert(c.col, c.payload);
+			break;
+
+		case ChangeType::DeleteChar:
+			if (c.col < lines[c.line].size())
+				lines[c.line].erase(c.col, 1);
+			break;
+
+		case ChangeType::InsertNewline: {
+			const string tail = lines[c.line].substr(c.col);
+			lines[c.line].erase(c.col);
+			lines.insert(lines.begin() + c.line + 1, tail);
+			break;
 		}
-	
-    void apply(const Change& c) {
-        if (c.line >= lines.size()) return;
 
-        switch (c.type) {
-        case ChangeType::InsertChar:
-            lines[c.line].insert(c.col, c.payload);
-            break;
+		case ChangeType::DeleteToEol:
+			lines[c.line].erase(c.col);
+			break;
+		}
+	}
 
-        case ChangeType::DeleteChar:
-            if (c.col < lines[c.line].size())
-                lines[c.line].erase(c.col, 1);
-            break;
+	void load(const string& path) {
+		ifstream f(path);
+		lines.clear();
+		string line;
+		while (getline(f, line))
+			lines.push_back(line);
+		if (lines.empty())
+			lines.push_back("");
+	}
 
-        case ChangeType::InsertNewline: {
-            string tail = lines[c.line].substr(c.col);
-            lines[c.line].erase(c.col);
-            lines.insert(lines.begin() + c.line + 1, tail);
-            break;
-        }
+	bool save(const string& path) const {
+		ofstream f(path);
+		if (!f.is_open())
+			return false;
+		for (size_t i = 0; i < lines.size(); ++i) {
+			if (i)
+				f << endl;
+			f << lines[i];
+		}
+		return true;
+	}
 
-        case ChangeType::DeleteToEol:
-            lines[c.line].erase(c.col);
-            break;
-        }
-    }
+	void insert_char(const Mark& m, const char ch) {
+		apply(
+			Change{ChangeType::InsertChar, static_cast<uint32_t>(m.line), static_cast<uint32_t>(m.col), string(1, ch)});
+	}
 
-    void load(const string& path) {
-        ifstream f(path);
-        lines.clear();
-        string line;
-        while (getline(f, line)) lines.push_back(line);
-        if (lines.empty()) lines.push_back("");
-    }
+	void delete_char_at(const Mark& m) {
+		if (m.line < lines.size() && m.col < lines[m.line].size())
+			apply(Change{ChangeType::DeleteChar, static_cast<uint32_t>(m.line), static_cast<uint32_t>(m.col), ""});
+	}
 
-    bool save(const string& path) {
-        ofstream f(path);
-        if (!f.is_open()) return false;
-        for (size_t i = 0; i < lines.size(); ++i) {
-            if (i) f << '\n';
-            f << lines[i];
-        }
-        return true;
-    }
+	void delete_char_before(const Mark& m) {
+		if (m.col > 0 && m.line < lines.size()) {
+			apply(Change{ChangeType::DeleteChar, static_cast<uint32_t>(m.line), static_cast<uint32_t>(m.col - 1), ""});
+		} else if (m.line > 0 && !lines.empty()) {
+			lines[m.line - 1] += lines[m.line];
+			lines.erase(lines.begin() + static_cast<ptrdiff_t>(m.line));
+		}
+	}
 
-    void insert_char(const Mark& m, char ch) {
-        apply(Change{ChangeType::InsertChar, (uint32_t)m.line, (uint32_t)m.col, string(1, ch)});
-    }
+	void delete_to_eol(const Mark& m) {
+		if (m.line < lines.size())
+			apply(Change{ChangeType::DeleteToEol, static_cast<uint32_t>(m.line), static_cast<uint32_t>(m.col), ""});
+	}
 
-    void delete_char_at(const Mark& m) {
-        if (m.line < lines.size() && m.col < lines[m.line].size())
-            apply(Change{ChangeType::DeleteChar, (uint32_t)m.line, (uint32_t)m.col, ""});
-    }
-
-    void delete_char_before(const Mark& m) {
-        if (m.col > 0 && m.line < lines.size())
-            apply(Change{ChangeType::DeleteChar, (uint32_t)m.line, (uint32_t)(m.col - 1), ""});
-        else if (m.line > 0 && !lines.empty()) {
-            lines[m.line - 1] += lines[m.line];
-            lines.erase(lines.begin() + (ptrdiff_t)m.line);
-        }
-    }
-
-    void delete_to_eol(const Mark& m) {
-        if (m.line < lines.size())
-            apply(Change{ChangeType::DeleteToEol, (uint32_t)m.line, (uint32_t)m.col, ""});
-    }
-
-    void insert_newline(const Mark& m) {
-        if (m.line < lines.size())
-            apply(Change{ChangeType::InsertNewline, (uint32_t)m.line, (uint32_t)m.col, ""});
-    }
+	void insert_newline(const Mark& m) {
+		if (m.line < lines.size())
+			apply(Change{ChangeType::InsertNewline, static_cast<uint32_t>(m.line), static_cast<uint32_t>(m.col), ""});
+	}
 };

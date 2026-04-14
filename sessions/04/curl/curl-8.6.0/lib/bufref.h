@@ -28,21 +28,20 @@
  * Generic buffer reference.
  */
 struct bufref {
-  void (*dtor)(void *);         /* Associated destructor. */
-  const unsigned char *ptr;     /* Referenced data buffer. */
-  size_t len;                   /* The data size in bytes. */
+	void (*dtor)(void*); /* Associated destructor. */
+	const unsigned char* ptr; /* Referenced data buffer. */
+	size_t len; /* The data size in bytes. */
 #ifdef DEBUGBUILD
-  int signature;                /* Detect API use mistakes. */
+	int signature; /* Detect API use mistakes. */
 #endif
 };
 
 
-void Curl_bufref_init(bufref *br);
-void Curl_bufref_set(bufref *br, const void *ptr, size_t len,
-                     void (*dtor)(void *));
-const unsigned char *Curl_bufref_ptr(const bufref *br);
-size_t Curl_bufref_len(const bufref *br);
-CURLcode Curl_bufref_memdup(bufref *br, const void *ptr, size_t len);
-void Curl_bufref_free(bufref *br);
+void Curl_bufref_init(bufref* br);
+void Curl_bufref_set(bufref* br, const void* ptr, size_t len, void (*dtor)(void*));
+const unsigned char* Curl_bufref_ptr(const bufref* br);
+size_t Curl_bufref_len(const bufref* br);
+CURLcode Curl_bufref_memdup(bufref* br, const void* ptr, size_t len);
+void Curl_bufref_free(bufref* br);
 
 #endif

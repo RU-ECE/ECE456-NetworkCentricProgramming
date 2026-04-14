@@ -27,24 +27,24 @@
 /* global variable declarations, for libcurl run-time info */
 
 
-extern curl_version_info_data *curlinfo;
+extern curl_version_info_data* curlinfo;
 
-extern const char * const *built_in_protos;
+extern const char* const* built_in_protos;
 extern size_t proto_count;
 
-extern const char * const *feature_names;
+extern const char* const* feature_names;
 
-extern const char *proto_file;
-extern const char *proto_ftp;
-extern const char *proto_ftps;
-extern const char *proto_http;
-extern const char *proto_https;
-extern const char *proto_rtsp;
-extern const char *proto_scp;
-extern const char *proto_sftp;
-extern const char *proto_tftp;
-extern const char *proto_ipfs;
-extern const char *proto_ipns;
+extern const char* proto_file;
+extern const char* proto_ftp;
+extern const char* proto_ftps;
+extern const char* proto_http;
+extern const char* proto_https;
+extern const char* proto_rtsp;
+extern const char* proto_scp;
+extern const char* proto_sftp;
+extern const char* proto_tftp;
+extern const char* proto_ipfs;
+extern const char* proto_ipns;
 
 extern bool feature_altsvc;
 extern bool feature_brotli;
@@ -61,6 +61,6 @@ extern bool feature_tls_srp;
 extern bool feature_zstd;
 
 CURLcode get_libcurl_info(void);
-const char *proto_token(const char *proto);
+const char* proto_token(const char* proto);
 
 #endif /* HEADER_CURL_TOOL_LIBINFO_H */

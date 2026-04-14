@@ -24,8 +24,9 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
 #include <curl/curl.h>
+
+#include "curl_setup.h"
 
 #ifdef USE_GNUTLS
 
@@ -46,28 +47,18 @@ struct ssl_config_data;
 struct ssl_peer;
 
 struct gtls_instance {
-  gnutls_session_t session;
-  gnutls_certificate_credentials_t cred;
+	gnutls_session_t session;
+	gnutls_certificate_credentials_t cred;
 #ifdef USE_GNUTLS_SRP
-  gnutls_srp_client_credentials_t srp_client_cred;
+	gnutls_srp_client_credentials_t srp_client_cred;
 #endif
 };
 
-CURLcode
-gtls_client_init(struct Curl_easy *data,
-                 struct ssl_primary_config *config,
-                 struct ssl_config_data *ssl_config,
-                 struct ssl_peer *peer,
-                 struct gtls_instance *gtls,
-                 long *pverifyresult);
+CURLcode gtls_client_init(struct Curl_easy* data, struct ssl_primary_config* config, struct ssl_config_data* ssl_config,
+						  struct ssl_peer* peer, struct gtls_instance* gtls, long* pverifyresult);
 
-CURLcode
-Curl_gtls_verifyserver(struct Curl_easy *data,
-                       gnutls_session_t session,
-                       struct ssl_primary_config *config,
-                       struct ssl_config_data *ssl_config,
-                       struct ssl_peer *peer,
-                       const char *pinned_key);
+CURLcode Curl_gtls_verifyserver(struct Curl_easy* data, gnutls_session_t session, struct ssl_primary_config* config,
+								struct ssl_config_data* ssl_config, struct ssl_peer* peer, const char* pinned_key);
 
 extern const struct Curl_ssl Curl_ssl_gnutls;
 

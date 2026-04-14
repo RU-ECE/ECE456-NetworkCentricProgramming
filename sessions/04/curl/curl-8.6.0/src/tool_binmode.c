@@ -26,27 +26,25 @@
 #ifdef HAVE_SETMODE
 
 #ifdef HAVE_IO_H
-#  include <io.h>
+#include <io.h>
 #endif
 
 #ifdef HAVE_FCNTL_H
-#  include <fcntl.h>
+#include <fcntl.h>
 #endif
 
+#include "memdebug.h" /* keep this as LAST include */
 #include "tool_binmode.h"
 
-#include "memdebug.h" /* keep this as LAST include */
-
-void set_binmode(FILE *stream)
-{
+void set_binmode(FILE* stream) {
 #ifdef O_BINARY
-#  ifdef __HIGHC__
-  _setmode(stream, O_BINARY);
-#  else
-  (void)setmode(fileno(stream), O_BINARY);
-#  endif
+#ifdef __HIGHC__
+	_setmode(stream, O_BINARY);
 #else
-  (void)stream;
+	(void)setmode(fileno(stream), O_BINARY);
+#endif
+#else
+	(void)stream;
 #endif
 }
 

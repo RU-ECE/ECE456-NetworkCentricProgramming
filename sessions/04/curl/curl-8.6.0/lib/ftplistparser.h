@@ -28,45 +28,44 @@
 #ifndef CURL_DISABLE_FTP
 
 /* WRITEFUNCTION callback for parsing LIST responses */
-size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
-                          void *connptr);
+size_t Curl_ftp_parselist(char* buffer, size_t size, size_t nmemb, void* connptr);
 
 struct ftp_parselist_data; /* defined inside ftplibparser.c */
 
-CURLcode Curl_ftp_parselist_geterror(ftp_parselist_data *pl_data);
+CURLcode Curl_ftp_parselist_geterror(ftp_parselist_data* pl_data);
 
-ftp_parselist_data *Curl_ftp_parselist_data_alloc(void);
+ftp_parselist_data* Curl_ftp_parselist_data_alloc(void);
 
-void Curl_ftp_parselist_data_free(ftp_parselist_data **pl_data);
+void Curl_ftp_parselist_data_free(ftp_parselist_data** pl_data);
 
 /* list of wildcard process states */
 typedef enum {
-  CURLWC_CLEAR = 0,
-  CURLWC_INIT = 1,
-  CURLWC_MATCHING, /* library is trying to get list of addresses for
-                      downloading */
-  CURLWC_DOWNLOADING,
-  CURLWC_CLEAN, /* deallocate resources and reset settings */
-  CURLWC_SKIP,  /* skip over concrete file */
-  CURLWC_ERROR, /* error cases */
-  CURLWC_DONE   /* if is wildcard->state == CURLWC_DONE wildcard loop
-                   will end */
+	CURLWC_CLEAR = 0,
+	CURLWC_INIT = 1,
+	CURLWC_MATCHING, /* library is trying to get list of addresses for
+						downloading */
+	CURLWC_DOWNLOADING,
+	CURLWC_CLEAN, /* deallocate resources and reset settings */
+	CURLWC_SKIP, /* skip over concrete file */
+	CURLWC_ERROR, /* error cases */
+	CURLWC_DONE /* if is wildcard->state == CURLWC_DONE wildcard loop
+				   will end */
 } wildcard_states;
 
-typedef void (*wildcard_dtor)(void *ptr);
+typedef void (*wildcard_dtor)(void* ptr);
 
 /* struct keeping information about wildcard download process */
 struct WildcardData {
-  char *path; /* path to the directory, where we trying wildcard-match */
-  char *pattern; /* wildcard pattern */
-  struct Curl_llist filelist; /* llist with struct Curl_fileinfo */
-  struct ftp_wc *ftpwc; /* pointer to FTP wildcard data */
-  wildcard_dtor dtor;
-  unsigned char state; /* wildcard_states */
+	char* path; /* path to the directory, where we trying wildcard-match */
+	char* pattern; /* wildcard pattern */
+	struct Curl_llist filelist; /* llist with struct Curl_fileinfo */
+	struct ftp_wc* ftpwc; /* pointer to FTP wildcard data */
+	wildcard_dtor dtor;
+	unsigned char state; /* wildcard_states */
 };
 
-CURLcode Curl_wildcard_init(WildcardData *wc);
-void Curl_wildcard_dtor(WildcardData **wcp);
+CURLcode Curl_wildcard_init(WildcardData* wc);
+void Curl_wildcard_dtor(WildcardData** wcp);
 
 struct Curl_easy;
 

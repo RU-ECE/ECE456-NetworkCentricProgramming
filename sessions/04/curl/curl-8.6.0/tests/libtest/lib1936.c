@@ -21,49 +21,46 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
+#include "memdebug.h"
 #include "test.h"
 
-#include "memdebug.h"
+int test(char* URL) {
+	CURL* curl;
+	CURLcode res = TEST_ERR_MAJOR_BAD;
+	struct curl_slist* connect_to = NULL;
+	struct curl_slist* list = NULL;
 
-int test(char *URL)
-{
-  CURL *curl;
-  CURLcode res = TEST_ERR_MAJOR_BAD;
-  struct curl_slist *connect_to = NULL;
-  struct curl_slist *list = NULL;
+	if (curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
+		fprintf(stderr, "curl_global_init() failed\n");
+		return TEST_ERR_MAJOR_BAD;
+	}
 
-  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
-    fprintf(stderr, "curl_global_init() failed\n");
-    return TEST_ERR_MAJOR_BAD;
-  }
+	curl = curl_easy_init();
+	if (!curl) {
+		fprintf(stderr, "curl_easy_init() failed\n");
+		curl_global_cleanup();
+		return TEST_ERR_MAJOR_BAD;
+	}
 
-  curl = curl_easy_init();
-  if(!curl) {
-    fprintf(stderr, "curl_easy_init() failed\n");
-    curl_global_cleanup();
-    return TEST_ERR_MAJOR_BAD;
-  }
+	test_setopt(curl, CURLOPT_VERBOSE, 1L);
+	test_setopt(curl, CURLOPT_AWS_SIGV4, "xxx:yyy:rrr:sss");
+	test_setopt(curl, CURLOPT_USERPWD, "xxx:yyy");
+	test_setopt(curl, CURLOPT_HEADER, 0L);
+	test_setopt(curl, CURLOPT_URL, URL);
+	if (libtest_arg2)
+		connect_to = curl_slist_append(connect_to, libtest_arg2);
+	test_setopt(curl, CURLOPT_CONNECT_TO, connect_to);
+	list = curl_slist_append(list, "Content-Type: application/json");
+	test_setopt(curl, CURLOPT_HTTPHEADER, list);
 
-  test_setopt(curl, CURLOPT_VERBOSE, 1L);
-  test_setopt(curl, CURLOPT_AWS_SIGV4, "xxx:yyy:rrr:sss");
-  test_setopt(curl, CURLOPT_USERPWD, "xxx:yyy");
-  test_setopt(curl, CURLOPT_HEADER, 0L);
-  test_setopt(curl, CURLOPT_URL, URL);
-  if(libtest_arg2) {
-    connect_to = curl_slist_append(connect_to, libtest_arg2);
-  }
-  test_setopt(curl, CURLOPT_CONNECT_TO, connect_to);
-  list = curl_slist_append(list, "Content-Type: application/json");
-  test_setopt(curl, CURLOPT_HTTPHEADER, list);
-
-  res = curl_easy_perform(curl);
+	res = curl_easy_perform(curl);
 
 test_cleanup:
 
-  curl_slist_free_all(connect_to);
-  curl_slist_free_all(list);
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
+	curl_slist_free_all(connect_to);
+	curl_slist_free_all(list);
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 
-  return res;
+	return res;
 }

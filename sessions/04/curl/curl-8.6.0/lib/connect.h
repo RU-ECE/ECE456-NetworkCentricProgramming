@@ -31,8 +31,7 @@ struct Curl_dns_entry;
 
 /* generic function that returns how much time there's left to run, according
    to the timeouts set */
-timediff_t Curl_timeleft(struct Curl_easy *data, curltime *nowp,
-                         bool duringconnect);
+timediff_t Curl_timeleft(struct Curl_easy* data, curltime* nowp, bool duringconnect);
 
 #define DEFAULT_CONNECT_TIMEOUT 300000 /* milliseconds == five minutes */
 
@@ -42,14 +41,11 @@ timediff_t Curl_timeleft(struct Curl_easy *data, curltime *nowp,
  *
  * The returned socket will be CURL_SOCKET_BAD in case of failure!
  */
-curl_socket_t Curl_getconnectinfo(Curl_easy *data,
-                                  struct connectdata **connp);
+curl_socket_t Curl_getconnectinfo(Curl_easy* data, struct connectdata** connp);
 
-bool Curl_addr2string(sockaddr *sa, curl_socklen_t salen,
-                      char *addr, int *port);
+bool Curl_addr2string(sockaddr* sa, curl_socklen_t salen, char* addr, int* port);
 
-void Curl_persistconninfo(Curl_easy *data, connectdata *conn,
-                          char *local_ip, int local_port);
+void Curl_persistconninfo(Curl_easy* data, connectdata* conn, char* local_ip, int local_port);
 
 /*
  * Curl_conncontrol() marks the end of a connection/stream. The 'closeit'
@@ -67,21 +63,21 @@ void Curl_persistconninfo(Curl_easy *data, connectdata *conn,
 #define CONNCTRL_CONNECTION 1
 #define CONNCTRL_STREAM 2
 
-void Curl_conncontrol(connectdata *conn,
-                      int closeit
+void Curl_conncontrol(connectdata* conn, int closeit
 #if defined(DEBUGBUILD) && !defined(CURL_DISABLE_VERBOSE_STRINGS)
-                      , const char *reason
+					  ,
+					  const char* reason
 #endif
-  );
+);
 
 #if defined(DEBUGBUILD) && !defined(CURL_DISABLE_VERBOSE_STRINGS)
-#define streamclose(x,y) Curl_conncontrol(x, CONNCTRL_STREAM, y)
-#define connclose(x,y) Curl_conncontrol(x, CONNCTRL_CONNECTION, y)
-#define connkeep(x,y) Curl_conncontrol(x, CONNCTRL_KEEP, y)
+#define streamclose(x, y) Curl_conncontrol(x, CONNCTRL_STREAM, y)
+#define connclose(x, y) Curl_conncontrol(x, CONNCTRL_CONNECTION, y)
+#define connkeep(x, y) Curl_conncontrol(x, CONNCTRL_KEEP, y)
 #else /* if !DEBUGBUILD || CURL_DISABLE_VERBOSE_STRINGS */
-#define streamclose(x,y) Curl_conncontrol(x, CONNCTRL_STREAM)
-#define connclose(x,y) Curl_conncontrol(x, CONNCTRL_CONNECTION)
-#define connkeep(x,y) Curl_conncontrol(x, CONNCTRL_KEEP)
+#define streamclose(x, y) Curl_conncontrol(x, CONNCTRL_STREAM)
+#define connclose(x, y) Curl_conncontrol(x, CONNCTRL_CONNECTION)
+#define connkeep(x, y) Curl_conncontrol(x, CONNCTRL_KEEP)
 #endif
 
 /**
@@ -95,31 +91,25 @@ void Curl_conncontrol(connectdata *conn,
  * `connect` implementation needs to support non-blocking. Once connected,
  * it MAY be installed in the connection filter chain to serve transfers.
  */
-typedef CURLcode cf_ip_connect_create(struct Curl_cfilter **pcf, Curl_easy *data, connectdata *conn,
-                                      const struct Curl_addrinfo *ai,
-                                      int transport);
+typedef CURLcode cf_ip_connect_create(struct Curl_cfilter** pcf, Curl_easy* data, connectdata* conn,
+									  const struct Curl_addrinfo* ai, int transport);
 
-CURLcode Curl_cf_setup_insert_after(Curl_cfilter *cf_at, Curl_easy *data,
-                                    const Curl_dns_entry *remotehost,
-                                    int transport,
-                                    int ssl_mode);
+CURLcode Curl_cf_setup_insert_after(Curl_cfilter* cf_at, Curl_easy* data, const Curl_dns_entry* remotehost,
+									int transport, int ssl_mode);
 
 /**
  * Setup the cfilters at `sockindex` in connection `conn`.
  * If no filter chain is installed yet, inspects the configuration
  * in `data` and `conn? to install a suitable filter chain.
  */
-CURLcode Curl_conn_setup(Curl_easy *data, connectdata *conn,
-                         int sockindex,
-                         const Curl_dns_entry *remotehost,
-                         int ssl_mode);
+CURLcode Curl_conn_setup(Curl_easy* data, connectdata* conn, int sockindex, const Curl_dns_entry* remotehost,
+						 int ssl_mode);
 
 extern struct Curl_cftype Curl_cft_happy_eyeballs;
 extern Curl_cftype Curl_cft_setup;
 
 #ifdef DEBUGBUILD
-void Curl_debug_set_transport_provider(int transport,
-                                       cf_ip_connect_create *cf_create);
+void Curl_debug_set_transport_provider(int transport, cf_ip_connect_create* cf_create);
 #endif
 
 #endif /* HEADER_CURL_CONNECT_H */

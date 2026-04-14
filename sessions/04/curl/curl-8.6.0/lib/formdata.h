@@ -30,29 +30,27 @@
 
 /* used by FormAdd for temporary storage */
 struct FormInfo {
-  char *name;
-  size_t namelength;
-  char *value;
-  curl_off_t contentslength;
-  char *contenttype;
-  long flags;
-  char *buffer;      /* pointer to existing buffer used for file upload */
-  size_t bufferlength;
-  char *showfilename; /* The file name to show. If not set, the actual
-                         file name will be used */
-  char *userp;        /* pointer for the read callback */
-  struct curl_slist *contentheader;
-  FormInfo *more;
-  bool name_alloc;
-  bool value_alloc;
-  bool contenttype_alloc;
-  bool showfilename_alloc;
+	char* name;
+	size_t namelength;
+	char* value;
+	curl_off_t contentslength;
+	char* contenttype;
+	long flags;
+	char* buffer; /* pointer to existing buffer used for file upload */
+	size_t bufferlength;
+	char* showfilename; /* The file name to show. If not set, the actual
+						   file name will be used */
+	char* userp; /* pointer for the read callback */
+	struct curl_slist* contentheader;
+	FormInfo* more;
+	bool name_alloc;
+	bool value_alloc;
+	bool contenttype_alloc;
+	bool showfilename_alloc;
 };
 
-CURLcode Curl_getformdata(struct Curl_easy *data,
-                          curl_mimepart *,
-                          struct curl_httppost *post,
-                          curl_read_callback fread_func);
+CURLcode Curl_getformdata(struct Curl_easy* data, curl_mimepart*, struct curl_httppost* post,
+						  curl_read_callback fread_func);
 #endif /* CURL_DISABLE_FORM_API */
 
 

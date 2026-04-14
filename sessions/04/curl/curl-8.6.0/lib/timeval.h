@@ -25,12 +25,11 @@
  ***************************************************************************/
 
 #include "curl_setup.h"
-
 #include "timediff.h"
 
 struct curltime {
-  time_t tv_sec; /* seconds */
-  int tv_usec;   /* microseconds */
+	time_t tv_sec; /* seconds */
+	int tv_usec; /* microseconds */
 };
 
 curltime Curl_now(void);

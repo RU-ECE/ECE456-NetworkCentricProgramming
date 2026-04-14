@@ -1,4 +1,6 @@
 #include <arpa/inet.h>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <sys/socket.h>
 
@@ -23,7 +25,7 @@ int main(const int argc, char* argv[]) {
 	sockaddr_in server_addr{};
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(atoi(server_port));
-	server_addr.sin_addr.s_addr = inet_addr(ip_addr);
+	server_addr.sin_addr.s_addr = inet_addr(server_ip);
 
 	// files want to be read a block at a time
 	//  sockets want a packet at a time

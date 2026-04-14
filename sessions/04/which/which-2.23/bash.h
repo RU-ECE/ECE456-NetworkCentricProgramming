@@ -9,11 +9,11 @@
 #define FS_READABLE 0x40
 
 /* From bash-4.3 / general.h / line 69 */
-#define savestring(x) (char *) strcpy(xmalloc(1 + strlen(x)), (x))
+#define savestring(x) (char*)strcpy(xmalloc(1 + strlen(x)), (x))
 
-extern int file_status(const char *name);
-extern int contains_separator(const char *string);
-extern char *get_next_path_element(char const *path_list, int *path_index_pointer);
-extern char *make_full_pathname(const char *path, const char *name, int name_len);
+extern int file_status(const char* name);
+extern int contains_separator(const char* string);
+extern char* get_next_path_element(char const* path_list, int* path_index_pointer);
+extern char* make_full_pathname(const char* path, const char* name, int name_len);
 extern int uidget();
-extern char *sh_get_home_dir(void);
+extern char* sh_get_home_dir(void);

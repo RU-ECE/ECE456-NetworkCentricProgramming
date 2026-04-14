@@ -22,9 +22,9 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
-
 #include "curl_endian.h"
+
+#include "curl_setup.h"
 
 /*
  * Curl_read16_le()
@@ -39,10 +39,8 @@
  *
  * Returns the integer.
  */
-unsigned short Curl_read16_le(const unsigned char *buf)
-{
-  return (unsigned short)(((unsigned short)buf[0]) |
-                          ((unsigned short)buf[1] << 8));
+unsigned short Curl_read16_le(const unsigned char* buf) {
+	return (unsigned short)(((unsigned short)buf[0]) | ((unsigned short)buf[1] << 8));
 }
 
 /*
@@ -58,10 +56,9 @@ unsigned short Curl_read16_le(const unsigned char *buf)
  *
  * Returns the integer.
  */
-unsigned int Curl_read32_le(const unsigned char *buf)
-{
-  return ((unsigned int)buf[0]) | ((unsigned int)buf[1] << 8) |
-         ((unsigned int)buf[2] << 16) | ((unsigned int)buf[3] << 24);
+unsigned int Curl_read32_le(const unsigned char* buf) {
+	return ((unsigned int)buf[0]) | ((unsigned int)buf[1] << 8) | ((unsigned int)buf[2] << 16) |
+		((unsigned int)buf[3] << 24);
 }
 
 /*
@@ -77,8 +74,6 @@ unsigned int Curl_read32_le(const unsigned char *buf)
  *
  * Returns the integer.
  */
-unsigned short Curl_read16_be(const unsigned char *buf)
-{
-  return (unsigned short)(((unsigned short)buf[0] << 8) |
-                          ((unsigned short)buf[1]));
+unsigned short Curl_read16_be(const unsigned char* buf) {
+	return (unsigned short)(((unsigned short)buf[0] << 8) | ((unsigned short)buf[1]));
 }

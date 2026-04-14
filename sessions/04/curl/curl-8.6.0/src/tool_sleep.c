@@ -24,38 +24,36 @@
 #include "tool_setup.h"
 
 #ifdef HAVE_SYS_SELECT_H
-#  include <sys/select.h>
+#include <sys/select.h>
 #elif defined(HAVE_UNISTD_H)
-#  include <unistd.h>
+#include <unistd.h>
 #endif
 
 #ifdef HAVE_POLL_H
-#  include <poll.h>
+#include <poll.h>
 #elif defined(HAVE_SYS_POLL_H)
-#  include <sys/poll.h>
+#include <sys/poll.h>
 #endif
 
 #ifdef MSDOS
-#  include <dos.h>
+#include <dos.h>
 #endif
 
+#include "memdebug.h" /* keep this as LAST include */
 #include "tool_sleep.h"
 
-#include "memdebug.h" /* keep this as LAST include */
-
-void tool_go_sleep(long ms)
-{
+void tool_go_sleep(long ms) {
 #if defined(MSDOS)
-  delay(ms);
+	delay(ms);
 #elif defined(_WIN32)
-  Sleep(ms);
+	Sleep(ms);
 #elif defined(HAVE_POLL_FINE)
-  (void)poll((void *)0, 0, (int)ms);
+	(void)poll((void*)0, 0, (int)ms);
 #else
-  struct timeval timeout;
-  timeout.tv_sec = ms / 1000L;
-  ms = ms % 1000L;
-  timeout.tv_usec = (int)ms * 1000;
-  select(0, NULL,  NULL, NULL, &timeout);
+	struct timeval timeout;
+	timeout.tv_sec = ms / 1000L;
+	ms = ms % 1000L;
+	timeout.tv_usec = (int)ms * 1000;
+	select(0, NULL, NULL, NULL, &timeout);
 #endif
 }

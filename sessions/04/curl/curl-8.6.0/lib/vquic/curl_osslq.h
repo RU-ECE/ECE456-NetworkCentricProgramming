@@ -36,16 +36,12 @@ struct Curl_cfilter;
 
 #include "urldata.h"
 
-void Curl_osslq_ver(char *p, size_t len);
+void Curl_osslq_ver(char* p, size_t len);
 
-CURLcode Curl_cf_osslq_create(struct Curl_cfilter **pcf,
-                              struct Curl_easy *data,
-                              struct connectdata *conn,
-                              const struct Curl_addrinfo *ai);
+CURLcode Curl_cf_osslq_create(struct Curl_cfilter** pcf, struct Curl_easy* data, struct connectdata* conn,
+							  const struct Curl_addrinfo* ai);
 
-bool Curl_conn_is_osslq(const struct Curl_easy *data,
-                        const struct connectdata *conn,
-                        int sockindex);
+bool Curl_conn_is_osslq(const struct Curl_easy* data, const struct connectdata* conn, int sockindex);
 #endif
 
 #endif /* HEADER_CURL_VQUIC_CURL_OSSLQ_H */

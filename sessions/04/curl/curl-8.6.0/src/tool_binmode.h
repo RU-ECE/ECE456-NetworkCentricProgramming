@@ -27,7 +27,7 @@
 
 #ifdef HAVE_SETMODE
 
-void set_binmode(FILE *stream);
+void set_binmode(FILE* stream);
 
 #else
 

@@ -25,6 +25,6 @@
  ***************************************************************************/
 
 /* this is for creating aws_sigv4 header output */
-CURLcode Curl_output_aws_sigv4(struct Curl_easy *data, bool proxy);
+CURLcode Curl_output_aws_sigv4(struct Curl_easy* data, bool proxy);
 
 #endif /* HEADER_CURL_HTTP_AWS_SIGV4_H */

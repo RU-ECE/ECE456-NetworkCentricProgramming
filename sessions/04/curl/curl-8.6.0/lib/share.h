@@ -24,45 +24,45 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
 #include <curl/curl.h>
+
+#include "conncache.h"
 #include "cookie.h"
+#include "curl_setup.h"
 #include "psl.h"
 #include "urldata.h"
-#include "conncache.h"
 
 #define CURL_GOOD_SHARE 0x7e117a1e
 #define GOOD_SHARE_HANDLE(x) ((x) && (x)->magic == CURL_GOOD_SHARE)
 
 /* this struct is libcurl-private, don't export details */
 struct Curl_share {
-  unsigned int magic; /* CURL_GOOD_SHARE */
-  unsigned int specifier;
-  volatile unsigned int dirty;
+	unsigned int magic; /* CURL_GOOD_SHARE */
+	unsigned int specifier;
+	volatile unsigned int dirty;
 
-  curl_lock_function lockfunc;
-  curl_unlock_function unlockfunc;
-  void *clientdata;
-  struct conncache conn_cache;
-  struct Curl_hash hostcache;
+	curl_lock_function lockfunc;
+	curl_unlock_function unlockfunc;
+	void* clientdata;
+	struct conncache conn_cache;
+	struct Curl_hash hostcache;
 #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_COOKIES)
-  struct CookieInfo *cookies;
+	struct CookieInfo* cookies;
 #endif
 #ifdef USE_LIBPSL
-  struct PslCache psl;
+	struct PslCache psl;
 #endif
 #ifndef CURL_DISABLE_HSTS
-  struct hsts *hsts;
+	struct hsts* hsts;
 #endif
 #ifdef USE_SSL
-  struct Curl_ssl_session *sslsession;
-  size_t max_ssl_sessions;
-  long sessionage;
+	struct Curl_ssl_session* sslsession;
+	size_t max_ssl_sessions;
+	long sessionage;
 #endif
 };
 
-CURLSHcode Curl_share_lock(struct Curl_easy *, curl_lock_data,
-                           curl_lock_access);
-CURLSHcode Curl_share_unlock(struct Curl_easy *, curl_lock_data);
+CURLSHcode Curl_share_lock(struct Curl_easy*, curl_lock_data, curl_lock_access);
+CURLSHcode Curl_share_unlock(struct Curl_easy*, curl_lock_data);
 
 #endif /* HEADER_CURL_SHARE_H */

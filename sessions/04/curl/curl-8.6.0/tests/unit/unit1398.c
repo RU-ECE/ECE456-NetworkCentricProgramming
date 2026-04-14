@@ -23,18 +23,17 @@
  ***************************************************************************/
 #define CURL_NO_FMT_CHECKS
 
+#include "curl/mprintf.h"
 #include "curlcheck.h"
 
-#include "curl/mprintf.h"
-
-static CURLcode unit_setup(void) {return CURLE_OK;}
+static CURLcode unit_setup(void) { return CURLE_OK; }
 static void unit_stop(void) {}
 
 UNITTEST_START
 
 int rc;
 char buf[3] = {'b', 'u', 'g'};
-const char *str = "bug";
+const char* str = "bug";
 int width = 3;
 char output[24];
 

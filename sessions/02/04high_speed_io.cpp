@@ -2,7 +2,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-
 /**
  * This example writes bytes really slowly.
  *
@@ -14,7 +13,7 @@
  */
 
 void write_file_slow(const int fh, const uint64_t num_bytes) {
-	const uint32_t buf[500] = {};
+	constexpr uint32_t buf[500] = {};
 	for (uint64_t i = 0; i < num_bytes; i += sizeof(buf))
 		write(fh, buf, sizeof(buf));
 }
