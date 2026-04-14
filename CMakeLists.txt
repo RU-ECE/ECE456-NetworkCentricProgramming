@@ -4,8 +4,8 @@ project(Rutgers_ECE_451_NetworkCentricProgramming)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(S01_In_Class_Primes sessions/01/inclass/primes.cpp)
-add_executable(S01_In_Class_SaveWebP sessions/01/inclass/savewebp.cpp)
+add_executable(S01_In_Class_Primes sessions/01/in_class/primes.cpp)
+add_executable(S01_In_Class_SaveWebP sessions/01/in_class/savewebp.cpp)
 add_executable(S01_WriteImg sessions/01/writeimg.cpp)
 
 add_executable(S02_Lifetime_Scope sessions/02/01lifetime_scope.c)
