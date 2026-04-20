@@ -91,62 +91,57 @@ static void websocket(CURL *curl)
 
 #endif
 
-static size_t writecb(char *b, size_t size, size_t nitems, void *p)
-{
-  CURL *easy = p;
-  unsigned char *buffer = (unsigned char *)b;
-  size_t i;
-  size_t sent;
-  unsigned char pong[] = {
-    0x8a, 0x0
-  };
-  size_t incoming = nitems;
-  fprintf(stderr, "Called CURLOPT_WRITEFUNCTION with %u bytes: ",
-          (int)nitems);
-  for(i = 0; i < nitems; i++)
-    fprintf(stderr, "%02x ", (unsigned char)buffer[i]);
-  fprintf(stderr, "\n");
-  (void)size;
-  if(buffer[0] == 0x89) {
-    CURLcode result;
-    fprintf(stderr, "send back a simple PONG\n");
-    result = curl_ws_send(easy, pong, 2, &sent, 0, 0);
-    if(result)
-      nitems = 0;
-  }
-  if(nitems != incoming)
-    fprintf(stderr, "returns error from callback\n");
-  return nitems;
+static size_t writecb(char* b, size_t size, size_t nitems, void* p) {
+	CURL* easy = p;
+	unsigned char* buffer = (unsigned char*)b;
+	size_t i;
+	size_t sent;
+	unsigned char pong[] = {0x8a, 0x0};
+	size_t incoming = nitems;
+	fprintf(stderr, "Called CURLOPT_WRITEFUNCTION with %u bytes: ", (int)nitems);
+	for (i = 0; i < nitems; i++)
+		fprintf(stderr, "%02x ", (unsigned char)buffer[i]);
+	fprintf(stderr, "\n");
+	(void)size;
+	if (buffer[0] == 0x89) {
+		CURLcode result;
+		fprintf(stderr, "send back a simple PONG\n");
+		result = curl_ws_send(easy, pong, 2, &sent, 0, 0);
+		if (result)
+			nitems = 0;
+	}
+	if (nitems != incoming)
+		fprintf(stderr, "returns error from callback\n");
+	return nitems;
 }
 
-int test(char *URL)
-{
-  CURL *curl;
-  CURLcode res = CURLE_OK;
+int test(char* URL) {
+	CURL* curl;
+	CURLcode res = CURLE_OK;
 
-  global_init(CURL_GLOBAL_ALL);
+	global_init(CURL_GLOBAL_ALL);
 
-  curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, URL);
+	curl = curl_easy_init();
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, URL);
 
-    /* use the callback style */
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "webbie-sox/3");
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt(curl, CURLOPT_WS_OPTIONS, CURLWS_RAW_MODE);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writecb);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, curl);
-    res = curl_easy_perform(curl);
-    fprintf(stderr, "curl_easy_perform() returned %u\n", (int)res);
+		/* use the callback style */
+		curl_easy_setopt(curl, CURLOPT_USERAGENT, "webbie-sox/3");
+		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+		curl_easy_setopt(curl, CURLOPT_WS_OPTIONS, CURLWS_RAW_MODE);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writecb);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, curl);
+		res = curl_easy_perform(curl);
+		fprintf(stderr, "curl_easy_perform() returned %u\n", (int)res);
 #if 0
     if(res == CURLE_OK)
       websocket(curl);
 #endif
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
-  curl_global_cleanup();
-  return (int)res;
+		/* always cleanup */
+		curl_easy_cleanup(curl);
+	}
+	curl_global_cleanup();
+	return (int)res;
 }
 
 #else /* no websockets */

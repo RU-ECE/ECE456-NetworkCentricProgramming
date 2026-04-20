@@ -24,11 +24,11 @@
  *
  ***************************************************************************/
 
+#include "asyn.h"
+#include "curl_addrinfo.h"
 #include "curl_setup.h"
 #include "hash.h"
-#include "curl_addrinfo.h"
 #include "timeval.h" /* for timediff_t */
-#include "asyn.h"
 
 /* Allocate enough memory to hold the full name information structs and
  * everything. OSF1 is known to require at least 8872 bytes. The buffer
@@ -37,8 +37,9 @@
  */
 #define CURL_HOSTENT_SIZE 9000
 
-#define CURL_TIMEOUT_RESOLVE 300 /* when using asynch methods, we allow this
-                                    many seconds for a name resolve */
+#define CURL_TIMEOUT_RESOLVE                                                                                           \
+	300 /* when using asynch methods, we allow this                                                                    \
+		   many seconds for a name resolve */
 
 #define CURL_ASYNC_SUCCESS CURLE_OK
 
@@ -54,21 +55,21 @@ struct connectdata;
  *
  * Returns a struct Curl_hash pointer on success, NULL on failure.
  */
-Curl_hash *Curl_global_host_cache_init(void);
+Curl_hash* Curl_global_host_cache_init(void);
 
 struct Curl_dns_entry {
-	Curl_addrinfo *addr;
-  /* timestamp == 0 -- permanent CURLOPT_RESOLVE entry (doesn't time out) */
-  time_t timestamp;
-  /* use-counter, use Curl_resolv_unlock to release reference */
-  long inuse;
-  /* hostname port number that resolved to addr. */
-  int hostport;
-  /* hostname that resolved to addr. may be NULL (unix domain sockets). */
-  char hostname[1];
+	Curl_addrinfo* addr;
+	/* timestamp == 0 -- permanent CURLOPT_RESOLVE entry (doesn't time out) */
+	time_t timestamp;
+	/* use-counter, use Curl_resolv_unlock to release reference */
+	long inuse;
+	/* hostname port number that resolved to addr. */
+	int hostport;
+	/* hostname that resolved to addr. may be NULL (unix domain sockets). */
+	char hostname[1];
 };
 
-bool Curl_host_is_ipnum(const char *hostname);
+bool Curl_host_is_ipnum(const char* hostname);
 
 /*
  * Curl_resolv() returns an entry with the info for the specified host
@@ -78,25 +79,16 @@ bool Curl_host_is_ipnum(const char *hostname);
  * use, or we'll leak memory!
  */
 /* return codes */
-enum resolve_t {
-  CURLRESOLV_TIMEDOUT = -2,
-  CURLRESOLV_ERROR    = -1,
-  CURLRESOLV_RESOLVED =  0,
-  CURLRESOLV_PENDING  =  1
-};
-resolve_t Curl_resolv(Curl_easy *data,
-                           const char *hostname,
-                           int port,
-                           bool allowDOH, Curl_dns_entry **dnsentry);
-resolve_t Curl_resolv_timeout(Curl_easy *data,
-                                   const char *hostname, int port, Curl_dns_entry **dnsentry,
-                                   timediff_t timeoutms);
+enum resolve_t { CURLRESOLV_TIMEDOUT = -2, CURLRESOLV_ERROR = -1, CURLRESOLV_RESOLVED = 0, CURLRESOLV_PENDING = 1 };
+resolve_t Curl_resolv(Curl_easy* data, const char* hostname, int port, bool allowDOH, Curl_dns_entry** dnsentry);
+resolve_t Curl_resolv_timeout(Curl_easy* data, const char* hostname, int port, Curl_dns_entry** dnsentry,
+							  timediff_t timeoutms);
 
 #ifdef ENABLE_IPV6
 /*
  * Curl_ipv6works() returns TRUE if IPv6 seems to work.
  */
-bool Curl_ipv6works(struct Curl_easy *data);
+bool Curl_ipv6works(struct Curl_easy* data);
 #else
 #define Curl_ipv6works(x) FALSE
 #endif
@@ -105,7 +97,7 @@ bool Curl_ipv6works(struct Curl_easy *data);
  * Curl_ipvalid() checks what CURL_IPRESOLVE_* requirements that might've
  * been set and returns TRUE if they are OK.
  */
-bool Curl_ipvalid(Curl_easy *data, connectdata *conn);
+bool Curl_ipvalid(Curl_easy* data, connectdata* conn);
 
 
 /*
@@ -114,25 +106,22 @@ bool Curl_ipvalid(Curl_easy *data, connectdata *conn);
  * name resolve layers (selected at build-time). They all take this same set
  * of arguments
  */
-Curl_addrinfo *Curl_getaddrinfo(Curl_easy *data,
-                                       const char *hostname,
-                                       int port,
-                                       int *waitp);
+Curl_addrinfo* Curl_getaddrinfo(Curl_easy* data, const char* hostname, int port, int* waitp);
 
 
 /* unlock a previously resolved dns entry */
-void Curl_resolv_unlock(Curl_easy *data, Curl_dns_entry *dns);
+void Curl_resolv_unlock(Curl_easy* data, Curl_dns_entry* dns);
 
 /* init a new dns cache */
-void Curl_init_dnscache(Curl_hash *hash, int hashsize);
+void Curl_init_dnscache(Curl_hash* hash, int hashsize);
 
 /* prune old entries from the DNS cache */
-void Curl_hostcache_prune(Curl_easy *data);
+void Curl_hostcache_prune(Curl_easy* data);
 
 /* IPv4 threadsafe resolve function used for synch and asynch builds */
-Curl_addrinfo *Curl_ipv4_resolve_r(const char *hostname, int port);
+Curl_addrinfo* Curl_ipv4_resolve_r(const char* hostname, int port);
 
-CURLcode Curl_once_resolved(Curl_easy *data, bool *protocol_connect);
+CURLcode Curl_once_resolved(Curl_easy* data, bool* protocol_connect);
 
 /*
  * Curl_addrinfo_callback() is used when we build with any asynch specialty.
@@ -140,16 +129,14 @@ CURLcode Curl_once_resolved(Curl_easy *data, bool *protocol_connect);
  * status is CURL_ASYNC_SUCCESS. Twiddles fields in conn to indicate async
  * request completed whether successful or failed.
  */
-CURLcode Curl_addrinfo_callback(Curl_easy *data,
-                                int status, Curl_addrinfo *ai);
+CURLcode Curl_addrinfo_callback(Curl_easy* data, int status, Curl_addrinfo* ai);
 
 /*
  * Curl_printable_address() returns a printable version of the 1st address
  * given in the 'ip' argument. The result will be stored in the buf that is
  * bufsize bytes big.
  */
-void Curl_printable_address(const Curl_addrinfo *ip,
-                            char *buf, size_t bufsize);
+void Curl_printable_address(const Curl_addrinfo* ip, char* buf, size_t bufsize);
 
 /*
  * Curl_fetch_addr() fetches a 'Curl_dns_entry' already in the DNS cache.
@@ -159,19 +146,14 @@ void Curl_printable_address(const Curl_addrinfo *ip,
  * The returned data *MUST* be "unlocked" with Curl_resolv_unlock() after
  * use, or we'll leak memory!
  */
-Curl_dns_entry *
-Curl_fetch_addr(Curl_easy *data,
-                const char *hostname,
-                int port);
+Curl_dns_entry* Curl_fetch_addr(Curl_easy* data, const char* hostname, int port);
 
 /*
  * Curl_cache_addr() stores a 'Curl_addrinfo' struct in the DNS cache.
  *
  * Returns the Curl_dns_entry entry pointer or NULL if the storage failed.
  */
-Curl_dns_entry *
-Curl_cache_addr(Curl_easy *data, Curl_addrinfo *addr,
-                const char *hostname, size_t hostlen, int port);
+Curl_dns_entry* Curl_cache_addr(Curl_easy* data, Curl_addrinfo* addr, const char* hostname, size_t hostlen, int port);
 
 #ifndef INADDR_NONE
 #define CURL_INADDR_NONE (in_addr_t) ~0
@@ -182,41 +164,37 @@ Curl_cache_addr(Curl_easy *data, Curl_addrinfo *addr,
 /*
  * Function provided by the resolver backend to set DNS servers to use.
  */
-CURLcode Curl_set_dns_servers(Curl_easy *data, char *servers);
+CURLcode Curl_set_dns_servers(Curl_easy* data, char* servers);
 
 /*
  * Function provided by the resolver backend to set
  * outgoing interface to use for DNS requests
  */
-CURLcode Curl_set_dns_interface(Curl_easy *data,
-                                const char *interf);
+CURLcode Curl_set_dns_interface(Curl_easy* data, const char* interf);
 
 /*
  * Function provided by the resolver backend to set
  * local IPv4 address to use as source address for DNS requests
  */
-CURLcode Curl_set_dns_local_ip4(Curl_easy *data,
-                                const char *local_ip4);
+CURLcode Curl_set_dns_local_ip4(Curl_easy* data, const char* local_ip4);
 
 /*
  * Function provided by the resolver backend to set
  * local IPv6 address to use as source address for DNS requests
  */
-CURLcode Curl_set_dns_local_ip6(Curl_easy *data,
-                                const char *local_ip6);
+CURLcode Curl_set_dns_local_ip6(Curl_easy* data, const char* local_ip6);
 
 /*
  * Clean off entries from the cache
  */
-void Curl_hostcache_clean(Curl_easy *data, Curl_hash *hash);
+void Curl_hostcache_clean(Curl_easy* data, Curl_hash* hash);
 
 /*
  * Populate the cache with specified entries from CURLOPT_RESOLVE.
  */
-CURLcode Curl_loadhostpairs(Curl_easy *data);
-CURLcode Curl_resolv_check(Curl_easy *data, Curl_dns_entry **dns);
-int Curl_resolv_getsock(Curl_easy *data,
-                        curl_socket_t *socks);
+CURLcode Curl_loadhostpairs(Curl_easy* data);
+CURLcode Curl_resolv_check(Curl_easy* data, Curl_dns_entry** dns);
+int Curl_resolv_getsock(Curl_easy* data, curl_socket_t* socks);
 
-CURLcode Curl_resolver_error(Curl_easy *data);
+CURLcode Curl_resolver_error(Curl_easy* data);
 #endif /* HEADER_CURL_HOSTIP_H */

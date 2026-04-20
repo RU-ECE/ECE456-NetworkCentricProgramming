@@ -21,11 +21,10 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
+#include "memdebug.h"
 #include "test.h"
-
 #include "testutil.h"
 #include "warnless.h"
-#include "memdebug.h"
 
 #define TEST_HANG_TIMEOUT 60 * 1000
 
@@ -33,61 +32,60 @@
  * Get a single URL without select().
  */
 
-int test(char *URL)
-{
-  CURL *c = NULL;
-  CURLM *m = NULL;
-  int res = 0;
-  int running;
+int test(char* URL) {
+	CURL* c = NULL;
+	CURLM* m = NULL;
+	int res = 0;
+	int running;
 
-  start_test_timing();
+	start_test_timing();
 
-  global_init(CURL_GLOBAL_ALL);
+	global_init(CURL_GLOBAL_ALL);
 
-  easy_init(c);
+	easy_init(c);
 
-  easy_setopt(c, CURLOPT_URL, URL);
+	easy_setopt(c, CURLOPT_URL, URL);
 
-  multi_init(m);
+	multi_init(m);
 
-  multi_add_handle(m, c);
+	multi_add_handle(m, c);
 
-  for(;;) {
-    struct timeval timeout;
-    fd_set fdread, fdwrite, fdexcep;
-    int maxfd = -99;
+	for (;;) {
+		struct timeval timeout;
+		fd_set fdread, fdwrite, fdexcep;
+		int maxfd = -99;
 
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 100000L; /* 100 ms */
+		timeout.tv_sec = 0;
+		timeout.tv_usec = 100000L; /* 100 ms */
 
-    multi_perform(m, &running);
+		multi_perform(m, &running);
 
-    abort_on_test_timeout();
+		abort_on_test_timeout();
 
-    if(!running)
-      break; /* done */
+		if (!running)
+			break; /* done */
 
-    FD_ZERO(&fdread);
-    FD_ZERO(&fdwrite);
-    FD_ZERO(&fdexcep);
+		FD_ZERO(&fdread);
+		FD_ZERO(&fdwrite);
+		FD_ZERO(&fdexcep);
 
-    multi_fdset(m, &fdread, &fdwrite, &fdexcep, &maxfd);
+		multi_fdset(m, &fdread, &fdwrite, &fdexcep, &maxfd);
 
-    /* At this point, maxfd is guaranteed to be greater or equal than -1. */
+		/* At this point, maxfd is guaranteed to be greater or equal than -1. */
 
-    select_test(maxfd + 1, &fdread, &fdwrite, &fdexcep, &timeout);
+		select_test(maxfd + 1, &fdread, &fdwrite, &fdexcep, &timeout);
 
-    abort_on_test_timeout();
-  }
+		abort_on_test_timeout();
+	}
 
 test_cleanup:
 
-  /* proper cleanup sequence - type PA */
+	/* proper cleanup sequence - type PA */
 
-  curl_multi_remove_handle(m, c);
-  curl_multi_cleanup(m);
-  curl_easy_cleanup(c);
-  curl_global_cleanup();
+	curl_multi_remove_handle(m, c);
+	curl_multi_cleanup(m);
+	curl_easy_cleanup(c);
+	curl_global_cleanup();
 
-  return res;
+	return res;
 }

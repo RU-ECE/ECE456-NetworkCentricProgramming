@@ -28,58 +28,58 @@
 #include "tool_sdecls.h"
 
 struct per_transfer {
-  /* double linked */
-	per_transfer *next;
-	per_transfer *prev;
-	OperationConfig *config; /* for this transfer */
-  struct curl_certinfo *certinfo;
-  CURL *curl;
-  long retry_numretries;
-  long retry_sleep_default;
-  long retry_sleep;
+	/* double linked */
+	per_transfer* next;
+	per_transfer* prev;
+	OperationConfig* config; /* for this transfer */
+	struct curl_certinfo* certinfo;
+	CURL* curl;
+	long retry_numretries;
+	long retry_sleep_default;
+	long retry_sleep;
 	timeval start; /* start of this transfer */
 	timeval retrystart;
-  char *this_url;
-  unsigned int urlnum; /* the index of the given URL */
-  char *outfile;
-  bool infdopen; /* TRUE if infd needs closing */
-  int infd;
-  bool noprogress;
+	char* this_url;
+	unsigned int urlnum; /* the index of the given URL */
+	char* outfile;
+	bool infdopen; /* TRUE if infd needs closing */
+	int infd;
+	bool noprogress;
 	ProgressData progressbar;
 	OutStruct outs;
 	OutStruct heads;
 	OutStruct etag_save;
 	HdrCbData hdrcbdata;
-  long num_headers;
-  bool was_last_header_empty;
+	long num_headers;
+	bool was_last_header_empty;
 
-  bool added; /* set TRUE when added to the multi handle */
-  time_t startat; /* when doing parallel transfers, this is a retry transfer
-                     that has been set to sleep until this time before it
-                     should get started (again) */
-  bool abort; /* when doing parallel transfers and this is TRUE then a critical
-                 error (eg --fail-early) has occurred in another transfer and
-                 this transfer will be aborted in the progress callback */
+	bool added; /* set TRUE when added to the multi handle */
+	time_t startat; /* when doing parallel transfers, this is a retry transfer
+					   that has been set to sleep until this time before it
+					   should get started (again) */
+	bool abort; /* when doing parallel transfers and this is TRUE then a critical
+				   error (eg --fail-early) has occurred in another transfer and
+				   this transfer will be aborted in the progress callback */
 
-  /* for parallel progress bar */
-  curl_off_t dltotal;
-  curl_off_t dlnow;
-  curl_off_t ultotal;
-  curl_off_t ulnow;
-  curl_off_t uploadfilesize; /* expected total amount */
-  curl_off_t uploadedsofar; /* amount delivered from the callback */
-  bool dltotal_added; /* if the total has been added from this */
-  bool ultotal_added;
+	/* for parallel progress bar */
+	curl_off_t dltotal;
+	curl_off_t dlnow;
+	curl_off_t ultotal;
+	curl_off_t ulnow;
+	curl_off_t uploadfilesize; /* expected total amount */
+	curl_off_t uploadedsofar; /* amount delivered from the callback */
+	bool dltotal_added; /* if the total has been added from this */
+	bool ultotal_added;
 
-  /* NULL or malloced */
-  char *uploadfile;
-  char *errorbuffer; /* allocated and assigned while this is used for a
-                        transfer */
+	/* NULL or malloced */
+	char* uploadfile;
+	char* errorbuffer; /* allocated and assigned while this is used for a
+						  transfer */
 };
 
-CURLcode operate(GlobalConfig *config, int argc, argv_item_t argv[]);
-void single_transfer_cleanup(OperationConfig *config);
+CURLcode operate(GlobalConfig* config, int argc, argv_item_t argv[]);
+void single_transfer_cleanup(OperationConfig* config);
 
-extern per_transfer *transfers; /* first node */
+extern per_transfer* transfers; /* first node */
 
 #endif /* HEADER_CURL_TOOL_OPERATE_H */

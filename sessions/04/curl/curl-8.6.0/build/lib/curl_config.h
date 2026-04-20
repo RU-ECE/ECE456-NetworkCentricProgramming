@@ -150,7 +150,7 @@
 /* #undef CURL_DISABLE_VERBOSE_STRINGS */
 
 /* to make a symbol visible */
-#define CURL_EXTERN_SYMBOL __attribute__ ((__visibility__ ("default")))
+#define CURL_EXTERN_SYMBOL __attribute__((__visibility__("default")))
 /* Ensure using CURL_EXTERN_SYMBOL is possible */
 #ifndef CURL_EXTERN_SYMBOL
 #define CURL_EXTERN_SYMBOL
@@ -193,7 +193,7 @@
 #define HAVE_CLOCK_GETTIME_MONOTONIC 1
 
 /* Define to 1 if you have the clock_gettime function and raw monotonic timer.
-   */
+ */
 #define HAVE_CLOCK_GETTIME_MONOTONIC_RAW 1
 
 /* Define to 1 if you have the `closesocket' function. */
@@ -323,7 +323,7 @@
 /* #undef HAVE_IOCTLSOCKET_CAMEL */
 
 /* Define to 1 if you have a working IoctlSocket camel case FIONBIO function.
-   */
+ */
 /* #undef HAVE_IOCTLSOCKET_CAMEL_FIONBIO */
 
 /* Define to 1 if you have a working ioctlsocket FIONBIO function. */
@@ -746,7 +746,7 @@
 
 /* Define to 1 if OS is AIX. */
 #ifndef _ALL_SOURCE
-#  undef _ALL_SOURCE
+#undef _ALL_SOURCE
 #endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */

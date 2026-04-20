@@ -36,22 +36,19 @@
  * Definition of pollfd struct and constants for platforms lacking them.
  */
 
-#if !defined(HAVE_SYS_POLL_H) && \
-    !defined(HAVE_POLL_H) && \
-    !defined(POLLIN)
+#if !defined(HAVE_SYS_POLL_H) && !defined(HAVE_POLL_H) && !defined(POLLIN)
 
-#define POLLIN      0x01
-#define POLLPRI     0x02
-#define POLLOUT     0x04
-#define POLLERR     0x08
-#define POLLHUP     0x10
-#define POLLNVAL    0x20
+#define POLLIN 0x01
+#define POLLPRI 0x02
+#define POLLOUT 0x04
+#define POLLERR 0x08
+#define POLLHUP 0x10
+#define POLLNVAL 0x20
 
-struct pollfd
-{
-    curl_socket_t fd;
-    short   events;
-    short   revents;
+struct pollfd {
+	curl_socket_t fd;
+	short events;
+	short revents;
 };
 
 #endif
@@ -73,13 +70,9 @@ struct pollfd
    therefore defined here */
 #define CURL_CSELECT_IN2 (CURL_CSELECT_ERR << 1)
 
-int Curl_socket_check(curl_socket_t readfd, curl_socket_t readfd2,
-                      curl_socket_t writefd,
-                      timediff_t timeout_ms);
-#define SOCKET_READABLE(x,z) \
-  Curl_socket_check(x, CURL_SOCKET_BAD, CURL_SOCKET_BAD, z)
-#define SOCKET_WRITABLE(x,z) \
-  Curl_socket_check(CURL_SOCKET_BAD, CURL_SOCKET_BAD, x, z)
+int Curl_socket_check(curl_socket_t readfd, curl_socket_t readfd2, curl_socket_t writefd, timediff_t timeout_ms);
+#define SOCKET_READABLE(x, z) Curl_socket_check(x, CURL_SOCKET_BAD, CURL_SOCKET_BAD, z)
+#define SOCKET_WRITABLE(x, z) Curl_socket_check(CURL_SOCKET_BAD, CURL_SOCKET_BAD, x, z)
 
 int Curl_poll(pollfd ufds[], unsigned int nfds, timediff_t timeout_ms);
 int Curl_wait_ms(timediff_t timeout_ms);
@@ -91,24 +84,26 @@ int Curl_wait_ms(timediff_t timeout_ms);
 #ifdef USE_WINSOCK
 #define VALID_SOCK(s) ((s) < INVALID_SOCKET)
 #define FDSET_SOCK(x) 1
-#define VERIFY_SOCK(x) do { \
-  if(!VALID_SOCK(x)) { \
-    SET_SOCKERRNO(WSAEINVAL); \
-    return -1; \
-  } \
-} while(0)
+#define VERIFY_SOCK(x)                                                                                                 \
+	do {                                                                                                               \
+		if (!VALID_SOCK(x)) {                                                                                          \
+			SET_SOCKERRNO(WSAEINVAL);                                                                                  \
+			return -1;                                                                                                 \
+		}                                                                                                              \
+	} while (0)
 #else
 #define VALID_SOCK(s) ((s) >= 0)
 
 /* If the socket is small enough to get set or read from an fdset */
 #define FDSET_SOCK(s) ((s) < FD_SETSIZE)
 
-#define VERIFY_SOCK(x) do {                     \
-    if(!VALID_SOCK(x) || !FDSET_SOCK(x)) {      \
-      SET_SOCKERRNO(EINVAL);                    \
-      return -1;                                \
-    }                                           \
-  } while(0)
+#define VERIFY_SOCK(x)                                                                                                 \
+	do {                                                                                                               \
+		if (!VALID_SOCK(x) || !FDSET_SOCK(x)) {                                                                        \
+			SET_SOCKERRNO(EINVAL);                                                                                     \
+			return -1;                                                                                                 \
+		}                                                                                                              \
+	} while (0)
 #endif
 
 #endif /* HEADER_CURL_SELECT_H */

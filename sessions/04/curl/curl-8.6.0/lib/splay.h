@@ -26,25 +26,26 @@
 #include "timeval.h"
 
 struct Curl_tree {
-	Curl_tree *smaller; /* smaller node */
-	Curl_tree *larger;  /* larger node */
-	Curl_tree *samen;   /* points to the next node with identical key */
-	Curl_tree *samep;   /* points to the prev node with identical key */
-	curltime key;        /* this node's "sort" key */
-  void *payload;             /* data the splay code doesn't care about */
+	Curl_tree* smaller; /* smaller node */
+	Curl_tree* larger; /* larger node */
+	Curl_tree* samen; /* points to the next node with identical key */
+	Curl_tree* samep; /* points to the prev node with identical key */
+	curltime key; /* this node's "sort" key */
+	void* payload; /* data the splay code doesn't care about */
 };
 
-Curl_tree *Curl_splay(curltime i, Curl_tree *t);
+Curl_tree* Curl_splay(curltime i, Curl_tree* t);
 
-Curl_tree *Curl_splayinsert(curltime key, Curl_tree *t, Curl_tree *newnode);
+Curl_tree* Curl_splayinsert(curltime key, Curl_tree* t, Curl_tree* newnode);
 
-Curl_tree *Curl_splaygetbest(curltime key, Curl_tree *t, Curl_tree **removed);
+Curl_tree* Curl_splaygetbest(curltime key, Curl_tree* t, Curl_tree** removed);
 
-int Curl_splayremove(Curl_tree *t, Curl_tree *removenode, Curl_tree **newroot);
+int Curl_splayremove(Curl_tree* t, Curl_tree* removenode, Curl_tree** newroot);
 
-#define Curl_splaycomparekeys(i,j) ( ((i.tv_sec)  < (j.tv_sec)) ? -1 : \
-                                   ( ((i.tv_sec)  > (j.tv_sec)) ?  1 : \
-                                   ( ((i.tv_usec) < (j.tv_usec)) ? -1 : \
-                                   ( ((i.tv_usec) > (j.tv_usec)) ?  1 : 0))))
+#define Curl_splaycomparekeys(i, j)                                                                                    \
+	(((i.tv_sec) < (j.tv_sec))                                                                                         \
+		 ? -1                                                                                                          \
+		 : (((i.tv_sec) > (j.tv_sec)) ? 1                                                                              \
+									  : (((i.tv_usec) < (j.tv_usec)) ? -1 : (((i.tv_usec) > (j.tv_usec)) ? 1 : 0))))
 
 #endif /* HEADER_CURL_SPLAY_H */

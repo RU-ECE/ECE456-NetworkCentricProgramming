@@ -24,38 +24,36 @@
  *
  ***************************************************************************/
 
-struct getout *new_getout(struct OperationConfig *config);
+struct getout* new_getout(struct OperationConfig* config);
 
-ParameterError file2string(char **bufp, FILE *file);
+ParameterError file2string(char** bufp, FILE* file);
 
-#define MAX_FILE2MEMORY (1024*1024*1024) /* big enough ? */
+#define MAX_FILE2MEMORY (1024 * 1024 * 1024) /* big enough ? */
 
-ParameterError file2memory(char **bufp, size_t *size, FILE *file);
+ParameterError file2memory(char** bufp, size_t* size, FILE* file);
 
-ParameterError str2num(long *val, const char *str);
-ParameterError str2unum(long *val, const char *str);
-ParameterError oct2nummax(long *val, const char *str, long max);
-ParameterError str2unummax(long *val, const char *str, long max);
-ParameterError secs2ms(long *val, const char *str);
+ParameterError str2num(long* val, const char* str);
+ParameterError str2unum(long* val, const char* str);
+ParameterError oct2nummax(long* val, const char* str, long max);
+ParameterError str2unummax(long* val, const char* str, long max);
+ParameterError secs2ms(long* val, const char* str);
 
-ParameterError proto2num(OperationConfig *config,
-                         const char * const *val, char **obuf,
-                         const char *str);
+ParameterError proto2num(OperationConfig* config, const char* const* val, char** obuf, const char* str);
 
-ParameterError check_protocol(const char *str);
+ParameterError check_protocol(const char* str);
 
-ParameterError str2offset(curl_off_t *val, const char *str);
+ParameterError str2offset(curl_off_t* val, const char* str);
 
-CURLcode get_args(OperationConfig *config, const size_t i);
+CURLcode get_args(OperationConfig* config, const size_t i);
 
-ParameterError add2list(struct curl_slist **list, const char *ptr);
+ParameterError add2list(struct curl_slist** list, const char* ptr);
 
-int ftpfilemethod(OperationConfig *config, const char *str);
+int ftpfilemethod(OperationConfig* config, const char* str);
 
-int ftpcccmethod(OperationConfig *config, const char *str);
+int ftpcccmethod(OperationConfig* config, const char* str);
 
-long delegation(OperationConfig *config, const char *str);
+long delegation(OperationConfig* config, const char* str);
 
-ParameterError str2tls_max(long *val, const char *str);
+ParameterError str2tls_max(long* val, const char* str);
 
 #endif /* HEADER_CURL_TOOL_PARAMHLP_H */

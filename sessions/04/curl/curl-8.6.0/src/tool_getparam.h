@@ -25,48 +25,43 @@
  ***************************************************************************/
 
 typedef enum {
-  PARAM_OK = 0,
-  PARAM_OPTION_AMBIGUOUS,
-  PARAM_OPTION_UNKNOWN,
-  PARAM_REQUIRES_PARAMETER,
-  PARAM_BAD_USE,
-  PARAM_HELP_REQUESTED,
-  PARAM_MANUAL_REQUESTED,
-  PARAM_VERSION_INFO_REQUESTED,
-  PARAM_ENGINES_REQUESTED,
-  PARAM_GOT_EXTRA_PARAMETER,
-  PARAM_BAD_NUMERIC,
-  PARAM_NEGATIVE_NUMERIC,
-  PARAM_LIBCURL_DOESNT_SUPPORT,
-  PARAM_LIBCURL_UNSUPPORTED_PROTOCOL,
-  PARAM_NO_MEM,
-  PARAM_NEXT_OPERATION,
-  PARAM_NO_PREFIX,
-  PARAM_NUMBER_TOO_LARGE,
-  PARAM_NO_NOT_BOOLEAN,
-  PARAM_CONTDISP_SHOW_HEADER, /* --include and --remote-header-name */
-  PARAM_CONTDISP_RESUME_FROM, /* --continue-at and --remote-header-name */
-  PARAM_READ_ERROR,
-  PARAM_EXPAND_ERROR, /* --expand problem */
-  PARAM_BLANK_STRING,
-  PARAM_LAST
+	PARAM_OK = 0,
+	PARAM_OPTION_AMBIGUOUS,
+	PARAM_OPTION_UNKNOWN,
+	PARAM_REQUIRES_PARAMETER,
+	PARAM_BAD_USE,
+	PARAM_HELP_REQUESTED,
+	PARAM_MANUAL_REQUESTED,
+	PARAM_VERSION_INFO_REQUESTED,
+	PARAM_ENGINES_REQUESTED,
+	PARAM_GOT_EXTRA_PARAMETER,
+	PARAM_BAD_NUMERIC,
+	PARAM_NEGATIVE_NUMERIC,
+	PARAM_LIBCURL_DOESNT_SUPPORT,
+	PARAM_LIBCURL_UNSUPPORTED_PROTOCOL,
+	PARAM_NO_MEM,
+	PARAM_NEXT_OPERATION,
+	PARAM_NO_PREFIX,
+	PARAM_NUMBER_TOO_LARGE,
+	PARAM_NO_NOT_BOOLEAN,
+	PARAM_CONTDISP_SHOW_HEADER, /* --include and --remote-header-name */
+	PARAM_CONTDISP_RESUME_FROM, /* --continue-at and --remote-header-name */
+	PARAM_READ_ERROR,
+	PARAM_EXPAND_ERROR, /* --expand problem */
+	PARAM_BLANK_STRING,
+	PARAM_LAST
 } ParameterError;
 
 struct GlobalConfig;
 struct OperationConfig;
 
-ParameterError getparameter(const char *flag, char *nextarg,
-                            argv_item_t cleararg,
-                            bool *usedarg, GlobalConfig *global,
-							OperationConfig *operation);
+ParameterError getparameter(const char* flag, char* nextarg, argv_item_t cleararg, bool* usedarg, GlobalConfig* global,
+							OperationConfig* operation);
 
 #ifdef UNITTESTS
-void parse_cert_parameter(const char *cert_parameter,
-                          char **certname,
-                          char **passphrase);
+void parse_cert_parameter(const char* cert_parameter, char** certname, char** passphrase);
 #endif
 
-ParameterError parse_args(GlobalConfig *config, int argc,
-                          argv_item_t argv[]);
+ParameterError parse_args(GlobalConfig* config, int argc, argv_item_t argv[]);
 
 #endif /* HEADER_CURL_TOOL_GETPARAM_H */

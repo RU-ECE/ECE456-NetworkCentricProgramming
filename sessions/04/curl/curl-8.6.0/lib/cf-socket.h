@@ -40,14 +40,14 @@ struct Curl_sockaddr_ex;
  * been set, before that, it is initialized from parameters.
  */
 struct Curl_sockaddr_ex {
-  int family;
-  int socktype;
-  int protocol;
-  unsigned int addrlen;
-  union {
-	  sockaddr addr;
-	  Curl_sockaddr_storage buff;
-  } _sa_ex_u;
+	int family;
+	int socktype;
+	int protocol;
+	unsigned int addrlen;
+	union {
+		sockaddr addr;
+		Curl_sockaddr_storage buff;
+	} _sa_ex_u;
 };
 #define sa_addr _sa_ex_u.addr
 
@@ -59,13 +59,10 @@ struct Curl_sockaddr_ex {
  * socket callback is set, used that!
  *
  */
-CURLcode Curl_socket_open(Curl_easy *data,
-                            const Curl_addrinfo *ai, Curl_sockaddr_ex *addr,
-                            int transport,
-                            curl_socket_t *sockfd);
+CURLcode Curl_socket_open(Curl_easy* data, const Curl_addrinfo* ai, Curl_sockaddr_ex* addr, int transport,
+						  curl_socket_t* sockfd);
 
-int Curl_socket_close(Curl_easy *data, connectdata *conn,
-                      curl_socket_t sock);
+int Curl_socket_close(Curl_easy* data, connectdata* conn, curl_socket_t sock);
 
 #ifdef USE_WINSOCK
 /* When you run a program that uses the Windows Sockets API, you may
@@ -86,9 +83,7 @@ void Curl_sndbufset(curl_socket_t sockfd);
  * Assign the address `ai` to the Curl_sockaddr_ex `dest` and
  * set the transport used.
  */
-void Curl_sock_assign_addr(Curl_sockaddr_ex *dest,
-                           const Curl_addrinfo *ai,
-                           int transport);
+void Curl_sock_assign_addr(Curl_sockaddr_ex* dest, const Curl_addrinfo* ai, int transport);
 
 /**
  * Creates a cfilter that opens a TCP socket to the given address
@@ -97,9 +92,8 @@ void Curl_sock_assign_addr(Curl_sockaddr_ex *dest,
  * used in happy eyeballing. Once selected for use, its `_active()`
  * method needs to be called.
  */
-CURLcode Curl_cf_tcp_create(Curl_cfilter **pcf, Curl_easy *data, connectdata *conn,
-                            const Curl_addrinfo *ai,
-                            int transport);
+CURLcode Curl_cf_tcp_create(Curl_cfilter** pcf, Curl_easy* data, connectdata* conn, const Curl_addrinfo* ai,
+							int transport);
 
 /**
  * Creates a cfilter that opens a UDP socket to the given address
@@ -108,9 +102,8 @@ CURLcode Curl_cf_tcp_create(Curl_cfilter **pcf, Curl_easy *data, connectdata *co
  * used in happy eyeballing. Once selected for use, its `_active()`
  * method needs to be called.
  */
-CURLcode Curl_cf_udp_create(Curl_cfilter **pcf, Curl_easy *data, connectdata *conn,
-                            const Curl_addrinfo *ai,
-                            int transport);
+CURLcode Curl_cf_udp_create(Curl_cfilter** pcf, Curl_easy* data, connectdata* conn, const Curl_addrinfo* ai,
+							int transport);
 
 /**
  * Creates a cfilter that opens a UNIX socket to the given address
@@ -119,23 +112,18 @@ CURLcode Curl_cf_udp_create(Curl_cfilter **pcf, Curl_easy *data, connectdata *co
  * used in happy eyeballing. Once selected for use, its `_active()`
  * method needs to be called.
  */
-CURLcode Curl_cf_unix_create(Curl_cfilter **pcf, Curl_easy *data, connectdata *conn,
-                             const Curl_addrinfo *ai,
-                             int transport);
+CURLcode Curl_cf_unix_create(Curl_cfilter** pcf, Curl_easy* data, connectdata* conn, const Curl_addrinfo* ai,
+							 int transport);
 
 /**
  * Creates a cfilter that keeps a listening socket.
  */
-CURLcode Curl_conn_tcp_listen_set(Curl_easy *data, connectdata *conn,
-                                  int sockindex,
-                                  curl_socket_t *s);
+CURLcode Curl_conn_tcp_listen_set(Curl_easy* data, connectdata* conn, int sockindex, curl_socket_t* s);
 
 /**
  * Replace the listen socket with the accept()ed one.
  */
-CURLcode Curl_conn_tcp_accepted_set(Curl_easy *data, connectdata *conn,
-                                    int sockindex,
-                                    curl_socket_t *s);
+CURLcode Curl_conn_tcp_accepted_set(Curl_easy* data, connectdata* conn, int sockindex, curl_socket_t* s);
 
 /**
  * Peek at the socket and remote ip/port the socket filter is using.
@@ -148,11 +136,8 @@ CURLcode Curl_conn_tcp_accepted_set(Curl_easy *data, connectdata *conn,
  * @param pl_port           pointer to hold local port number or NULL
  * Returns error if the filter is of invalid type.
  */
-CURLcode Curl_cf_socket_peek(Curl_cfilter *cf, Curl_easy *data,
-                             curl_socket_t *psock,
-                             const Curl_sockaddr_ex **paddr,
-                             const char **pr_ip_str, int *pr_port,
-                             const char **pl_ip_str, int *pl_port);
+CURLcode Curl_cf_socket_peek(Curl_cfilter* cf, Curl_easy* data, curl_socket_t* psock, const Curl_sockaddr_ex** paddr,
+							 const char** pr_ip_str, int* pr_port, const char** pl_ip_str, int* pl_port);
 
 extern struct Curl_cftype Curl_cft_tcp;
 extern Curl_cftype Curl_cft_udp;

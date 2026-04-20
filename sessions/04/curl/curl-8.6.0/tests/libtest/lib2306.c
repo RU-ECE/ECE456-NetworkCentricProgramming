@@ -22,34 +22,33 @@
  *
  ***************************************************************************/
 
+#include <curl/curl.h>
+
 #include "test.h"
 #include "testtrace.h"
 
-#include <curl/curl.h>
-
 #define URL2 libtest_arg2
 
-int test(char *URL)
-{
-  /* first a fine GET response, then a bad one */
-  CURL *cl;
-  CURLcode res = CURLE_OK;
+int test(char* URL) {
+	/* first a fine GET response, then a bad one */
+	CURL* cl;
+	CURLcode res = CURLE_OK;
 
-  global_init(CURL_GLOBAL_ALL);
+	global_init(CURL_GLOBAL_ALL);
 
-  easy_init(cl);
-  easy_setopt(cl, CURLOPT_URL, URL);
-  easy_setopt(cl, CURLOPT_VERBOSE, 1L);
-  res = curl_easy_perform(cl);
-  if(res)
-    goto test_cleanup;
+	easy_init(cl);
+	easy_setopt(cl, CURLOPT_URL, URL);
+	easy_setopt(cl, CURLOPT_VERBOSE, 1L);
+	res = curl_easy_perform(cl);
+	if (res)
+		goto test_cleanup;
 
-  /* reuse handle, do a second transfer */
-  easy_setopt(cl, CURLOPT_URL, URL2);
-  res = curl_easy_perform(cl);
+	/* reuse handle, do a second transfer */
+	easy_setopt(cl, CURLOPT_URL, URL2);
+	res = curl_easy_perform(cl);
 
 test_cleanup:
-  curl_easy_cleanup(cl);
-  curl_global_cleanup();
-  return res;
+	curl_easy_cleanup(cl);
+	curl_global_cleanup();
+	return res;
 }

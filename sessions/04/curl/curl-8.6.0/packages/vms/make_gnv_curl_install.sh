@@ -26,8 +26,7 @@
 #
 # Needed VMS build setups for GNV.
 export GNV_OPT_DIR=.
-export GNV_CC_QUALIFIERS=/DEBUG/OPTIMIZE/STANDARD=RELAXED\
-/float=ieee_float/ieee_mode=denorm_results
+export GNV_CC_QUALIFIERS=/DEBUG/OPTIMIZE/STANDARD=RELAXED/float=ieee_float/ieee_mode=denorm_results
 export GNV_CXX_QUALIFIERS=/DEBUG/OPTIMIZE/float=ieee/ieee_mode=denorm_results
 export GNV_CC_NO_INC_PRIMARY=1
 #
@@ -38,7 +37,7 @@ make
 cd ../..
 # adjust the libcurl.pc file, GNV currently ignores the Lib: line.
 # but is noisy about it, so we just remove it.
-sed -e 's/^Libs:/#Libs:/g' libcurl.pc > libcurl.pc_new
+sed -e 's/^Libs:/#Libs:/g' libcurl.pc >libcurl.pc_new
 rm libcurl.pc
 mv libcurl.pc_new libcurl.pc
 make install

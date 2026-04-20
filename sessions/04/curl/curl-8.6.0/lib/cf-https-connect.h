@@ -34,20 +34,14 @@ struct Curl_dns_entry;
 
 extern Curl_cftype Curl_cft_http_connect;
 
-CURLcode Curl_cf_http_connect_add(Curl_easy *data, connectdata *conn,
-                                  int sockindex,
-                                  const Curl_dns_entry *remotehost,
-                                  bool try_h3, bool try_h21);
+CURLcode Curl_cf_http_connect_add(Curl_easy* data, connectdata* conn, int sockindex, const Curl_dns_entry* remotehost,
+								  bool try_h3, bool try_h21);
 
-CURLcode
-Curl_cf_http_connect_insert_after(Curl_cfilter *cf_at, Curl_easy *data,
-                                  const Curl_dns_entry *remotehost,
-                                  bool try_h3, bool try_h21);
+CURLcode Curl_cf_http_connect_insert_after(Curl_cfilter* cf_at, Curl_easy* data, const Curl_dns_entry* remotehost,
+										   bool try_h3, bool try_h21);
 
 
-CURLcode Curl_cf_https_setup(Curl_easy *data, connectdata *conn,
-                             int sockindex,
-                             const Curl_dns_entry *remotehost);
+CURLcode Curl_cf_https_setup(Curl_easy* data, connectdata* conn, int sockindex, const Curl_dns_entry* remotehost);
 
 
 #endif /* !defined(CURL_DISABLE_HTTP) && !defined(USE_HYPER) */

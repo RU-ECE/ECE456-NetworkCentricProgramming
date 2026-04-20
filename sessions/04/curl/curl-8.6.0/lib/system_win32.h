@@ -36,33 +36,31 @@ CURLcode Curl_win32_init(long flags);
 void Curl_win32_cleanup(long init_flags);
 
 /* We use our own typedef here since some headers might lack this */
-typedef unsigned int(WINAPI *IF_NAMETOINDEX_FN)(const char *);
+typedef unsigned int(WINAPI* IF_NAMETOINDEX_FN)(const char*);
 
 /* This is used instead of if_nametoindex if available on Windows */
 extern IF_NAMETOINDEX_FN Curl_if_nametoindex;
 
 /* Identical copy of addrinfoexW/ADDRINFOEXW */
-typedef struct addrinfoexW_
-{
-  int                  ai_flags;
-  int                  ai_family;
-  int                  ai_socktype;
-  int                  ai_protocol;
-  size_t               ai_addrlen;
-  PWSTR                ai_canonname;
-  struct sockaddr     *ai_addr;
-  void                *ai_blob;
-  size_t               ai_bloblen;
-  LPGUID               ai_provider;
-  struct addrinfoexW_ *ai_next;
+typedef struct addrinfoexW_ {
+	int ai_flags;
+	int ai_family;
+	int ai_socktype;
+	int ai_protocol;
+	size_t ai_addrlen;
+	PWSTR ai_canonname;
+	struct sockaddr* ai_addr;
+	void* ai_blob;
+	size_t ai_bloblen;
+	LPGUID ai_provider;
+	struct addrinfoexW_* ai_next;
 } ADDRINFOEXW_;
 
-typedef void (CALLBACK *LOOKUP_COMPLETION_FN)(DWORD, DWORD, LPWSAOVERLAPPED);
-typedef void (WSAAPI *FREEADDRINFOEXW_FN)(ADDRINFOEXW_*);
-typedef int (WSAAPI *GETADDRINFOEXCANCEL_FN)(LPHANDLE);
-typedef int (WSAAPI *GETADDRINFOEXW_FN)(PCWSTR, PCWSTR, DWORD, LPGUID,
-  const ADDRINFOEXW_*, ADDRINFOEXW_**, struct timeval*, LPOVERLAPPED,
-  LOOKUP_COMPLETION_FN, LPHANDLE);
+typedef void(CALLBACK* LOOKUP_COMPLETION_FN)(DWORD, DWORD, LPWSAOVERLAPPED);
+typedef void(WSAAPI* FREEADDRINFOEXW_FN)(ADDRINFOEXW_*);
+typedef int(WSAAPI* GETADDRINFOEXCANCEL_FN)(LPHANDLE);
+typedef int(WSAAPI* GETADDRINFOEXW_FN)(PCWSTR, PCWSTR, DWORD, LPGUID, const ADDRINFOEXW_*, ADDRINFOEXW_**,
+									   struct timeval*, LPOVERLAPPED, LOOKUP_COMPLETION_FN, LPHANDLE);
 
 extern FREEADDRINFOEXW_FN Curl_FreeAddrInfoExW;
 extern GETADDRINFOEXCANCEL_FN Curl_GetAddrInfoExCancel;
@@ -70,7 +68,7 @@ extern GETADDRINFOEXW_FN Curl_GetAddrInfoExW;
 
 /* This is used to dynamically load DLLs */
 HMODULE Curl_load_library(LPCTSTR filename);
-#else  /* _WIN32 */
+#else /* _WIN32 */
 #define Curl_win32_init(x) CURLE_OK
 #endif /* !_WIN32 */
 

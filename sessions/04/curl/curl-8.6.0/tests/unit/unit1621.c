@@ -22,60 +22,47 @@
  *
  ***************************************************************************/
 #include "curlcheck.h"
-
-#include "urldata.h"
-#include "url.h"
-
 #include "memdebug.h" /* LAST include file */
+#include "url.h"
+#include "urldata.h"
 
-static CURLcode unit_setup(void)
-{
-  return CURLE_OK;
-}
+static CURLcode unit_setup(void) { return CURLE_OK; }
 
-static void unit_stop(void)
-{
-}
+static void unit_stop(void){}
 
-#if defined(__MINGW32__)  || \
-  (!defined(HAVE_FSETXATTR) && \
-  (!defined(__FreeBSD_version) || (__FreeBSD_version < 500000)))
-UNITTEST_START
-UNITTEST_STOP
+#if defined(__MINGW32__) || (!defined(HAVE_FSETXATTR) && (!defined(__FreeBSD_version) || (__FreeBSD_version < 500000)))
+UNITTEST_START UNITTEST_STOP
 #else
 
-char *stripcredentials(const char *url);
+char* stripcredentials(const char* url);
 
 struct checkthis {
-  const char *input;
-  const char *output;
+	const char* input;
+	const char* output;
 };
 
 static const struct checkthis tests[] = {
-  { "ninja://foo@example.com", "ninja://foo@example.com" },
-  { "https://foo@example.com", "https://example.com/" },
-  { "https://localhost:45", "https://localhost:45/" },
-  { "https://foo@localhost:45", "https://localhost:45/" },
-  { "http://daniel:password@localhost", "http://localhost/" },
-  { "http://daniel@localhost", "http://localhost/" },
-  { "http://localhost/", "http://localhost/" },
-  { NULL, NULL } /* end marker */
+	{"ninja://foo@example.com", "ninja://foo@example.com"},
+	{"https://foo@example.com", "https://example.com/"},
+	{"https://localhost:45", "https://localhost:45/"},
+	{"https://foo@localhost:45", "https://localhost:45/"},
+	{"http://daniel:password@localhost", "http://localhost/"},
+	{"http://daniel@localhost", "http://localhost/"},
+	{"http://localhost/", "http://localhost/"},
+	{NULL, NULL} /* end marker */
 };
 
-UNITTEST_START
-{
-  int i;
+UNITTEST_START {
+	int i;
 
-  for(i = 0; tests[i].input; i++) {
-    const char *url = tests[i].input;
-    char *stripped = stripcredentials(url);
-    printf("Test %u got input \"%s\", output: \"%s\"\n",
-           i, tests[i].input, stripped);
+	for (i = 0; tests[i].input; i++) {
+		const char* url = tests[i].input;
+		char* stripped = stripcredentials(url);
+		printf("Test %u got input \"%s\", output: \"%s\"\n", i, tests[i].input, stripped);
 
-    fail_if(stripped && strcmp(tests[i].output, stripped),
-            tests[i].output);
-    curl_free(stripped);
-  }
+		fail_if(stripped && strcmp(tests[i].output, stripped), tests[i].output);
+		curl_free(stripped);
+	}
 }
 UNITTEST_STOP
 #endif

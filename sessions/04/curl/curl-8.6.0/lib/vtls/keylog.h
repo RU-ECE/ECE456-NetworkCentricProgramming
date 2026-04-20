@@ -45,14 +45,13 @@ bool Curl_tls_keylog_enabled(void);
  * Appends a key log file entry.
  * Returns true iff the key log file is open and a valid entry was provided.
  */
-bool Curl_tls_keylog_write(const char *label,
-                           const unsigned char client_random[32],
-                           const unsigned char *secret, size_t secretlen);
+bool Curl_tls_keylog_write(const char* label, const unsigned char client_random[32], const unsigned char* secret,
+						   size_t secretlen);
 
 /*
  * Appends a line to the key log file, ensure it is terminated by a LF.
  * Returns true iff the key log file is open and a valid line was provided.
  */
-bool Curl_tls_keylog_write_line(const char *line);
+bool Curl_tls_keylog_write_line(const char* line);
 
 #endif /* HEADER_CURL_KEYLOG_H */

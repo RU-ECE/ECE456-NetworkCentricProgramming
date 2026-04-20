@@ -28,8 +28,8 @@
 
 /* linked-list structure with last node cache for easysrc */
 struct slist_wc {
-  struct curl_slist *first;
-	curl_slist *last;
+	struct curl_slist* first;
+	curl_slist* last;
 };
 
 /*
@@ -40,7 +40,7 @@ struct slist_wc {
  * Appends a string to a linked list. If no list exists, it will be created
  * first. Returns the new list, after appending.
  */
-slist_wc *slist_wc_append(slist_wc *, const char *);
+slist_wc* slist_wc_append(slist_wc*, const char*);
 
 /*
  * NAME curl_slist_free_all()
@@ -49,7 +49,7 @@ slist_wc *slist_wc_append(slist_wc *, const char *);
  *
  * free a previously built curl_slist_wc.
  */
-void slist_wc_free_all(slist_wc *);
+void slist_wc_free_all(slist_wc*);
 
 #endif /* CURL_DISABLE_LIBCURL_OPTION */
 

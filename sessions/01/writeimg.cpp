@@ -25,7 +25,7 @@ void writeImage(const char filename[], const uint32_t width, const uint32_t heig
 	}
 
 	// Write a simple PPM image header (P6 format)
-	imgFile << "P6\n" << width << " " << height << "\n255\n";
+	imgFile << "P6" << endl << width << " " << height << endl << "255" << endl;
 	imgFile.write(pixels, sizeof(pixels));
 	imgFile.close();
 }

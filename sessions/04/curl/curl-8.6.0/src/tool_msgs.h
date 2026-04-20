@@ -25,13 +25,9 @@
  ***************************************************************************/
 #include "tool_cfgable.h"
 
-void warnf(GlobalConfig *config, const char *fmt, ...)
-  CURL_PRINTF(2, 3);
-void notef(GlobalConfig *config, const char *fmt, ...)
-  CURL_PRINTF(2, 3);
-void helpf(FILE *errors, const char *fmt, ...)
-  CURL_PRINTF(2, 3);
-void errorf(GlobalConfig *config, const char *fmt, ...)
-  CURL_PRINTF(2, 3);
+void warnf(GlobalConfig* config, const char* fmt, ...) CURL_PRINTF(2, 3);
+void notef(GlobalConfig* config, const char* fmt, ...) CURL_PRINTF(2, 3);
+void helpf(FILE* errors, const char* fmt, ...) CURL_PRINTF(2, 3);
+void errorf(GlobalConfig* config, const char* fmt, ...) CURL_PRINTF(2, 3);
 
 #endif /* HEADER_CURL_TOOL_MSGS_H */

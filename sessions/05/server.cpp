@@ -1,8 +1,8 @@
 #include <arpa/inet.h>
+#include <cstring>
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <cstring>
 
 using namespace std;
 
@@ -40,7 +40,7 @@ void wait_for_client(const char* port) {
 		}
 		int bytes_read = recv(client_sock, buf, sizeof(buf), 0);
 		if (bytes_read < 0)
-		  cerr << "server: Error reading from socket";
+			cerr << "server: Error reading from socket";
 
 		sprintf(reply, "Hello yourself. This is message# %d\n", msg_num);
 		const int bytes_written = send(client_sock, reply, strlen(reply), 0);
@@ -50,12 +50,12 @@ void wait_for_client(const char* port) {
 		}
 		cerr << "reading big file: ";
 		do {
-			//receive chunks of data. We only have 4k buffer
+			// receive chunks of data. We only have 4k buffer
 			bytes_read = recv(client_sock, buf, sizeof(buf), 0);
-			cerr << bytes_read << "..."; 
+			cerr << bytes_read << "...";
 		} while (bytes_read > 0);
 		if (bytes_read < 0)
-		  cerr << "server: Error reading from socket";
+			cerr << "server: Error reading from socket";
 	} while (true);
 
 	cout << "Connected to server successfully!" << endl;

@@ -25,38 +25,36 @@
  * HTTP GET to an IPv6 address with specific scope
  * </DESC>
  */
-#include <stdio.h>
 #include <curl/curl.h>
+#include <stdio.h>
 
 #ifndef _WIN32
 #include <net/if.h>
 #endif
 
-int main(void)
-{
+int main(void) {
 #ifndef _WIN32
-  /* Windows users need to find how to use if_nametoindex() */
-  CURL *curl;
-  CURLcode res;
+	/* Windows users need to find how to use if_nametoindex() */
+	CURL* curl;
+	CURLcode res;
 
-  curl = curl_easy_init();
-  if(curl) {
-    long my_scope_id;
-    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+	curl = curl_easy_init();
+	if (curl) {
+		long my_scope_id;
+		curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
 
-    my_scope_id = if_nametoindex("eth0");
-    curl_easy_setopt(curl, CURLOPT_ADDRESS_SCOPE, my_scope_id);
+		my_scope_id = if_nametoindex("eth0");
+		curl_easy_setopt(curl, CURLOPT_ADDRESS_SCOPE, my_scope_id);
 
-    /* Perform the request, res will get the return code */
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
+		/* Perform the request, res will get the return code */
+		res = curl_easy_perform(curl);
+		/* Check for errors */
+		if (res != CURLE_OK)
+			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
+		/* always cleanup */
+		curl_easy_cleanup(curl);
+	}
 #endif
-  return 0;
+	return 0;
 }

@@ -9,8 +9,8 @@ namespace ru {
 }
 
 void f() {
-	const auto a = 2;
-	if (2 < 3) {
+	constexpr auto a = 2;
+	if constexpr (2 < 3) {
 		const auto a = 3;
 		cout << a;
 	}

@@ -22,15 +22,15 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
+#include "vauth.h"
 
 #include <curl/curl.h>
 
-#include "vauth.h"
-#include "urldata.h"
-#include "strcase.h"
 #include "curl_multibyte.h"
 #include "curl_printf.h"
+#include "curl_setup.h"
+#include "strcase.h"
+#include "urldata.h"
 
 /* The last #include files should be: */
 #include "curl_memory.h"
@@ -54,54 +54,50 @@
  * Returns a pointer to the newly allocated SPN.
  */
 #if !defined(USE_WINDOWS_SSPI)
-char *Curl_auth_build_spn(const char *service, const char *host,
-                          const char *realm)
-{
-  char *spn = NULL;
+char* Curl_auth_build_spn(const char* service, const char* host, const char* realm) {
+	char* spn = NULL;
 
-  /* Generate our SPN */
-  if(host && realm)
-    spn = aprintf("%s/%s@%s", service, host, realm);
-  else if(host)
-    spn = aprintf("%s/%s", service, host);
-  else if(realm)
-    spn = aprintf("%s@%s", service, realm);
+	/* Generate our SPN */
+	if (host && realm)
+		spn = aprintf("%s/%s@%s", service, host, realm);
+	else if (host)
+		spn = aprintf("%s/%s", service, host);
+	else if (realm)
+		spn = aprintf("%s@%s", service, realm);
 
-  /* Return our newly allocated SPN */
-  return spn;
+	/* Return our newly allocated SPN */
+	return spn;
 }
 #else
-TCHAR *Curl_auth_build_spn(const char *service, const char *host,
-                           const char *realm)
-{
-  char *utf8_spn = NULL;
-  TCHAR *tchar_spn = NULL;
-  TCHAR *dupe_tchar_spn = NULL;
+TCHAR* Curl_auth_build_spn(const char* service, const char* host, const char* realm) {
+	char* utf8_spn = NULL;
+	TCHAR* tchar_spn = NULL;
+	TCHAR* dupe_tchar_spn = NULL;
 
-  (void) realm;
+	(void)realm;
 
-  /* Note: We could use DsMakeSPN() or DsClientMakeSpnForTargetServer() rather
-     than doing this ourselves but the first is only available in Windows XP
-     and Windows Server 2003 and the latter is only available in Windows 2000
-     but not Windows95/98/ME or Windows NT4.0 unless the Active Directory
-     Client Extensions are installed. As such it is far simpler for us to
-     formulate the SPN instead. */
+	/* Note: We could use DsMakeSPN() or DsClientMakeSpnForTargetServer() rather
+	   than doing this ourselves but the first is only available in Windows XP
+	   and Windows Server 2003 and the latter is only available in Windows 2000
+	   but not Windows95/98/ME or Windows NT4.0 unless the Active Directory
+	   Client Extensions are installed. As such it is far simpler for us to
+	   formulate the SPN instead. */
 
-  /* Generate our UTF8 based SPN */
-  utf8_spn = aprintf("%s/%s", service, host);
-  if(!utf8_spn)
-    return NULL;
+	/* Generate our UTF8 based SPN */
+	utf8_spn = aprintf("%s/%s", service, host);
+	if (!utf8_spn)
+		return NULL;
 
-  /* Allocate and return a TCHAR based SPN. Since curlx_convert_UTF8_to_tchar
-     must be freed by curlx_unicodefree we'll dupe the result so that the
-     pointer this function returns can be normally free'd. */
-  tchar_spn = curlx_convert_UTF8_to_tchar(utf8_spn);
-  free(utf8_spn);
-  if(!tchar_spn)
-    return NULL;
-  dupe_tchar_spn = _tcsdup(tchar_spn);
-  curlx_unicodefree(tchar_spn);
-  return dupe_tchar_spn;
+	/* Allocate and return a TCHAR based SPN. Since curlx_convert_UTF8_to_tchar
+	   must be freed by curlx_unicodefree we'll dupe the result so that the
+	   pointer this function returns can be normally free'd. */
+	tchar_spn = curlx_convert_UTF8_to_tchar(utf8_spn);
+	free(utf8_spn);
+	if (!tchar_spn)
+		return NULL;
+	dupe_tchar_spn = _tcsdup(tchar_spn);
+	curlx_unicodefree(tchar_spn);
+	return dupe_tchar_spn;
 }
 #endif /* USE_WINDOWS_SSPI */
 
@@ -126,38 +122,33 @@ TCHAR *Curl_auth_build_spn(const char *service, const char *host,
  *
  * Returns TRUE on success; otherwise FALSE.
  */
-bool Curl_auth_user_contains_domain(const char *user)
-{
-  bool valid = FALSE;
+bool Curl_auth_user_contains_domain(const char* user) {
+	bool valid = FALSE;
 
-  if(user && *user) {
-    /* Check we have a domain name or UPN present */
-    char *p = strpbrk(user, "\\/@");
+	if (user && *user) {
+		/* Check we have a domain name or UPN present */
+		char* p = strpbrk(user, "\\/@");
 
-    valid = (p != NULL && p > user && p < user + strlen(user) - 1 ? TRUE :
-                                                                    FALSE);
-  }
+		valid = (p != NULL && p > user && p < user + strlen(user) - 1 ? TRUE : FALSE);
+	}
 #if defined(HAVE_GSSAPI) || defined(USE_WINDOWS_SSPI)
-  else
-    /* User and domain are obtained from the GSS-API credentials cache or the
-       currently logged in user from Windows */
-    valid = TRUE;
+	else
+		/* User and domain are obtained from the GSS-API credentials cache or the
+		   currently logged in user from Windows */
+		valid = TRUE;
 #endif
 
-  return valid;
+	return valid;
 }
 
 /*
  * Curl_auth_ollowed_to_host() tells if authentication, cookies or other
  * "sensitive data" can (still) be sent to this host.
  */
-bool Curl_auth_allowed_to_host(struct Curl_easy *data)
-{
-  struct connectdata *conn = data->conn;
-  return (!data->state.this_is_a_follow ||
-          data->set.allow_auth_to_other_hosts ||
-          (data->state.first_host &&
-           strcasecompare(data->state.first_host, conn->host.name) &&
-           (data->state.first_remote_port == conn->remote_port) &&
-           (data->state.first_remote_protocol == conn->handler->protocol)));
+bool Curl_auth_allowed_to_host(struct Curl_easy* data) {
+	struct connectdata* conn = data->conn;
+	return !data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts ||
+		(data->state.first_host && strcasecompare(data->state.first_host, conn->host.name) &&
+		 (data->state.first_remote_port == conn->remote_port) &&
+		 (data->state.first_remote_protocol == conn->handler->protocol));
 }

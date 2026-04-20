@@ -9,6 +9,6 @@ inline void doubleme(const int x, vector<int>& v) {
 }
 
 int main() {
-	vector<int> v = {1, 2, 3, 4, 5};
-	pitythefool(3, v); // not helpful
+	vector v = {1, 2, 3, 4, 5};
+	doubleme(3, v); // not helpful
 }

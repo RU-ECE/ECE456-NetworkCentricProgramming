@@ -27,71 +27,57 @@
 #include "llist.h"
 
 /* Hash function prototype */
-typedef size_t (*hash_function) (void *key,
-                                 size_t key_length,
-                                 size_t slots_num);
+typedef size_t (*hash_function)(void* key, size_t key_length, size_t slots_num);
 
 /*
    Comparator function prototype. Compares two keys.
 */
-typedef size_t (*comp_function) (void *key1,
-                                 size_t key1_len,
-                                 void *key2,
-                                 size_t key2_len);
+typedef size_t (*comp_function)(void* key1, size_t key1_len, void* key2, size_t key2_len);
 
-typedef void (*Curl_hash_dtor)(void *);
+typedef void (*Curl_hash_dtor)(void*);
 
 struct Curl_hash {
-	Curl_llist *table;
+	Curl_llist* table;
 
-  /* Hash function to be used for this hash table */
-  hash_function hash_func;
+	/* Hash function to be used for this hash table */
+	hash_function hash_func;
 
-  /* Comparator function to compare keys */
-  comp_function comp_func;
-  Curl_hash_dtor   dtor;
-  int slots;
-  size_t size;
+	/* Comparator function to compare keys */
+	comp_function comp_func;
+	Curl_hash_dtor dtor;
+	int slots;
+	size_t size;
 };
 
 struct Curl_hash_element {
 	Curl_llist_element list;
-  void   *ptr;
-  size_t key_len;
-  char   key[1]; /* allocated memory following the struct */
+	void* ptr;
+	size_t key_len;
+	char key[1]; /* allocated memory following the struct */
 };
 
 struct Curl_hash_iterator {
-	Curl_hash *hash;
-  int slot_index;
-	Curl_llist_element *current_element;
+	Curl_hash* hash;
+	int slot_index;
+	Curl_llist_element* current_element;
 };
 
-void Curl_hash_init(Curl_hash *h,
-                    int slots,
-                    hash_function hfunc,
-                    comp_function comparator,
-                    Curl_hash_dtor dtor);
+void Curl_hash_init(Curl_hash* h, int slots, hash_function hfunc, comp_function comparator, Curl_hash_dtor dtor);
 
-void *Curl_hash_add(Curl_hash *h, void *key, size_t key_len, void *p);
-int Curl_hash_delete(Curl_hash *h, void *key, size_t key_len);
-void *Curl_hash_pick(Curl_hash *, void *key, size_t key_len);
-void Curl_hash_apply(Curl_hash *h, void *user,
-                     void (*cb)(void *user, void *ptr));
+void* Curl_hash_add(Curl_hash* h, void* key, size_t key_len, void* p);
+int Curl_hash_delete(Curl_hash* h, void* key, size_t key_len);
+void* Curl_hash_pick(Curl_hash*, void* key, size_t key_len);
+void Curl_hash_apply(Curl_hash* h, void* user, void (*cb)(void* user, void* ptr));
 #define Curl_hash_count(h) ((h)->size)
-void Curl_hash_destroy(Curl_hash *h);
-void Curl_hash_clean(Curl_hash *h);
-void Curl_hash_clean_with_criterium(Curl_hash *h, void *user,
-                                    int (*comp)(void *, void *));
-size_t Curl_hash_str(void *key, size_t key_length, size_t slots_num);
-size_t Curl_str_key_compare(void *k1, size_t key1_len, void *k2,
-                            size_t key2_len);
-void Curl_hash_start_iterate(Curl_hash *hash, Curl_hash_iterator *iter);
-Curl_hash_element *
-Curl_hash_next_element(Curl_hash_iterator *iter);
+void Curl_hash_destroy(Curl_hash* h);
+void Curl_hash_clean(Curl_hash* h);
+void Curl_hash_clean_with_criterium(Curl_hash* h, void* user, int (*comp)(void*, void*));
+size_t Curl_hash_str(void* key, size_t key_length, size_t slots_num);
+size_t Curl_str_key_compare(void* k1, size_t key1_len, void* k2, size_t key2_len);
+void Curl_hash_start_iterate(Curl_hash* hash, Curl_hash_iterator* iter);
+Curl_hash_element* Curl_hash_next_element(Curl_hash_iterator* iter);
 
-void Curl_hash_print(Curl_hash *h,
-                     void (*func)(void *));
+void Curl_hash_print(Curl_hash* h, void (*func)(void*));
 
 
 #endif /* HEADER_CURL_HASH_H */

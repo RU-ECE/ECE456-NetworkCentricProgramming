@@ -26,7 +26,7 @@
 
 #ifndef HAVE_BASENAME
 
-char *tool_basename(char *path);
+char* tool_basename(char* path);
 
 #define basename(x) tool_basename((x))
 

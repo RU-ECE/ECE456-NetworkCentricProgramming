@@ -21,46 +21,42 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
+#include "memdebug.h"
 #include "test.h"
 
-#include "memdebug.h"
+int test(char* URL) {
+	CURLcode res = CURLE_OK;
+	CURLSH* share;
+	CURL* curl;
 
-int test(char *URL)
-{
-  CURLcode res = CURLE_OK;
-  CURLSH *share;
-  CURL *curl;
+	curl_global_init(CURL_GLOBAL_ALL);
 
-  curl_global_init(CURL_GLOBAL_ALL);
+	share = curl_share_init();
+	curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);
 
-  share = curl_share_init();
-  curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);
+	curl = curl_easy_init();
+	test_setopt(curl, CURLOPT_SHARE, share);
 
-  curl = curl_easy_init();
-  test_setopt(curl, CURLOPT_SHARE, share);
+	test_setopt(curl, CURLOPT_VERBOSE, 1L);
+	test_setopt(curl, CURLOPT_HEADER, 1L);
+	test_setopt(curl, CURLOPT_PROXY, URL);
+	test_setopt(curl, CURLOPT_URL, "http://localhost/");
 
-  test_setopt(curl, CURLOPT_VERBOSE, 1L);
-  test_setopt(curl, CURLOPT_HEADER, 1L);
-  test_setopt(curl, CURLOPT_PROXY, URL);
-  test_setopt(curl, CURLOPT_URL, "http://localhost/");
+	test_setopt(curl, CURLOPT_COOKIEFILE, "");
 
-  test_setopt(curl, CURLOPT_COOKIEFILE, "");
+	/* Set a cookie without Max-age or Expires */
+	test_setopt(curl, CURLOPT_COOKIELIST, "Set-Cookie: c1=v1; domain=localhost");
 
-  /* Set a cookie without Max-age or Expires */
-  test_setopt(curl, CURLOPT_COOKIELIST, "Set-Cookie: c1=v1; domain=localhost");
-
-  res = curl_easy_perform(curl);
-  if(res) {
-    fprintf(stderr, "curl_easy_perform() failed: %s\n",
-            curl_easy_strerror(res));
-  }
+	res = curl_easy_perform(curl);
+	if (res)
+		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 
 test_cleanup:
 
-  /* always cleanup */
-  curl_easy_cleanup(curl);
-    curl_share_cleanup(share);
-  curl_global_cleanup();
+	/* always cleanup */
+	curl_easy_cleanup(curl);
+	curl_share_cleanup(share);
+	curl_global_cleanup();
 
-  return (int)res;
+	return (int)res;
 }

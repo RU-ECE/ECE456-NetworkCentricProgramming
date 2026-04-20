@@ -1,9 +1,10 @@
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <iostream>
+#include <unistd.h>
+
 using namespace std;
+
 int main() {
-    int status =chdir("xyz");
-    cout << "status: " << status << endl;
-    return 0;
+	const int status = chdir("xyz");
+	cout << "status: " << status << endl;
+	return 0;
 }

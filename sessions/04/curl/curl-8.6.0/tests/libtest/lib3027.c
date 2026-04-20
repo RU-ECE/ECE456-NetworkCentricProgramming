@@ -21,36 +21,34 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
+#include "memdebug.h"
 #include "test.h"
-
 #include "testutil.h"
 #include "warnless.h"
-#include "memdebug.h"
 
-int test(char *URL)
-{
-  CURLcode ret = CURLE_OK;
-  CURL *hnd;
-  start_test_timing();
+int test(char* URL) {
+	CURLcode ret = CURLE_OK;
+	CURL* hnd;
+	start_test_timing();
 
-  curl_global_init(CURL_GLOBAL_ALL);
+	curl_global_init(CURL_GLOBAL_ALL);
 
-  hnd = curl_easy_init();
-  if(hnd) {
-    curl_easy_setopt(hnd, CURLOPT_URL, URL);
-    curl_easy_setopt(hnd, CURLOPT_FILETIME, 1L);
-    ret = curl_easy_perform(hnd);
-    if(CURLE_OK == ret) {
-      long filetime;
-      ret = curl_easy_getinfo(hnd, CURLINFO_FILETIME, &filetime);
-      /* MTDM fails with 550, so filetime should be -1 */
-      if((CURLE_OK == ret) && (filetime != -1)) {
-        /* we just need to return something which is not CURLE_OK */
-        ret = CURLE_UNSUPPORTED_PROTOCOL;
-      }
-    }
-    curl_easy_cleanup(hnd);
-  }
-  curl_global_cleanup();
-  return (int)ret;
+	hnd = curl_easy_init();
+	if (hnd) {
+		curl_easy_setopt(hnd, CURLOPT_URL, URL);
+		curl_easy_setopt(hnd, CURLOPT_FILETIME, 1L);
+		ret = curl_easy_perform(hnd);
+		if (CURLE_OK == ret) {
+			long filetime;
+			ret = curl_easy_getinfo(hnd, CURLINFO_FILETIME, &filetime);
+			/* MTDM fails with 550, so filetime should be -1 */
+			if ((CURLE_OK == ret) && (filetime != -1)) {
+				/* we just need to return something which is not CURLE_OK */
+				ret = CURLE_UNSUPPORTED_PROTOCOL;
+			}
+		}
+		curl_easy_cleanup(hnd);
+	}
+	curl_global_cleanup();
+	return (int)ret;
 }

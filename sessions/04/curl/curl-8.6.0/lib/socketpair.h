@@ -28,16 +28,16 @@
 
 #ifdef HAVE_PIPE
 
-#define wakeup_write  write
-#define wakeup_read   read
-#define wakeup_close  close
+#define wakeup_write write
+#define wakeup_read read
+#define wakeup_close close
 #define wakeup_create pipe
 
 #else /* HAVE_PIPE */
 
-#define wakeup_write     swrite
-#define wakeup_read      sread
-#define wakeup_close     sclose
+#define wakeup_write swrite
+#define wakeup_read sread
+#define wakeup_close sclose
 #define wakeup_create(p) Curl_socketpair(AF_UNIX, SOCK_STREAM, 0, p)
 
 #endif /* HAVE_PIPE */
@@ -45,10 +45,9 @@
 #ifndef HAVE_SOCKETPAIR
 #include <curl/curl.h>
 
-int Curl_socketpair(int domain, int type, int protocol,
-                    curl_socket_t socks[2]);
+int Curl_socketpair(int domain, int type, int protocol, curl_socket_t socks[2]);
 #else
-#define Curl_socketpair(a,b,c,d) socketpair(a,b,c,d)
+#define Curl_socketpair(a, b, c, d) socketpair(a, b, c, d)
 #endif
 
 #endif /* HEADER_CURL_SOCKETPAIR_H */

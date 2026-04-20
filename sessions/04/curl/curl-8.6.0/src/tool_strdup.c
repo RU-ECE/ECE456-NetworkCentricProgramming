@@ -24,21 +24,20 @@
 #include "tool_strdup.h"
 
 #ifndef HAVE_STRDUP
-char *strdup(const char *str)
-{
-  size_t len;
-  char *newstr;
+char* strdup(const char* str) {
+	size_t len;
+	char* newstr;
 
-  if(!str)
-    return (char *)NULL;
+	if (!str)
+		return (char*)NULL;
 
-  len = strlen(str) + 1;
+	len = strlen(str) + 1;
 
-  newstr = malloc(len);
-  if(!newstr)
-    return (char *)NULL;
+	newstr = malloc(len);
+	if (!newstr)
+		return (char*)NULL;
 
-  memcpy(newstr, str, len);
-  return newstr;
+	memcpy(newstr, str, len);
+	return newstr;
 }
 #endif

@@ -26,26 +26,24 @@
 
 #include "curl_setup.h"
 
-typedef void (*Curl_llist_dtor)(void *, void *);
+typedef void (*Curl_llist_dtor)(void*, void*);
 
 struct Curl_llist_element {
-  void *ptr;
-	Curl_llist_element *prev;
-	Curl_llist_element *next;
+	void* ptr;
+	Curl_llist_element* prev;
+	Curl_llist_element* next;
 };
 
 struct Curl_llist {
-	Curl_llist_element *head;
-	Curl_llist_element *tail;
-  Curl_llist_dtor dtor;
-  size_t size;
+	Curl_llist_element* head;
+	Curl_llist_element* tail;
+	Curl_llist_dtor dtor;
+	size_t size;
 };
 
-void Curl_llist_init(Curl_llist *, Curl_llist_dtor);
-void Curl_llist_insert_next(Curl_llist *, Curl_llist_element *,
-                            const void *, Curl_llist_element *node);
-void Curl_llist_remove(Curl_llist *, Curl_llist_element *,
-                       void *);
-size_t Curl_llist_count(Curl_llist *);
-void Curl_llist_destroy(Curl_llist *, void *);
+void Curl_llist_init(Curl_llist*, Curl_llist_dtor);
+void Curl_llist_insert_next(Curl_llist*, Curl_llist_element*, const void*, Curl_llist_element* node);
+void Curl_llist_remove(Curl_llist*, Curl_llist_element*, void*);
+size_t Curl_llist_count(Curl_llist*);
+void Curl_llist_destroy(Curl_llist*, void*);
 #endif /* HEADER_CURL_LLIST_H */

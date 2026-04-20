@@ -21,33 +21,31 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "test.h"
-
-#include "memdebug.h"
-
 #include <curl/multi.h>
 
-int test(char *URL)
-{
-  CURL *curl;
-  CURLcode res = CURLE_OK;
+#include "memdebug.h"
+#include "test.h"
 
-  global_init(CURL_GLOBAL_ALL);
-  curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, URL);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    res = curl_easy_perform(curl);
-    if(res)
-      goto test_cleanup;
+int test(char* URL) {
+	CURL* curl;
+	CURLcode res = CURLE_OK;
 
-    fprintf(stderr, "****************************** Do it again\n");
-    res = curl_easy_perform(curl);
-  }
+	global_init(CURL_GLOBAL_ALL);
+	curl = curl_easy_init();
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, URL);
+		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+		res = curl_easy_perform(curl);
+		if (res)
+			goto test_cleanup;
+
+		fprintf(stderr, "****************************** Do it again\n");
+		res = curl_easy_perform(curl);
+	}
 
 test_cleanup:
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
-  return (int)res;
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
+	return (int)res;
 }

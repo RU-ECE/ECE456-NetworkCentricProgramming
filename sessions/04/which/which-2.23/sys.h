@@ -32,14 +32,14 @@ char *strchr(), *strrchr();
 #if defined(HAVE_LIBIBERTY_H) && !defined(NEED_XMALLOC)
 #include <libiberty.h> /* Part of libiberty.a that comes with binutils */
 #else
-extern void *xmalloc(size_t);
-extern void *xrealloc(void *ptr, size_t size);
+extern void* xmalloc(size_t);
+extern void* xrealloc(void* ptr, size_t size);
 #define XMALLOC_DEFINED 1
 #endif
 
 #ifndef NULL
 #ifdef __STDC__
-#define NULL ((void *) 0)
+#define NULL ((void*)0)
 #else
 #define NULL (0x0)
 #endif
@@ -57,9 +57,9 @@ extern void *xrealloc(void *ptr, size_t size);
 
 #define WIN32SYSTEM 1
 
+#include <ctype.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <ctype.h>
 
 #define stat _stati64
 #define getcwd _getcwd

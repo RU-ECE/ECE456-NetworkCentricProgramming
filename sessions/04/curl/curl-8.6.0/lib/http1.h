@@ -29,32 +29,30 @@
 #ifndef CURL_DISABLE_HTTP
 #include "http.h"
 
-#define H1_PARSE_OPT_NONE       (0)
-#define H1_PARSE_OPT_STRICT     (1 << 0)
+#define H1_PARSE_OPT_NONE (0)
+#define H1_PARSE_OPT_STRICT (1 << 0)
 
-#define H1_PARSE_DEFAULT_MAX_LINE_LEN   DYN_HTTP_REQUEST
+#define H1_PARSE_DEFAULT_MAX_LINE_LEN DYN_HTTP_REQUEST
 
 struct h1_req_parser {
-	httpreq *req;
+	httpreq* req;
 	dynbuf scratch;
-  size_t scratch_skip;
-  const char *line;
-  size_t max_line_len;
-  size_t line_len;
-  bool done;
+	size_t scratch_skip;
+	const char* line;
+	size_t max_line_len;
+	size_t line_len;
+	bool done;
 };
 
-void Curl_h1_req_parse_init(h1_req_parser *parser, size_t max_line_len);
-void Curl_h1_req_parse_free(h1_req_parser *parser);
+void Curl_h1_req_parse_init(h1_req_parser* parser, size_t max_line_len);
+void Curl_h1_req_parse_free(h1_req_parser* parser);
 
-ssize_t Curl_h1_req_parse_read(h1_req_parser *parser,
-                               const char *buf, size_t buflen,
-                               const char *scheme_default, int options,
-                               CURLcode *err);
+ssize_t Curl_h1_req_parse_read(h1_req_parser* parser, const char* buf, size_t buflen, const char* scheme_default,
+							   int options, CURLcode* err);
 
-CURLcode Curl_h1_req_dprint(const httpreq *req, dynbuf *dbuf);
+CURLcode Curl_h1_req_dprint(const httpreq* req, dynbuf* dbuf);
 
-CURLcode Curl_h1_req_write_head(httpreq *req, int http_minor, dynbuf *dbuf);
+CURLcode Curl_h1_req_write_head(httpreq* req, int http_minor, dynbuf* dbuf);
 
 #endif /* !CURL_DISABLE_HTTP */
 #endif /* HEADER_CURL_HTTP1_H */

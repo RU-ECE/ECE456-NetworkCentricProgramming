@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -16,8 +17,8 @@ int main() {
 	int arr2[n]; // nonstandard (works on gcc)
 
 	// old C way, used by Unix
-	int* p = malloc(sizeof(int) * 10); // allocate memory for 10 ints, returns a void* which we cast to int*
-	free(p);
+	const auto heap = static_cast<int*>(malloc(sizeof(int) * 10)); // allocate memory for 10 ints
+	free(heap);
 
 	const auto q = new int[10]; // allocate memory for 10 ints, returns an int*
 	delete[] q; // free the memory allocated by new

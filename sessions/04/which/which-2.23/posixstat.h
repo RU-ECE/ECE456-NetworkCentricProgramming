@@ -37,8 +37,8 @@
 
 /* This text is taken directly from the Cadmus I was trying to
    compile on:
-    the following MACROs are defined for X/OPEN compatibility
-    however, is the param correct ??
+	the following MACROs are defined for X/OPEN compatibility
+	however, is the param correct ??
    #define S_ISBLK(s) ((s.st_mode & S_IFMT) == S_IFBLK)
 
   Well, the answer is no.  Thus... */
@@ -123,18 +123,18 @@
 #endif /* S_IREAD */
 
 #if !defined(S_IRUSR)
-#define S_IRUSR S_IREAD  /* read, owner */
+#define S_IRUSR S_IREAD /* read, owner */
 #define S_IWUSR S_IWRITE /* write, owner */
-#define S_IXUSR S_IEXEC  /* execute, owner */
+#define S_IXUSR S_IEXEC /* execute, owner */
 
-#define S_IRGRP (S_IREAD >> 3)  /* read, group */
+#define S_IRGRP (S_IREAD >> 3) /* read, group */
 #define S_IWGRP (S_IWRITE >> 3) /* write, group */
-#define S_IXGRP (S_IEXEC >> 3)  /* execute, group */
+#define S_IXGRP (S_IEXEC >> 3) /* execute, group */
 
-#define S_IROTH (S_IREAD >> 6)  /* read, other */
+#define S_IROTH (S_IREAD >> 6) /* read, other */
 #define S_IWOTH (S_IWRITE >> 6) /* write, other */
-#define S_IXOTH (S_IEXEC >> 6)  /* execute, other */
-#endif                          /* !S_IRUSR */
+#define S_IXOTH (S_IEXEC >> 6) /* execute, other */
+#endif /* !S_IRUSR */
 
 #define S_IRWXU (S_IRUSR | S_IWUSR | S_IXUSR)
 #define S_IRWXG (S_IRGRP | S_IWGRP | S_IXGRP)

@@ -1,9 +1,10 @@
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <iostream>
+#include <sys/stat.h>
+
 using namespace std;
+
 int main() {
-    int status =mkdir("xyz", 0755);
-    cout << "status: " << status << endl;
-    return 0;
+	const int status = mkdir("xyz", 0755);
+	cout << "status: " << status << endl;
+	return 0;
 }

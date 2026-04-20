@@ -24,49 +24,49 @@
  *
  ***************************************************************************/
 
-char *data_to_hex(char *data, size_t len);
-void logmsg(const char *msg, ...) CURL_PRINTF(1, 2);
+char* data_to_hex(char* data, size_t len);
+void logmsg(const char* msg, ...) CURL_PRINTF(1, 2);
 long timediff(struct timeval newer, timeval older);
 
 #define TEST_DATA_PATH "%s/data/test%ld"
 #define ALTTEST_DATA_PATH "%s/test%ld"
-#define SERVERLOGS_LOCKDIR "lock"  /* within logdir */
+#define SERVERLOGS_LOCKDIR "lock" /* within logdir */
 
 /* global variable, where to find the 'data' dir */
-extern const char *path;
+extern const char* path;
 
 /* global variable, log file name */
-extern const char *serverlogfile;
+extern const char* serverlogfile;
 
-extern const char *cmdfile;
+extern const char* cmdfile;
 
 #ifdef _WIN32
-#include <process.h>
 #include <fcntl.h>
+#include <process.h>
 
-#define sleep(sec) Sleep ((sec)*1000)
+#define sleep(sec) Sleep((sec) * 1000)
 
 #undef perror
 #define perror(m) win32_perror(m)
-void win32_perror(const char *msg);
+void win32_perror(const char* msg);
 
 void win32_init(void);
 void win32_cleanup(void);
-const char *sstrerror(int err);
-#else   /* _WIN32 */
+const char* sstrerror(int err);
+#else /* _WIN32 */
 
 #define sstrerror(e) strerror(e)
-#endif  /* _WIN32 */
+#endif /* _WIN32 */
 
 /* fopens the test case file */
-FILE *test2fopen(long testno, const char *logdir);
+FILE* test2fopen(long testno, const char* logdir);
 
 int wait_ms(int timeout_ms);
 curl_off_t our_getpid(void);
-int write_pidfile(const char *filename);
-int write_portfile(const char *filename, int port);
-void set_advisor_read_lock(const char *filename);
-void clear_advisor_read_lock(const char *filename);
+int write_pidfile(const char* filename);
+int write_portfile(const char* filename, int port);
+void set_advisor_read_lock(const char* filename);
+void clear_advisor_read_lock(const char* filename);
 
 /* global variable which if set indicates that the program should finish */
 extern volatile int got_exit_signal;
@@ -90,8 +90,7 @@ void restore_signal_handlers(bool keep_sigalrm);
 #include <sys/un.h> /* for sockaddr_un */
 #endif /* HAVE_SYS_UN_H */
 
-int bind_unix_socket(curl_socket_t sock, const char *unix_socket,
-        struct sockaddr_un *sau);
-#endif  /* USE_UNIX_SOCKETS */
+int bind_unix_socket(curl_socket_t sock, const char* unix_socket, struct sockaddr_un* sau);
+#endif /* USE_UNIX_SOCKETS */
 
-#endif  /* HEADER_CURL_SERVER_UTIL_H */
+#endif /* HEADER_CURL_SERVER_UTIL_H */

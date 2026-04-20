@@ -22,60 +22,54 @@
  *
  ***************************************************************************/
 
-#include "test.h"
-
 #include "memdebug.h"
+#include "test.h"
 
 #ifdef _MSC_VER
 /* warning C4706: assignment within conditional expression */
-#pragma warning(disable:4706)
+#pragma warning(disable : 4706)
 #endif
-static void showem(CURL *easy, unsigned int type)
-{
-  struct curl_header *header = NULL;
-  struct curl_header *prev = NULL;
+static void showem(CURL* easy, unsigned int type) {
+	struct curl_header* header = NULL;
+	struct curl_header* prev = NULL;
 
-  while((header = curl_easy_nextheader(easy, type, 0, prev))) {
-    printf(" %s == %s (%u/%u)\n", header->name, header->value,
-           (int)header->index, (int)header->amount);
-    prev = header;
-  }
+	while ((header = curl_easy_nextheader(easy, type, 0, prev))) {
+		printf(" %s == %s (%u/%u)\n", header->name, header->value, (int)header->index, (int)header->amount);
+		prev = header;
+	}
 }
 
-static size_t write_cb(char *data, size_t n, size_t l, void *userp)
-{
-  /* take care of the data here, ignored in this example */
-  (void)data;
-  (void)userp;
-  return n*l;
+static size_t write_cb(char* data, size_t n, size_t l, void* userp) {
+	/* take care of the data here, ignored in this example */
+	(void)data;
+	(void)userp;
+	return n * l;
 }
-int test(char *URL)
-{
-  CURL *easy;
-  CURLcode res = CURLE_OK;
+int test(char* URL) {
+	CURL* easy;
+	CURLcode res = CURLE_OK;
 
-  global_init(CURL_GLOBAL_DEFAULT);
+	global_init(CURL_GLOBAL_DEFAULT);
 
-  easy_init(easy);
-  curl_easy_setopt(easy, CURLOPT_URL, URL);
-  curl_easy_setopt(easy, CURLOPT_VERBOSE, 1L);
-  curl_easy_setopt(easy, CURLOPT_FOLLOWLOCATION, 1L);
-  /* ignores any content */
-  curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, write_cb);
+	easy_init(easy);
+	curl_easy_setopt(easy, CURLOPT_URL, URL);
+	curl_easy_setopt(easy, CURLOPT_VERBOSE, 1L);
+	curl_easy_setopt(easy, CURLOPT_FOLLOWLOCATION, 1L);
+	/* ignores any content */
+	curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, write_cb);
 
-  /* if there's a proxy set, use it */
-  if(libtest_arg2 && *libtest_arg2) {
-    curl_easy_setopt(easy, CURLOPT_PROXY, libtest_arg2);
-    curl_easy_setopt(easy, CURLOPT_HTTPPROXYTUNNEL, 1L);
-  }
-  res = curl_easy_perform(easy);
-  if(res) {
-    printf("badness: %d\n", (int)res);
-  }
-  showem(easy, CURLH_CONNECT|CURLH_HEADER|CURLH_TRAILER|CURLH_1XX);
+	/* if there's a proxy set, use it */
+	if (libtest_arg2 && *libtest_arg2) {
+		curl_easy_setopt(easy, CURLOPT_PROXY, libtest_arg2);
+		curl_easy_setopt(easy, CURLOPT_HTTPPROXYTUNNEL, 1L);
+	}
+	res = curl_easy_perform(easy);
+	if (res)
+		printf("badness: %d\n", (int)res);
+	showem(easy, CURLH_CONNECT | CURLH_HEADER | CURLH_TRAILER | CURLH_1XX);
 
 test_cleanup:
-  curl_easy_cleanup(easy);
-  curl_global_cleanup();
-  return (int)res;
+	curl_easy_cleanup(easy);
+	curl_global_cleanup();
+	return (int)res;
 }

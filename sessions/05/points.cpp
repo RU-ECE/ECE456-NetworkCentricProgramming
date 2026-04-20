@@ -1,12 +1,13 @@
 #include <vector>
 
+using namespace std;
+
 struct Point {
 	float x, y, z;
 };
 
-
 int main() {
-	std::vector<Point> points;
+	vector<Point> points;
 	for (auto i = 0; i < 3; i++)
 		points.push_back({static_cast<float>(i), static_cast<float>(i), static_cast<float>(i)});
 	// send this to the server. WRite your own client.

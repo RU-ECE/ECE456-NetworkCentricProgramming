@@ -21,31 +21,29 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "test.h"
-
-#include "testtrace.h"
 #include "memdebug.h"
+#include "test.h"
+#include "testtrace.h"
 
-int test(char *URL)
-{
-  CURLcode res = CURLE_OK;
-  CURL *hnd;
-  global_init(CURL_GLOBAL_ALL);
+int test(char* URL) {
+	CURLcode res = CURLE_OK;
+	CURL* hnd;
+	global_init(CURL_GLOBAL_ALL);
 
-  easy_init(hnd);
-  easy_setopt(hnd, CURLOPT_URL, URL);
-  easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
-  easy_setopt(hnd, CURLOPT_HEADER, 1L);
+	easy_init(hnd);
+	easy_setopt(hnd, CURLOPT_URL, URL);
+	easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
+	easy_setopt(hnd, CURLOPT_HEADER, 1L);
 
-  res = curl_easy_perform(hnd);
-  if(res)
-    goto test_cleanup;
+	res = curl_easy_perform(hnd);
+	if (res)
+		goto test_cleanup;
 
-  curl_easy_setopt(hnd, CURLOPT_URL, libtest_arg2);
-  res = curl_easy_perform(hnd);
+	curl_easy_setopt(hnd, CURLOPT_URL, libtest_arg2);
+	res = curl_easy_perform(hnd);
 
 test_cleanup:
-  curl_easy_cleanup(hnd);
-  curl_global_cleanup();
-  return (int)res;
+	curl_easy_cleanup(hnd);
+	curl_global_cleanup();
+	return (int)res;
 }

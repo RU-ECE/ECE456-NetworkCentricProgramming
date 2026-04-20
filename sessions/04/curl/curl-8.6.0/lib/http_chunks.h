@@ -38,74 +38,72 @@ struct connectdata;
 #define CHUNK_MAXNUM_LEN (SIZEOF_CURL_OFF_T * 2)
 
 typedef enum {
-  /* await and buffer all hexadecimal digits until we get one that isn't a
-     hexadecimal digit. When done, we go CHUNK_LF */
-  CHUNK_HEX,
+	/* await and buffer all hexadecimal digits until we get one that isn't a
+	   hexadecimal digit. When done, we go CHUNK_LF */
+	CHUNK_HEX,
 
-  /* wait for LF, ignore all else */
-  CHUNK_LF,
+	/* wait for LF, ignore all else */
+	CHUNK_LF,
 
-  /* We eat the amount of data specified. When done, we move on to the
-     POST_CR state. */
-  CHUNK_DATA,
+	/* We eat the amount of data specified. When done, we move on to the
+	   POST_CR state. */
+	CHUNK_DATA,
 
-  /* POSTLF should get a CR and then a LF and nothing else, then move back to
-     HEX as the CRLF combination marks the end of a chunk. A missing CR is no
-     big deal. */
-  CHUNK_POSTLF,
+	/* POSTLF should get a CR and then a LF and nothing else, then move back to
+	   HEX as the CRLF combination marks the end of a chunk. A missing CR is no
+	   big deal. */
+	CHUNK_POSTLF,
 
-  /* Used to mark that we're out of the game.  NOTE: that there's a 'datasize'
-     field in the struct that will tell how many bytes that were not passed to
-     the client in the end of the last buffer! */
-  CHUNK_STOP,
+	/* Used to mark that we're out of the game.  NOTE: that there's a 'datasize'
+	   field in the struct that will tell how many bytes that were not passed to
+	   the client in the end of the last buffer! */
+	CHUNK_STOP,
 
-  /* At this point optional trailer headers can be found, unless the next line
-     is CRLF */
-  CHUNK_TRAILER,
+	/* At this point optional trailer headers can be found, unless the next line
+	   is CRLF */
+	CHUNK_TRAILER,
 
-  /* A trailer CR has been found - next state is CHUNK_TRAILER_POSTCR.
-     Next char must be a LF */
-  CHUNK_TRAILER_CR,
+	/* A trailer CR has been found - next state is CHUNK_TRAILER_POSTCR.
+	   Next char must be a LF */
+	CHUNK_TRAILER_CR,
 
-  /* A trailer LF must be found now, otherwise CHUNKE_BAD_CHUNK will be
-     signalled If this is an empty trailer CHUNKE_STOP will be signalled.
-     Otherwise the trailer will be broadcasted via Curl_client_write() and the
-     next state will be CHUNK_TRAILER */
-  CHUNK_TRAILER_POSTCR,
+	/* A trailer LF must be found now, otherwise CHUNKE_BAD_CHUNK will be
+	   signalled If this is an empty trailer CHUNKE_STOP will be signalled.
+	   Otherwise the trailer will be broadcasted via Curl_client_write() and the
+	   next state will be CHUNK_TRAILER */
+	CHUNK_TRAILER_POSTCR,
 
-  /* Successfully de-chunked everything */
-  CHUNK_DONE,
+	/* Successfully de-chunked everything */
+	CHUNK_DONE,
 
-  /* Failed on seeing a bad or not correctly terminated chunk */
-  CHUNK_FAILED
+	/* Failed on seeing a bad or not correctly terminated chunk */
+	CHUNK_FAILED
 } ChunkyState;
 
 typedef enum {
-  CHUNKE_OK = 0,
-  CHUNKE_TOO_LONG_HEX = 1,
-  CHUNKE_ILLEGAL_HEX,
-  CHUNKE_BAD_CHUNK,
-  CHUNKE_BAD_ENCODING,
-  CHUNKE_OUT_OF_MEMORY,
-  CHUNKE_PASSTHRU_ERROR /* Curl_httpchunk_read() returns a CURLcode to use */
+	CHUNKE_OK = 0,
+	CHUNKE_TOO_LONG_HEX = 1,
+	CHUNKE_ILLEGAL_HEX,
+	CHUNKE_BAD_CHUNK,
+	CHUNKE_BAD_ENCODING,
+	CHUNKE_OUT_OF_MEMORY,
+	CHUNKE_PASSTHRU_ERROR /* Curl_httpchunk_read() returns a CURLcode to use */
 } CHUNKcode;
 
 struct Curl_chunker {
-  curl_off_t datasize;
-  ChunkyState state;
-  CHUNKcode last_code;
-  dynbuf trailer; /* for chunked-encoded trailer */
-  unsigned char hexindex;
-  char hexbuffer[CHUNK_MAXNUM_LEN + 1]; /* +1 for null-terminator */
-  BIT(ignore_body); /* never write response body data */
+	curl_off_t datasize;
+	ChunkyState state;
+	CHUNKcode last_code;
+	dynbuf trailer; /* for chunked-encoded trailer */
+	unsigned char hexindex;
+	char hexbuffer[CHUNK_MAXNUM_LEN + 1]; /* +1 for null-terminator */
+	BIT(ignore_body); /* never write response body data */
 };
 
 /* The following functions are defined in http_chunks.c */
-void Curl_httpchunk_init(struct Curl_easy *data, Curl_chunker *ch,
-                         bool ignore_body);
-void Curl_httpchunk_free(Curl_easy *data, Curl_chunker *ch);
-void Curl_httpchunk_reset(Curl_easy *data, Curl_chunker *ch,
-                          bool ignore_body);
+void Curl_httpchunk_init(struct Curl_easy* data, Curl_chunker* ch, bool ignore_body);
+void Curl_httpchunk_free(Curl_easy* data, Curl_chunker* ch);
+void Curl_httpchunk_reset(Curl_easy* data, Curl_chunker* ch, bool ignore_body);
 
 /*
  * Read BODY bytes in HTTP/1.1 chunked encoding from `buf` and return
@@ -123,13 +121,12 @@ void Curl_httpchunk_reset(Curl_easy *data, Curl_chunker *ch,
  * This function always uses ASCII hex values to accommodate non-ASCII hosts.
  * For example, 0x0d and 0x0a are used instead of '\r' and '\n'.
  */
-CURLcode Curl_httpchunk_read(Curl_easy *data, Curl_chunker *ch,
-                             char *buf, size_t blen, size_t *pconsumed);
+CURLcode Curl_httpchunk_read(Curl_easy* data, Curl_chunker* ch, char* buf, size_t blen, size_t* pconsumed);
 
 /**
  * @return TRUE iff chunked decoded has finished successfully.
  */
-bool Curl_httpchunk_is_done(Curl_easy *data, Curl_chunker *ch);
+bool Curl_httpchunk_is_done(Curl_easy* data, Curl_chunker* ch);
 
 extern const struct Curl_cwtype Curl_httpchunk_unencoder;
 

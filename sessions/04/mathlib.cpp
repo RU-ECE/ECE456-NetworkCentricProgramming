@@ -1,23 +1,23 @@
 #include "mathlib.hpp"
 
-double choose(const int n, const int r) {
-	if (r > n)
+double choose(const int b, const int r) {
+	if (r > b)
 		return 0;
-	if (r == 0 || r == n)
+	if (r == 0 || r == b)
 		return 1;
 	double res = 1;
 	for (auto i = 1; i <= r; i++)
-		res *= (n - r + i) / static_cast<double>(i);
+		res *= (b - r + i) / static_cast<double>(i);
 	return res;
 }
 
-double binomial(const int n, const int r) { return choose(n, r) / (factorial(r) * factorial(n - r)); }
+double binomial(const int b, const int r) { return choose(b, r) / (factorial(r) * factorial(b - r)); }
 
-double factorial(const int n) {
-	if (n == 0)
+double factorial(const int b) {
+	if (b == 0)
 		return 1;
 	double res = 1;
-	for (auto i = 1; i <= n; i++)
+	for (auto i = 1; i <= b; i++)
 		res *= i;
 	return res;
 }

@@ -28,16 +28,13 @@
 
 #ifdef DEBUGBUILD
 
-UNITTEST bool Curl_cidr4_match(const char *ipv4,    /* 1.2.3.4 address */
-                               const char *network, /* 1.2.3.4 address */
-                               unsigned int bits);
-UNITTEST bool Curl_cidr6_match(const char *ipv6,
-                               const char *network,
-                               unsigned int bits);
+UNITTEST bool Curl_cidr4_match(const char* ipv4, /* 1.2.3.4 address */
+							   const char* network, /* 1.2.3.4 address */
+							   unsigned int bits);
+UNITTEST bool Curl_cidr6_match(const char* ipv6, const char* network, unsigned int bits);
 #endif
 
-bool Curl_check_noproxy(const char *name, const char *no_proxy,
-                        bool *spacesep);
+bool Curl_check_noproxy(const char* name, const char* no_proxy, bool* spacesep);
 
 #endif
 

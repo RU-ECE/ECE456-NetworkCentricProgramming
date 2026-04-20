@@ -25,10 +25,10 @@
  ***************************************************************************/
 #include "tool_writeout.h"
 
-int jsonquoted(const char *in, size_t len, curlx_dynbuf *out, bool lowercase);
+int jsonquoted(const char* in, size_t len, curlx_dynbuf* out, bool lowercase);
 
-void ourWriteOutJSON(FILE *stream, const writeoutvar mappings[], per_transfer *per, CURLcode per_result);
-void headerJSON(FILE *stream, per_transfer *per);
-void jsonWriteString(FILE *stream, const char *in, bool lowercase);
+void ourWriteOutJSON(FILE* stream, const writeoutvar mappings[], per_transfer* per, CURLcode per_result);
+void headerJSON(FILE* stream, per_transfer* per);
+void jsonWriteString(FILE* stream, const char* in, bool lowercase);
 
 #endif /* HEADER_CURL_TOOL_WRITEOUT_H */

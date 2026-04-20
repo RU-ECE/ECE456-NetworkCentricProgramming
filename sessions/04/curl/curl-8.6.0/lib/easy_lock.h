@@ -61,36 +61,33 @@
    __has_builtin() function, so override it. */
 
 /* if GCC on i386/x86_64 or if the built-in is present */
-#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
-      (defined(__i386__) || defined(__x86_64__))) ||    \
-  __has_builtin(__builtin_ia32_pause)
+#if ((defined(__GNUC__) && !defined(__clang__)) && (defined(__i386__) || defined(__x86_64__))) ||                      \
+	__has_builtin(__builtin_ia32_pause)
 #define HAVE_BUILTIN_IA32_PAUSE
 #endif
 
 #endif
 
-static inline void curl_simple_lock_lock(curl_simple_lock *lock)
-{
-  for(;;) {
-    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
-      break;
-    /* Reduce cache coherency traffic */
-    while(atomic_load_explicit(lock, memory_order_relaxed)) {
-      /* Reduce load (not mandatory) */
+static inline void curl_simple_lock_lock(curl_simple_lock* lock) {
+	for (;;) {
+		if (!atomic_exchange_explicit(lock, true, memory_order_acquire))
+			break;
+		/* Reduce cache coherency traffic */
+		while (atomic_load_explicit(lock, memory_order_relaxed)) {
+			/* Reduce load (not mandatory) */
 #ifdef HAVE_BUILTIN_IA32_PAUSE
-      __builtin_ia32_pause();
+			__builtin_ia32_pause();
 #elif defined(__aarch64__)
-      __asm__ volatile("yield" ::: "memory");
+			__asm__ volatile("yield" ::: "memory");
 #elif defined(HAVE_SCHED_YIELD)
-      sched_yield();
+			sched_yield();
 #endif
-    }
-  }
+		}
+	}
 }
 
-static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
-{
-  atomic_store_explicit(lock, false, memory_order_release);
+static inline void curl_simple_lock_unlock(curl_simple_lock* lock) {
+	atomic_store_explicit(lock, false, memory_order_release);
 }
 
 #elif defined(USE_THREADS_POSIX) && defined(HAVE_PTHREAD_H)
@@ -104,7 +101,7 @@ static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
 
 #else
 
-#undef  GLOBAL_INIT_IS_THREADSAFE
+#undef GLOBAL_INIT_IS_THREADSAFE
 
 #endif
 
