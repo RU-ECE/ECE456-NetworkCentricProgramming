@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<class>
+<student>
+<name firstname="Dov" lastname="Kruger"/>
+<id>123456789</id>
+<email>dk1261@soe.rutgers.edu</email>
+<major>Electrical and Computer Engineering</major>
+</student>
+<student>
+<name firstname="Adil" lastname="Hydari"/>
+<id>512512</id>
+<email>ah1261@soe.rutgers.edu</email>
+<major>Electrical and Computer Engineering</major>
+</student>
+</class>
