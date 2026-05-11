@@ -39,15 +39,15 @@ fn bump() -> i32 {
 
 fn main() {
     // First `evil_max!(bump(), bump())`:
-        // Condition evaluates left `bump()` then right `bump()` → counter 1 and 2.
-        // `1 > 2` is false, so we take the `else` branch and evaluate **right** `bump()` again → 3.
-        // Return value is 3, but three increments happened for "two" arguments.
+    // Condition evaluates left `bump()` then right `bump()` → counter 1 and 2.
+    // `1 > 2` is false, so we take the `else` branch and evaluate **right** `bump()` again → 3.
+    // Return value is 3, but three increments happened for "two" arguments.
     let m = evil_max!(bump(), bump());
     println!("evil_max result = {m}   (two argument sites, three increments)");
 
     // Second: `evil_max!(bump(), 0)`:
-        // Condition: left `bump()` → 4, compare `4 > 0` → true.
-        // True branch returns `$a` again → **another** `bump()` → 5. Pure literal `0` is never re-run.
+    // Condition: left `bump()` → 4, compare `4 > 0` → true.
+    // True branch returns `$a` again → **another** `bump()` → 5. Pure literal `0` is never re-run.
     let a = evil_max!(bump(), 0);
     println!("evil_max(bump(), 0) = {a}");
 
