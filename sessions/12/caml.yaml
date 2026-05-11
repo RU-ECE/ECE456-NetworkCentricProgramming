@@ -1,18 +1,13 @@
 name: thing
 description: thing2
-- numbers: [1, 2, 3]
-- objects: 
+numbers: [1, 2, 3]
+objects:
   - name: thing1
-    value: 10"Jane"
+    value: 10
   - name: thing2
     value: 20
-- object2: [
-  {
-    name: thing3
+object2:
+  - name: thing3
     value: 30
-  },
-  {
-    name: thing4
+  - name: thing4
     value: 40
-  }
-]

@@ -1,7 +1,9 @@
-#include "json.hpp"
 #include <iostream>
 
+#include "json.hpp"
+
 using json = nlohmann::json;
+using namespace std;
 
 const char* myjson = R"(
 {
@@ -9,12 +11,13 @@ const char* myjson = R"(
     "hello": "world"
 }
 )";
+
 int main() {
-    json j = {{"hello", "world"}};
-    std::cout << j << std::endl;
-    json j2 = json::parse(myjson);
-    std::cout << j2 << std::endl;
-    int age = j2["age"];
-    age++;
-    std::cout << "Age: " << age << std::endl;
+	json j = {{"hello", "world"}};
+	cout << j << endl;
+	json j2 = json::parse(myjson);
+	cout << j2 << endl;
+	int age = j2["age"];
+	age++;
+	cout << "Age: " << age << endl;
 }
