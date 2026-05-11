@@ -188,3 +188,6 @@ flycheck_*.el
 
 # network security
 /network-security.data
+
+# Vendored source trees unpacked during session 04
+/sessions/04/curl/curl-8.20.0/
