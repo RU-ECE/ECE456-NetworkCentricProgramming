@@ -56,8 +56,19 @@ add_example(S06_06_Attack1 sessions/06/06attack1.cpp)
 add_example(S09_Simple_Crypt sessions/09/01_simple_crypt.cpp)
 add_example(S09_Test sessions/09/test.cpp)
 
-find_package(OpenSSL QUIET COMPONENTS Crypto)
-if(OpenSSL_FOUND)
+# Session 12
+add_example(S12_TestJson sessions/12/testjson.cpp)
+
+# Session 13
+add_example(S13_00_HelloWorld sessions/13/00_helloword.cpp)
+add_example(S13_01_Cpp_Macros_Are_Awful sessions/13/01_cpp_macros_are_awful.cpp)
+add_example(S13_02_MemoryLeak sessions/13/02_memoryleak.cpp)
+add_example(S13_04_Double_Free sessions/13/04_double_free.cpp)
+add_threaded_example(S13_05_Threadsafe sessions/13/05_threadsafe.cpp)
+add_example(S13_06_Pointer sessions/13/06_pointer.cpp)
+
+find_package(OpenSSL QUIET COMPONENTS SSL Crypto)
+if(OpenSSL_CRYPTO_FOUND)
     add_example(S09_AES256Crypto sessions/09/02_aes256crypto.cpp)
     target_link_libraries(S09_AES256Crypto PRIVATE OpenSSL::Crypto)
 else()
@@ -119,6 +130,32 @@ if(UNIX)
 
     # Session 10
     add_example(S10_Sendfile_Udp sessions/10/sendfile_udp.cpp)
+
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        add_example(S10_RawLink sessions/10/rawlink.cpp)
+    else()
+        message(STATUS "Skipping S10_RawLink because it requires Linux AF_PACKET headers.")
+    endif()
+
+    find_path(MSQUIC_INCLUDE_DIR NAMES msquic.h)
+    find_library(MSQUIC_LIBRARY NAMES msquic)
+    if(MSQUIC_INCLUDE_DIR AND MSQUIC_LIBRARY)
+        add_example(S10_FileQuic sessions/10/filequic.cpp)
+        target_include_directories(S10_FileQuic PRIVATE ${MSQUIC_INCLUDE_DIR})
+        target_link_libraries(S10_FileQuic PRIVATE ${MSQUIC_LIBRARY})
+    else()
+        message(STATUS "Skipping S10_FileQuic because MsQuic was not found.")
+    endif()
+
+    # Session 11
+    add_example(S11_Minimal_Http_Server sessions/11/minimal_http_server.cpp)
+
+    if(OpenSSL_SSL_FOUND)
+        add_example(S11_Https_Server sessions/11/https_server.cpp)
+        target_link_libraries(S11_Https_Server PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+    else()
+        message(STATUS "Skipping S11_Https_Server because OpenSSL::SSL was not found.")
+    endif()
 endif()
 
 # Not added:
@@ -128,3 +165,6 @@ endif()
 # - sessions/04/mathlib.cpp: support file linked into the mathlib test executables.
 # - sessions/06/07denial_of_service.cpp: currently incomplete and does not compile.
 # - sessions/07/midtermprep/pointers1.cpp: intentionally contains compile errors.
+# - sessions/12/skeleton_sign.cpp: exercise scaffold with unimplemented functions.
+# - sessions/13/02b_memoryleakfix.cpp: currently incomplete and does not compile.
+# - sessions/13/06_openfile.cpp: currently incomplete and does not compile.
