@@ -191,3 +191,4 @@ flycheck_*.el
 
 # Vendored source trees unpacked during session 04
 /sessions/04/curl/curl-8.20.0/
+/sessions/04/which/which-2.23/
