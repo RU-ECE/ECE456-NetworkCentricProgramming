@@ -20,70 +20,73 @@ Rubric:
 ## Tasks
 
 1. Tutorial on C++ data types:
-	- `char`
-	- `short` / `short int`
-	- `int`
-	- `long` / `long int`
-	- `long long int`
-	- `unsigned` qualifier
-	- `signed` qualifier
-	- `float`
-	- `double`
-	- `long double` (this is not quad precision; it is not specified how big it is)
+   - `char`
+   - `short` / `short int`
+   - `int`
+   - `long` / `long int`
+   - `long long int`
+   - `unsigned` qualifier
+   - `signed` qualifier
+   - `float`
+   - `double`
+   - `long double` (this is not quad precision; it is not specified how big it is)
 
    Show examples:
-	- Min/max value for each data type
-	- Overflow for each data type
-	- Portable integer data types:
-		- `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`
-		- `int8_t`, `int16_t`, `int32_t`, `int64_t`
+   - Min/max value for each data type
+   - Overflow for each data type
+   - Portable integer data types:
+     - `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`
+     - `int8_t`, `int16_t`, `int32_t`, `int64_t`
 
 2. Calculate ${n\choose r} = \frac{n!}{r!(n - r)!}$
-	- This will overflow. Demonstrate overflow for `uint64_t` for ${52\choose 6}$.
-	- Then write one that will not overflow because you cancel the numbers:
-	  $\frac{52\times{}51\times{}50\times{}49\times{}48\times{}47}{6\times{}5\times{}4\times{}3\times{}2\times{}1}$
-	- Even this one will blow up for bigger numbers like ${200\choose 20}$, so do another version in double precision
-	  that can give an approximate answer.
+   - This will overflow. Demonstrate overflow for `uint64_t` for ${52\choose 6}$.
+   - Then write one that will not overflow because you cancel the numbers:
+     $\frac{52\times{}51\times{}50\times{}49\times{}48\times{}47}{6\times{}5\times{}4\times{}3\times{}2\times{}1}$
+   - Even this one will blow up for bigger numbers like ${200\choose 20}$, so do another version in double precision
+     that can give an approximate answer.
 
 3. Scope and lifetime:
-	- Write a program demonstrating how variable values live and die.
-	- Auto variables (uninitialized, on the stack, or in registers)
-	- Global (pre-initialized to zero, born before and after main)
-	- Static (same as global, but only visible within the function they are declared in)
+   - Write a program demonstrating how variable values live and die.
+   - Auto variables (uninitialized, on the stack, or in registers)
+   - Global (pre-initialized to zero, born before and after main)
+   - Static (same as global, but only visible within the function they are declared in)
 
 4. Write a program to:
-	1. Write to a file.
-	2. Write to standard out and standard error and demonstrate redirecting those to files.
-	   ```c++
-	   #include <iostream>
-	   #include <fstream>
-	   cout << "test"; // std out
-	   cerr << "test2"; // std error
-	   ofstream f("myfile.txt");
-	   f << "test";
-	   ```
-	3. Modify my low-performance level 2 I/O to write to a file and make it more efficient.
-	4. Look up how to find out what the block size of your drive is (optimal performance should use a buffer that is an
-	   integer multiple of block size, and probably a power of 2).
+   1. Write to a file.
+   2. Write to standard out and standard error and demonstrate redirecting those to files.
+      ```c++
+      #include <iostream>
+      #include <fstream>
+      cout << "test"; // std out
+      cerr << "test2"; // std error
+      ofstream f("myfile.txt");
+      f << "test";
+      ```
+   3. Modify my low-performance level 2 I/O to write to a file and make it more efficient.
+   4. Look up how to find out what the block size of your drive is (optimal performance should use a buffer that is an
+      integer multiple of block size, and probably a power of 2).
 
 5. Demonstrate:
-	- How C++ generates assembly code. Show the compiled code for `+`, `*`, `/` for:
-		1. Unoptimized and optimized code
-		2. 32-bit integers
-		3. 64-bit integers
-		4. Double precision floating point
-	- How programs are laid out in Linux:
-	  ```shell
-	  g++ -c prog.cpp
-	  g++ -S prog.cpp # generates prog.s
-	  objdump -d prog.o  #display assembler
-	  objdump -d prog.o > prog.s #save assembler to file
-	  ```
-		- TBD: Global and extern variables TBD: we haven’t done extern yet
-		- TBD: Function prototypes
-	- TBD: Show an error when a function is called in one file that:
-		- TBD: Does not exist
-		- TBD: Exists but has the wrong types or number of parameters
+   - How C++ generates assembly code. Show the compiled code for `+`, `*`, `/` for:
+     1. Unoptimized and optimized code
+     2. 32-bit integers
+     3. 64-bit integers
+     4. Double precision floating point
+   - How programs are laid out in Linux:
+
+     ```shell
+     g++ -c prog.cpp
+     g++ -S prog.cpp # generates prog.s
+     objdump -d prog.o  #display assembler
+     objdump -d prog.o > prog.s #save assembler to file
+     ```
+
+     - TBD: Global and extern variables TBD: we haven’t done extern yet
+     - TBD: Function prototypes
+
+   - TBD: Show an error when a function is called in one file that:
+     - TBD: Does not exist
+     - TBD: Exists but has the wrong types or number of parameters
 
 Shell developer commands
 
@@ -105,45 +108,45 @@ ldd prog        # show dependencies
 ## Tasks
 
 1. TBD: Pointer math:
-	- Demonstrate
-		- How arrays in C/C++ work
-		- How you can calculate the size of variables using `sizeof()` and how this works for arrays declared in your
-		  function, but it does not work for parameters
-		- How arrays are passed to functions
-		- How to pass variables by reference in C and C++:
-			1. Using pointers (traditional, the Google style)
-			2. Using reference (the new C++ way, not really better)
-		- Pointer errors:
-			1. Printing the value at a pointer that has never been set (crash)
-			2. Writing a value to a pointer that has never been set (crash)
-			3. Assuming that variables declared next to each other are next to each other (not guaranteed)
-			4. Allocating memory and never freeing it
-			5. Freeing memory twice
-			6. Allocating a pointer, changing where it points to, and freeing it (crash)
-			7. Using `sizeof()` on an array or pointer parameter: it is always the size of a pointer, which is 8 bytes
-			   on our machine
-			8. Accidentally writing just before a dynamically allocated array, so it thinks that there is a different
-			   amount of memory; when you free it (crash)
+   - Demonstrate
+     - How arrays in C/C++ work
+     - How you can calculate the size of variables using `sizeof()` and how this works for arrays declared in your
+       function, but it does not work for parameters
+     - How arrays are passed to functions
+     - How to pass variables by reference in C and C++:
+       1. Using pointers (traditional, the Google style)
+       2. Using reference (the new C++ way, not really better)
+     - Pointer errors:
+       1. Printing the value at a pointer that has never been set (crash)
+       2. Writing a value to a pointer that has never been set (crash)
+       3. Assuming that variables declared next to each other are next to each other (not guaranteed)
+       4. Allocating memory and never freeing it
+       5. Freeing memory twice
+       6. Allocating a pointer, changing where it points to, and freeing it (crash)
+       7. Using `sizeof()` on an array or pointer parameter: it is always the size of a pointer, which is 8 bytes on our
+          machine
+       8. Accidentally writing just before a dynamically allocated array, so it thinks that there is a different amount
+          of memory; when you free it (crash)
 
 2. Setup:
-	- Logins on Google Cloud server (Nikhil shared server)
-	- Create a GitHub account if you do not have one
-	- Put your GitHub account in a shared file (Nikhil)
+   - Logins on Google Cloud server (Nikhil shared server)
+   - Create a GitHub account if you do not have one
+   - Put your GitHub account in a shared file (Nikhil)
 
 3. Tutorial on shell commands:
-	- `cp`, `mv`, `ln`, `ln -s`
-	- `ps`, `top`
-	- `kill`, `pkill`
-	- `ssh-keygen`
-	- `ssh`
-	- `file`
-	- Redirecting output:
-		- `./prog > myfile`
-		- `./prog 2> myotherfile`
-		- `./prog > myfile2 2> myfile3`
-		- `./prog < myinputfile`
-		- `make`
-		- `rclone` to copy to Google Drive
+   - `cp`, `mv`, `ln`, `ln -s`
+   - `ps`, `top`
+   - `kill`, `pkill`
+   - `ssh-keygen`
+   - `ssh`
+   - `file`
+   - Redirecting output:
+     - `./prog > myfile`
+     - `./prog 2> myotherfile`
+     - `./prog > myfile2 2> myfile3`
+     - `./prog < myinputfile`
+     - `make`
+     - `rclone` to copy to Google Drive
 
 - `g++` linking libraries
 - `ldd` to find out which shared libraries a program uses

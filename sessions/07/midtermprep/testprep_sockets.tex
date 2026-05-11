@@ -10,12 +10,12 @@
 
 \begin{questions}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-Fill in the missing line to send a short message.
+	Fill in the missing line to send a short message.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <sys/socket.h>
 
 int main() {
@@ -28,44 +28,44 @@ int main() {
 }
 \end{lstlisting}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-What condition indicates an error from \texttt{recv()}?
+	What condition indicates an error from \texttt{recv()}?
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int n = recv(sock, buf, 1000, 0);
 \end{lstlisting}
 
-Circle the correct answer.
+	Circle the correct answer.
 
-\begin{itemize}
-\item n $<$ 0
-\item n $<$ 1000
-\item n $>$ 0
-\end{itemize}
+	\begin{itemize}
+		\item n $<$ 0
+		\item n $<$ 1000
+		\item n $>$ 0
+	\end{itemize}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-What does a return value of **0** from \texttt{recv()} indicate?
+	What does a return value of **0** from \texttt{recv()} indicate?
 
-Short answer.
+	Short answer.
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-What is wrong with the following code?
+	What is wrong with the following code?
 
-(single phrase)
+	(single phrase)
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int n = recv(sock, buf, 1024, 0);
 
 if(n < 1024) {
@@ -73,42 +73,42 @@ if(n < 1024) {
 }
 \end{lstlisting}
 
-Answer:
+	Answer:
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-Consider the following client code.
+	Consider the following client code.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 const char* msg = "HELLO";
 
 send(sock, msg, 5, 0);
 \end{lstlisting}
 
-Is it guaranteed that all 5 bytes are sent?
+	Is it guaranteed that all 5 bytes are sent?
 
-\begin{itemize}
-\item Yes
-\item No
-\end{itemize}
+	\begin{itemize}
+		\item Yes
+		\item No
+	\end{itemize}
 
-If no, what must the program do?
+	If no, what must the program do?
 
-\begin{itemize}
-\item retry in a loop
-\item reopen the socket
-\item call fork()
-\end{itemize}
+	\begin{itemize}
+		\item retry in a loop
+		\item reopen the socket
+		\item call fork()
+	\end{itemize}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-Fill in the missing code so the program sends the entire buffer.
+	Fill in the missing code so the program sends the entire buffer.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int sent = 0;
 
 while(sent < len) {
@@ -125,14 +125,14 @@ while(sent < len) {
 }
 \end{lstlisting}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-Fill in the missing code so the program receives a full message.
+	Fill in the missing code so the program receives a full message.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int received = 0;
 
 while(received < len) {
@@ -149,66 +149,66 @@ while(received < len) {
 }
 \end{lstlisting}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-What does the following IP address represent?
+	What does the following IP address represent?
 
-\begin{center}
-127.0.0.1
-\end{center}
+	\begin{center}
+		127.0.0.1
+	\end{center}
 
-Short answer.
+	Short answer.
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-Which protocol guarantees reliable delivery?
+	Which protocol guarantees reliable delivery?
 
-\begin{itemize}
-\item UDP
-\item TCP
-\end{itemize}
+	\begin{itemize}
+		\item UDP
+		\item TCP
+	\end{itemize}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-A TCP client sends a message.
+	A TCP client sends a message.
 
-The client later receives an **ACK** packet.
+	The client later receives an **ACK** packet.
 
-Does this guarantee that the server application has processed the message?
+	Does this guarantee that the server application has processed the message?
 
-\begin{itemize}
-\item Yes
-\item No
-\end{itemize}
+	\begin{itemize}
+		\item Yes
+		\item No
+	\end{itemize}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-What layer generates the ACK packet?
+	What layer generates the ACK packet?
 
-\begin{itemize}
-\item Application
-\item TCP
-\item IP
-\end{itemize}
+	\begin{itemize}
+		\item Application
+		\item TCP
+		\item IP
+	\end{itemize}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-Consider the following server code.
+	Consider the following server code.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int client = accept(server_fd, NULL, NULL);
 
 char buf[100];
@@ -218,25 +218,25 @@ recv(client, buf, 100, 0);
 printf("%s\n", buf);
 \end{lstlisting}
 
-Is it guaranteed that the full message was received?
+	Is it guaranteed that the full message was received?
 
-\begin{itemize}
-\item Yes
-\item No
-\end{itemize}
+	\begin{itemize}
+		\item Yes
+		\item No
+	\end{itemize}
 
-Brief reason:
+	Brief reason:
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-What is wrong with the following code?
+	What is wrong with the following code?
 
-(single phrase)
+	(single phrase)
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 char buf[100];
 
 int n = recv(sock, buf, 100, 0);
@@ -244,23 +244,23 @@ int n = recv(sock, buf, 100, 0);
 printf("%s\n", buf);
 \end{lstlisting}
 
-Answer:
+	Answer:
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[15]
+	%------------------------------------------------
+	\question[15]
 
-Write a loop that reads from a socket until the connection closes.
+	Write a loop that reads from a socket until the connection closes.
 
-Use:
+	Use:
 
-\begin{itemize}
-\item recv
-\item break when recv returns 0
-\end{itemize}
+	\begin{itemize}
+		\item recv
+		\item break when recv returns 0
+	\end{itemize}
 
-\vspace{6cm}
+	\vspace{6cm}
 
 \end{questions}
 

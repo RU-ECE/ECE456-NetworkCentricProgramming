@@ -11,9 +11,9 @@
 6. On any Linux machine you set up, you will need software. On GCP or Colab, we will use a departmental drive, so you do
    not have to install all the software. However, it is still a great idea to learn to install it yourself. Moreover, if
    you want to install on WSL, you can. Here is a list of what we will be using (this list may grow):
-	- `gcc`/`g++`
-	- `gdb` (debugger)
-	- `git` (version control)
+   - `gcc`/`g++`
+   - `gdb` (debugger)
+   - `git` (version control)
 
 # Basic Linux Setup
 

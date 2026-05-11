@@ -10,10 +10,10 @@
 
 \begin{questions}
 
-%------------------------------------------------
-\question[6] What is the output?
+	%------------------------------------------------
+	\question[6] What is the output?
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -28,18 +28,18 @@ int main() {
 }
 \end{lstlisting}
 
-Assume the file did not previously exist.
+	Assume the file did not previously exist.
 
-What are the contents of \texttt{test.txt} after the program runs?
+	What are the contents of \texttt{test.txt} after the program runs?
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-Fill in the blank so the program reads 4 bytes from a file.
+	Fill in the blank so the program reads 4 bytes from a file.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -55,14 +55,14 @@ int main() {
 }
 \end{lstlisting}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-What error occurs? (single word)
+	What error occurs? (single word)
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -77,16 +77,16 @@ int main() {
 }
 \end{lstlisting}
 
-Error:
+	Error:
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-What system call creates a directory?
+	What system call creates a directory?
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <sys/stat.h>
 
 int main() {
@@ -95,14 +95,14 @@ int main() {
 }
 \end{lstlisting}
 
-\vspace{1cm}
+	\vspace{1cm}
 
-%------------------------------------------------
-\question[6]
+	%------------------------------------------------
+	\question[6]
 
-What does the following program change?
+	What does the following program change?
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <unistd.h>
 
 int main() {
@@ -111,16 +111,16 @@ int main() {
 }
 \end{lstlisting}
 
-Short answer:
+	Short answer:
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-Consider the following program.
+	Consider the following program.
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <unistd.h>
 #include <stdio.h>
 
@@ -134,16 +134,16 @@ int main() {
 }
 \end{lstlisting}
 
-List two possible outputs.
+	List two possible outputs.
 
-\vspace{3cm}
+	\vspace{3cm}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-Consider:
+	Consider:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 #include <unistd.h>
 #include <stdio.h>
 
@@ -160,74 +160,74 @@ int main() {
 }
 \end{lstlisting}
 
-How many processes run the program after the fork?
+	How many processes run the program after the fork?
 
-Answer:
+	Answer:
 
-\vspace{1cm}
+	\vspace{1cm}
 
-List two possible outputs.
+	List two possible outputs.
 
-\vspace{3cm}
+	\vspace{3cm}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-Suppose a program writes:
+	Suppose a program writes:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 fprintf(stdout,"hello\n");
 fprintf(stderr,"error\n");
 \end{lstlisting}
 
-The program is executed as:
+	The program is executed as:
 
-\begin{verbatim}
+	\begin{verbatim}
 ./prog > out.txt 2> err.txt
 \end{verbatim}
 
-Where does each line go?
+	Where does each line go?
 
-\begin{center}
-\begin{tabular}{l l}
-hello & \_\_\_\_\_\_\_\_\_\_\_ \\
-error & \_\_\_\_\_\_\_\_\_\_\_
-\end{tabular}
-\end{center}
+	\begin{center}
+		\begin{tabular}{l l}
+			hello & \_\_\_\_\_\_\_\_\_\_\_ \\
+			error & \_\_\_\_\_\_\_\_\_\_\_
+		\end{tabular}
+	\end{center}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-Explain what the following command does.
+	Explain what the following command does.
 
-\begin{verbatim}
+	\begin{verbatim}
 ./prog > output.txt 2>&1
 \end{verbatim}
 
-Short answer:
+	Short answer:
 
-\vspace{3cm}
+	\vspace{3cm}
 
-%------------------------------------------------
-\question[15]
+	%------------------------------------------------
+	\question[15]
 
-Write code that:
+	Write code that:
 
-\begin{itemize}
-\item opens a file called \texttt{numbers.txt}
-\item writes the numbers 0--9 (one per line)
-\item closes the file
-\end{itemize}
+	\begin{itemize}
+		\item opens a file called \texttt{numbers.txt}
+		\item writes the numbers 0--9 (one per line)
+		\item closes the file
+	\end{itemize}
 
-Use only:
+	Use only:
 
-\begin{itemize}
-\item \texttt{open}
-\item \texttt{write}
-\item \texttt{close}
-\end{itemize}
+	\begin{itemize}
+		\item \texttt{open}
+		\item \texttt{write}
+		\item \texttt{close}
+	\end{itemize}
 
-\vspace{7cm}
+	\vspace{7cm}
 
 \end{questions}
 

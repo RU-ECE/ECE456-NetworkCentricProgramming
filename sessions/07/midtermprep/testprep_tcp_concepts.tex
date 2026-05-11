@@ -10,158 +10,158 @@
 
 \begin{questions}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-A client executes:
+	A client executes:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 send(sock, "A", 1, 0);
 send(sock, "B", 1, 0);
 send(sock, "C", 1, 0);
 \end{lstlisting}
 
-The server executes:
+	The server executes:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 recv(sock, buf, 3, 0);
 \end{lstlisting}
 
-Which results are possible?
+	Which results are possible?
 
-\begin{itemize}
-\item ABC
-\item A
-\item AB
-\item AC
-\item BCA
-\end{itemize}
+	\begin{itemize}
+		\item ABC
+		\item A
+		\item AB
+		\item AC
+		\item BCA
+	\end{itemize}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-TCP provides:
+	TCP provides:
 
-\begin{itemize}
-\item message boundaries
-\item byte stream
-\end{itemize}
+	\begin{itemize}
+		\item message boundaries
+		\item byte stream
+	\end{itemize}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-A program sends:
+	A program sends:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 send(sock, buf, 1000, 0);
 \end{lstlisting}
 
-Which are possible values returned?
+	Which are possible values returned?
 
-\begin{itemize}
-\item 1000
-\item 500
-\item 1
-\item -1
-\end{itemize}
+	\begin{itemize}
+		\item 1000
+		\item 500
+		\item 1
+		\item -1
+	\end{itemize}
 
-Circle all that apply.
+	Circle all that apply.
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-The client sends:
+	The client sends:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 send(sock, "HELLO", 5, 0);
 \end{lstlisting}
 
-The server receives:
+	The server receives:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 recv(sock, buf, 100, 0);
 \end{lstlisting}
 
-What values can \texttt{recv()} return?
+	What values can \texttt{recv()} return?
 
-\begin{itemize}
-\item 5
-\item 100
-\item 3
-\item -1
-\end{itemize}
+	\begin{itemize}
+		\item 5
+		\item 100
+		\item 3
+		\item -1
+	\end{itemize}
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-TCP guarantees:
+	TCP guarantees:
 
-\begin{itemize}
-\item ordered delivery
-\item reliable delivery
-\item fixed packet sizes
-\item constant latency
-\end{itemize}
+	\begin{itemize}
+		\item ordered delivery
+		\item reliable delivery
+		\item fixed packet sizes
+		\item constant latency
+	\end{itemize}
 
-Circle all correct answers.
+	Circle all correct answers.
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-A TCP ACK indicates:
+	A TCP ACK indicates:
 
-\begin{itemize}
-\item the packet arrived at the remote TCP stack
-\item the server application processed the message
-\item the data reached the remote network card
-\item the message was written to disk
-\end{itemize}
+	\begin{itemize}
+		\item the packet arrived at the remote TCP stack
+		\item the server application processed the message
+		\item the data reached the remote network card
+		\item the message was written to disk
+	\end{itemize}
 
-Circle the correct answer.
+	Circle the correct answer.
 
-%------------------------------------------------
-\question[8]
+	%------------------------------------------------
+	\question[8]
 
-A client sends 100 bytes.
+	A client sends 100 bytes.
 
-The server calls:
+	The server calls:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 recv(sock, buf, 50, 0);
 recv(sock, buf, 50, 0);
 \end{lstlisting}
 
-Is it guaranteed that both calls return 50 bytes?
+	Is it guaranteed that both calls return 50 bytes?
 
-\begin{itemize}
-\item Yes
-\item No
-\end{itemize}
+	\begin{itemize}
+		\item Yes
+		\item No
+	\end{itemize}
 
-%------------------------------------------------
-\question[10]
+	%------------------------------------------------
+	\question[10]
 
-A server executes:
+	A server executes:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 int n = recv(sock, buf, 1000, 0);
 \end{lstlisting}
 
-Which return value means the connection has closed?
+	Which return value means the connection has closed?
 
-\begin{itemize}
-\item -1
-\item 0
-\item 1
-\item 1000
-\end{itemize}
+	\begin{itemize}
+		\item -1
+		\item 0
+		\item 1
+		\item 1000
+	\end{itemize}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-Consider:
+	Consider:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 char buf[100];
 
 int n = recv(sock, buf, 100, 0);
@@ -171,44 +171,44 @@ buf[n] = '\0';
 printf("%s\n", buf);
 \end{lstlisting}
 
-What bug occurs if \texttt{n == 100}?
+	What bug occurs if \texttt{n == 100}?
 
-(single phrase)
+	(single phrase)
 
-\vspace{2cm}
+	\vspace{2cm}
 
-%------------------------------------------------
-\question[12]
+	%------------------------------------------------
+	\question[12]
 
-Which of the following can cause \texttt{recv()} to return fewer bytes than requested?
+	Which of the following can cause \texttt{recv()} to return fewer bytes than requested?
 
-\begin{itemize}
-\item network packet boundaries
-\item TCP buffering
-\item sender used multiple send() calls
-\item receiver buffer too small
-\end{itemize}
+	\begin{itemize}
+		\item network packet boundaries
+		\item TCP buffering
+		\item sender used multiple send() calls
+		\item receiver buffer too small
+	\end{itemize}
 
-Circle all that apply.
+	Circle all that apply.
 
-%------------------------------------------------
-\question[15]
+	%------------------------------------------------
+	\question[15]
 
-A client sends three messages:
+	A client sends three messages:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 send(sock,"AAA",3,0);
 send(sock,"BBB",3,0);
 send(sock,"CCC",3,0);
 \end{lstlisting}
 
-The server calls:
+	The server calls:
 
-\begin{lstlisting}[language=C]
+	\begin{lstlisting}[language=C]
 recv(sock, buf, 9, 0);
 \end{lstlisting}
 
-List two possible values of the received data.
+	List two possible values of the received data.
 
 \end{questions}
 
