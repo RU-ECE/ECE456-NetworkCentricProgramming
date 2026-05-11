@@ -1,0 +1,30 @@
+{
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "proseWrap": "always"
+      }
+    },
+    {
+      "files": "*.yml,*.yaml,.clang-format",
+      "options": {
+        "parser": "yaml",
+        "tabWidth": 2
+      }
+    }
+  ],
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "css",
+  "plugins": ["@prettier/plugin-xml"]
+}
