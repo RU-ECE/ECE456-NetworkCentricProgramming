@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = [
+    "sessions/13",
+    "sessions/13/app1",
+]

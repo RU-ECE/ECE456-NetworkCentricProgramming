@@ -1,0 +1,41 @@
+[package]
+name = "session13-examples"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "session13_01_helloworld"
+path = "01_helloworld.rs"
+
+[[bin]]
+name = "session13_02_no_memory_leak"
+path = "02_no_memory_leak.rs"
+
+[[bin]]
+name = "session13_03_earlyreturn"
+path = "03_earlyreturn.rs"
+
+[[bin]]
+name = "session13_04_unsafe"
+path = "04_unsafe.rs"
+
+[[bin]]
+name = "session13_05_thread_safe_vec"
+path = "05_thread_safe_vec.rs"
+
+[[bin]]
+name = "session13_06_optional"
+path = "06_optional.rs"
+
+[[bin]]
+name = "session13_07_mutatelist"
+path = "07_mutatelist.rs"
+
+[[bin]]
+name = "session13_08_macro"
+path = "08_macro.rs"
+
+[[bin]]
+name = "session13_08b_macro"
+path = "08b_macro.rs"
